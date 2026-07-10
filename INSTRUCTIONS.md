@@ -112,10 +112,62 @@ las variables de entorno del paso 3 antes de ejecutar el build.
 6. **SEO**: `SITE_URL` en el entorno de CI y las descripciones `<meta>` en
    cada página.
 
-## 7. Lista de verificación antes de publicar
+## 7. Imágenes
+
+El proyecto usa el pipeline nativo de Astro (`astro:assets`): se entrega
+**una sola imagen original en alta resolución** y el build genera
+automáticamente todos los tamaños, el `srcset` y los formatos modernos
+(webp/avif) que cada dispositivo necesita. No hay que exportar múltiples
+versiones ni comprimir a mano.
+
+### 7.1 Dónde va cada archivo
+
+| Carpeta | Contenido |
+| --- | --- |
+| `src/assets/productos/` | Fotos de producto (referenciadas desde `src/data/catalogo.ts`) |
+| `src/assets/` | Resto de imágenes de contenido (hero, editorial…) |
+| `public/` | **Solo** favicon y og-images (se sirven sin procesar) |
+
+### 7.2 Resolución de entrega por ubicación
+
+| Ubicación | Relación | Tamaño mínimo del original |
+| --- | --- | --- |
+| Tarjeta de producto | 4:3 | 1200 × 900 px |
+| Hero / portada (futuro) | libre | 1920 px de ancho |
+| Imagen editorial | libre | 1600 px de ancho |
+
+- Formato de entrega: **JPEG** para fotos, **PNG** para gráficos planos.
+  Nunca entregar webp/avif: el build los genera con mejor control de calidad.
+- Nombres en kebab-case y en español: `ny-clasico-entero.jpg`,
+  `coulis-parchita.jpg`.
+- Peso razonable del original (< 4 MB); el build optimiza el resto.
+
+### 7.3 Conectar una foto de producto
+
+1. Copiar el archivo a `src/assets/productos/`.
+2. En `src/data/catalogo.ts`, importar la imagen y asignarla al producto:
+
+   ```ts
+   import fotoClasico from '../assets/productos/ny-clasico-entero.jpg';
+
+   // ...dentro del producto correspondiente:
+   imagen: fotoClasico,
+   imagenAlt: 'New York Cheesecake entero sobre papel parchment',
+   ```
+
+3. `imagenAlt` (texto alternativo en español) es obligatorio junto a
+   `imagen`. Sin foto, la tarjeta muestra el monograma — no hace falta
+   ningún placeholder.
+4. `bun run build` y revisar la página con `bun run preview`.
+
+## 8. Lista de verificación antes de publicar
 
 - [ ] `bun run check` sin errores.
 - [ ] `bun run build` exitoso y `bun run preview` revisado página a página.
+- [ ] Revisión responsive en 320, 375, 768 y 1280 px: sin scroll horizontal
+      y con imágenes nítidas en pantallas de alta densidad.
+- [ ] Toda imagen nueva vive en `src/assets/` (no en `public/`) y tiene
+      `alt` en español.
 - [ ] `.env` **no** aparece en `git status`.
 - [ ] Envío de prueba del formulario de la landing llega a la Google Sheet.
 - [ ] Si se activó PostHog, los pageviews aparecen en el panel del proyecto.

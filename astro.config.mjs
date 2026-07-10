@@ -19,4 +19,13 @@ export default defineConfig({
     // URLs limpias sin extensión: /catalogo en lugar de /catalogo.html
     format: 'directory',
   },
+
+  image: {
+    // Imágenes responsivas por defecto (estable desde Astro 5.10):
+    // cada <Image> genera srcset/sizes automáticamente y se adapta
+    // a su contenedor sin ampliarse más allá del tamaño solicitado.
+    layout: 'constrained',
+    // Inyecta los estilos base (max-width, aspect-ratio) para los layouts.
+    responsiveStyles: true,
+  },
 });

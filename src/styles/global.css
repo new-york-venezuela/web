@@ -1,6 +1,13 @@
 /* ============================================================
    Sistema de diseño — Minimalismo escandinavo
    Crema suave, leche tibia, carbón apagado, bordes sutiles.
+
+   Convención responsive (mobile-first):
+   - Los estilos base son para móvil; las mejoras se añaden solo
+     con @media (min-width: …). Nunca usar max-width.
+   - Breakpoints compartidos: 40rem (tablet) y 64rem (escritorio).
+   - Preferir fluidez (clamp, auto-fit, flex-wrap) antes que
+     añadir un breakpoint nuevo.
    ============================================================ */
 
 :root {
@@ -17,12 +24,14 @@
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Helvetica, Arial, sans-serif;
 
-  /* Ritmo vertical y espaciado generoso */
+  /* Ritmo vertical y espaciado generoso.
+     Los tramos grandes son fluidos: compactos en móvil,
+     amplios en escritorio, sin breakpoints. */
   --space-xs: 0.5rem;
   --space-s: 1rem;
   --space-m: 2rem;
-  --space-l: 4rem;
-  --space-xl: 7rem;
+  --space-l: clamp(2.5rem, 2rem + 2.5vw, 4rem);
+  --space-xl: clamp(4rem, 2.75rem + 6vw, 7rem);
 
   --max-width: 72rem;
   --max-width-text: 42rem;
