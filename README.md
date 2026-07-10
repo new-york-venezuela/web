@@ -1,7 +1,6 @@
-# Manhattan & Ávila — Sitio corporativo y catálogo
+# New York Cheese Cake - Web Corporativa y Catálogo
 
-Sitio 100 % estático para una pastelería premium especializada en **New York
-Cheesecake** adaptado al mercado de Caracas, Venezuela. Construido con
+Sitio de New York Cheese Cake C.A., fábrica de alimentos premium para supermercados y restaurantes en Caracas, Venezuela. Construido con
 **Astro 5** y orquestado con **Bun**.
 
 ## Arquitectura
