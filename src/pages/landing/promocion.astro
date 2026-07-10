@@ -1,0 +1,252 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { formatPrecio, productos } from '../../data/catalogo';
+
+// Landing oculta de campaña: sin navegación, sin indexación.
+const oferta = productos.find((p) => p.id === 'ny-clasico-entero');
+const topping = productos.find((p) => p.id === 'topping-parchita');
+
+const precioLista = (oferta?.precioRef ?? 45) + (topping?.precioRef ?? 6);
+const precioPromo = 42;
+---
+
+<BaseLayout
+  title="Oferta de lanzamiento — Manhattan & Ávila"
+  description="Oferta exclusiva por tiempo limitado: New York Cheesecake entero con coulis de parchita incluido. Cupos semanales limitados en Caracas."
+  noindex
+  bare
+>
+  <section class="promo-hero">
+    <div class="container promo-hero__inner">
+      <span class="eyebrow">Oferta exclusiva · Cupos limitados</span>
+      <h1>El clásico entero, con la parchita por nuestra cuenta.</h1>
+      <p class="lead">
+        New York Cheesecake entero (12–14 porciones) + coulis de parchita
+        artesanal. Solo para quienes llegan por esta página.
+      </p>
+      <p class="promo-hero__price">
+        <s>{formatPrecio(precioLista)}</s>
+        <strong>{formatPrecio(precioPromo)}</strong>
+      </p>
+      <a href="#reservar" class="btn btn--solid">Reservar mi cupo</a>
+      <p class="promo-hero__fine">
+        Producción semanal limitada a 20 piezas. Entrega en Caracas.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--milk">
+    <div class="container promo-points">
+      <div>
+        <h3>Horneado del día</h3>
+        <p>Tu pieza se hornea contra pedido. Nunca inventario congelado.</p>
+      </div>
+      <div>
+        <h3>Parchment artesanal</h3>
+        <p>Empaque premium listo para regalar o servir directo a la mesa.</p>
+      </div>
+      <div>
+        <h3>Confirmación en el día</h3>
+        <p>Te contactamos en menos de 24 horas para coordinar la entrega.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="reservar">
+    <div class="container promo-form">
+      <span class="eyebrow">Reserva</span>
+      <h2>Asegura tu cheesecake</h2>
+      <p>
+        Déjanos tus datos y te contactamos para confirmar fecha de entrega y
+        método de pago. Sin compromiso hasta que confirmes.
+      </p>
+
+      <form id="form-promo" novalidate>
+        <div class="field">
+          <label for="nombre">Nombre y apellido</label>
+          <input
+            type="text"
+            id="nombre"
+            name="nombre"
+            autocomplete="name"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="telefono">Teléfono (WhatsApp)</label>
+          <input
+            type="tel"
+            id="telefono"
+            name="telefono"
+            autocomplete="tel"
+            placeholder="0412 000 0000"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="producto">Producto</label>
+          <select id="producto" name="producto" required>
+            <option value="Promo: NY entero + coulis de parchita" selected>
+              Promo: NY entero + coulis de parchita — {formatPrecio(precioPromo)}
+            </option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="mensaje">Fecha deseada o comentarios (opcional)</label>
+          <textarea id="mensaje" name="mensaje" rows="3"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn--solid">Enviar reserva</button>
+
+        <p id="form-status" class="promo-form__status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <footer class="promo-footer">
+    <div class="container">
+      <p>
+        Manhattan &amp; Ávila · Caracas, Venezuela ·
+        <a href="/">manhattanyavila</a>
+      </p>
+    </div>
+  </footer>
+</BaseLayout>
+
+<script>
+  import {
+    isConfigured,
+    submitToGoogleForm,
+    type GoogleFormConfig,
+  } from '../../scripts/google-form';
+
+  // Config inyectada en build desde variables de entorno PUBLIC_*.
+  // Sin credenciales de API: solo el ID público del formulario.
+  const config: GoogleFormConfig = {
+    formId: import.meta.env.PUBLIC_GOOGLE_FORM_ID ?? '',
+    entries: {
+      nombre: import.meta.env.PUBLIC_GFORM_ENTRY_NOMBRE ?? '',
+      telefono: import.meta.env.PUBLIC_GFORM_ENTRY_TELEFONO ?? '',
+      producto: import.meta.env.PUBLIC_GFORM_ENTRY_PRODUCTO ?? '',
+      mensaje: import.meta.env.PUBLIC_GFORM_ENTRY_MENSAJE ?? '',
+    },
+  };
+
+  const form = document.getElementById('form-promo') as HTMLFormElement | null;
+  const status = document.getElementById('form-status');
+
+  const setStatus = (message: string) => {
+    if (status) status.textContent = message;
+  };
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    if (!form.reportValidity()) return;
+
+    if (!isConfigured(config)) {
+      setStatus(
+        'El formulario aún no está activo. Escríbenos por la página de contacto.'
+      );
+      return;
+    }
+
+    const data = new FormData(form);
+    const values = Object.fromEntries(
+      Array.from(data.entries()).map(([key, value]) => [key, String(value)])
+    );
+
+    const submitButton = form.querySelector<HTMLButtonElement>('[type="submit"]');
+    if (submitButton) submitButton.disabled = true;
+    setStatus('Enviando tu reserva…');
+
+    const result = await submitToGoogleForm(config, values);
+
+    if (result.ok) {
+      form.reset();
+      setStatus('¡Reserva recibida! Te contactaremos en menos de 24 horas.');
+    } else {
+      if (submitButton) submitButton.disabled = false;
+      setStatus('No pudimos enviar la reserva. Intenta de nuevo en unos minutos.');
+    }
+  });
+</script>
+
+<style>
+  .promo-hero {
+    padding-block: var(--space-xl);
+    text-align: center;
+  }
+
+  .promo-hero__inner {
+    max-width: 46rem;
+  }
+
+  .promo-hero__inner .lead {
+    margin-inline: auto;
+  }
+
+  .promo-hero__price {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    margin-block: var(--space-m);
+  }
+
+  .promo-hero__price s {
+    color: var(--color-charcoal-soft);
+    margin-right: var(--space-s);
+    font-size: 1.375rem;
+  }
+
+  .promo-hero__fine {
+    font-size: 0.8125rem;
+    margin-top: var(--space-m);
+    margin-inline: auto;
+  }
+
+  .promo-points {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: var(--space-l);
+    text-align: center;
+  }
+
+  .promo-points p {
+    font-size: 0.9375rem;
+    margin-inline: auto;
+  }
+
+  .promo-form {
+    max-width: 34rem;
+  }
+
+  .promo-form form {
+    margin-top: var(--space-m);
+  }
+
+  .promo-form__status {
+    min-height: 1.5rem;
+    margin-top: var(--space-s);
+    font-size: 0.9375rem;
+  }
+
+  .promo-footer {
+    border-top: 1px solid var(--color-border);
+    background-color: var(--color-milk);
+    padding-block: var(--space-m);
+    text-align: center;
+  }
+
+  .promo-footer p {
+    font-size: 0.8125rem;
+    margin: 0;
+    max-width: none;
+  }
+
+  .promo-footer a {
+    text-decoration: underline;
+  }
+</style>

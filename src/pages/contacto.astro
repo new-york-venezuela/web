@@ -1,0 +1,147 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// Datos de contacto parametrizables por variable de entorno,
+// con valores de exhibición por defecto (nunca credenciales).
+const whatsapp = import.meta.env.PUBLIC_WHATSAPP_NUMBER as string | undefined;
+const email =
+  (import.meta.env.PUBLIC_CONTACT_EMAIL as string | undefined) ??
+  'pedidos@manhattanyavila.com';
+
+const horarios = [
+  { dias: 'Lunes a viernes', horas: '9:00 a. m. — 6:00 p. m.' },
+  { dias: 'Sábados', horas: '9:00 a. m. — 2:00 p. m.' },
+  { dias: 'Domingos', horas: 'Solo entregas programadas' },
+];
+---
+
+<BaseLayout
+  title="Contacto — Manhattan & Ávila"
+  description="Contacta a Manhattan & Ávila en Caracas: dirección del taller en Los Palos Grandes, horarios de atención y canales de pedido."
+>
+  <section class="section">
+    <div class="container">
+      <span class="eyebrow">Contacto</span>
+      <h1>Hablemos de tu pedido</h1>
+      <p class="lead">
+        Atendemos pedidos con 24 horas de anticipación y coordinamos
+        entregas en toda el área metropolitana de Caracas.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--milk">
+    <div class="container contact-grid">
+      <div class="contact-block">
+        <h2>Taller y retiro</h2>
+        <address>
+          Calle Los Chaguaramos, Edif. Vista Ávila, PB<br />
+          Los Palos Grandes, Chacao<br />
+          Caracas 1060, Venezuela
+        </address>
+        <p class="contact-note">
+          A dos cuadras de la estación de metro Los Palos Grandes,
+          frente a la plaza. Retiro en taller con cita previa.
+        </p>
+      </div>
+
+      <div class="contact-block">
+        <h2>Horarios</h2>
+        <ul class="hours">
+          {
+            horarios.map((h) => (
+              <li>
+                <span>{h.dias}</span>
+                <span>{h.horas}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="contact-block">
+        <h2>Canales</h2>
+        <ul class="channels">
+          <li>
+            <span class="channels__label">Correo</span>
+            <a href={`mailto:${email}`}>{email}</a>
+          </li>
+          {
+            whatsapp && (
+              <li>
+                <span class="channels__label">WhatsApp</span>
+                <a
+                  href={`https://wa.me/${whatsapp}`}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Escribir por WhatsApp
+                </a>
+              </li>
+            )
+          }
+        </ul>
+        <p class="contact-note">
+          Respondemos en horario de taller. Para eventos y pedidos
+          corporativos, indica fecha y número de invitados.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--space-l);
+  }
+
+  .contact-block h2 {
+    font-size: 1.5rem;
+  }
+
+  address {
+    font-style: normal;
+    line-height: 1.7;
+    color: var(--color-charcoal-soft);
+    margin-bottom: var(--space-s);
+  }
+
+  .contact-note {
+    font-size: 0.875rem;
+  }
+
+  .hours,
+  .channels {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .hours li {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-s);
+    padding-block: 0.625rem;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.9375rem;
+    color: var(--color-charcoal-soft);
+  }
+
+  .channels li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    padding-block: 0.625rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .channels__label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+</style>
