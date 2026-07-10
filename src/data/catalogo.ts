@@ -5,6 +5,8 @@
  * caraqueño. Ajustar aquí para que catálogo y landing queden sincronizados.
  */
 
+import type { ImageMetadata } from 'astro';
+
 export interface Producto {
   id: string;
   nombre: string;
@@ -14,6 +16,18 @@ export interface Producto {
   porciones: string;
   categoria: 'clasico' | 'topping' | 'edicion';
   destacado?: boolean;
+  /**
+   * Foto del producto, importada desde `src/assets/productos/` (relación 4:3,
+   * mínimo 1200×900 px). Sin foto, la tarjeta muestra el monograma.
+   *
+   *   import fotoClasico from '../assets/productos/ny-clasico-entero.jpg';
+   *   // ...dentro del producto:
+   *   imagen: fotoClasico,
+   *   imagenAlt: 'New York Cheesecake entero sobre papel parchment',
+   */
+  imagen?: ImageMetadata;
+  /** Texto alternativo en español. Obligatorio cuando hay `imagen`. */
+  imagenAlt?: string;
 }
 
 export const productos: Producto[] = [
