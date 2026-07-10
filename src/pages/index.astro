@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProductCard from '../components/ProductCard.astro';
+import { productos } from '../data/catalogo';
+
+const destacados = productos.filter((p) => p.destacado);
+---
+
+<BaseLayout
+  title="Manhattan & Ávila — New York Cheesecake artesanal en Caracas"
+  description="Pastelería premium especializada en New York Cheesecake horneado a baño de María, con toppings artesanales de frutas venezolanas. Pedidos en Caracas."
+>
+  <section class="hero">
+    <div class="container">
+      <span class="eyebrow">Pastelería artesanal · Caracas</span>
+      <h1>El clásico de Nueva York,<br />horneado bajo el Ávila.</h1>
+      <p class="lead">
+        Crema densa de queso premium, base de galleta mantequillosa y un
+        horneado lento a baño de María. Lo servimos como se sirve en
+        Manhattan — y lo coronamos con frutas de nuestra tierra.
+      </p>
+      <div class="hero__actions">
+        <a href="/catalogo/" class="btn btn--solid">Ver catálogo</a>
+        <a href="/sobre-nosotros/" class="btn">Nuestra historia</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--milk">
+    <div class="container">
+      <span class="eyebrow">Filosofía</span>
+      <h2>Menos adornos. Mejor técnica.</h2>
+      <div class="philosophy">
+        <div>
+          <h3>Ingredientes honestos</h3>
+          <p>
+            Queso crema de textura premium, huevos frescos y vainilla real.
+            Sin premezclas, sin atajos, sin conservantes.
+          </p>
+        </div>
+        <div>
+          <h3>Horneado paciente</h3>
+          <p>
+            Baño de María y enfriado de doce horas. Es lo que separa una
+            crema sedosa de un postre cualquiera.
+          </p>
+        </div>
+        <div>
+          <h3>Fruta de aquí</h3>
+          <p>
+            Parchita criolla, fresas de Galipán, cacao de Chuao. El contraste
+            tropical que el clásico neoyorquino no sabía que necesitaba.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <span class="eyebrow">Selección</span>
+      <h2>Los favoritos de la casa</h2>
+      <div class="grid">
+        {destacados.map((producto) => <ProductCard producto={producto} />)}
+      </div>
+      <div class="section__cta">
+        <a href="/catalogo/" class="btn">Explorar el catálogo completo</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: var(--space-xl);
+    text-align: left;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    margin-top: var(--space-m);
+  }
+
+  .philosophy {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--space-l);
+    margin-top: var(--space-m);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+    gap: var(--space-m);
+    margin-top: var(--space-m);
+  }
+
+  .section__cta {
+    margin-top: var(--space-l);
+    text-align: center;
+  }
+</style>

@@ -1,0 +1,21 @@
+{
+  "name": "manhattan-cheesecake-caracas",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sitio corporativo y catálogo estático para pastelería premium de New York Cheesecake en Caracas, Venezuela.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^5.12.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "typescript": "^5.8.3"
+  }
+}
