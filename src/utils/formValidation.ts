@@ -16,7 +16,7 @@ export function validateEmail(email: string): boolean {
 }
 
 export function validatePhone(phone: string): boolean {
-  const cleaned = phone.replace(/\s/g, '');
+  const cleaned = phone.replace(/\D/g, '');
   return PHONE_REGEX.test(phone) && cleaned.length >= 7;
 }
 
