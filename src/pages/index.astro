@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProductCard from '../components/ProductCard.astro';
 import CTASection from '../components/CTASection.astro';
+import WhatsAppCTA from '../components/WhatsAppCTA.astro';
 import { productos } from '../data/catalogo';
 
 const destacados = productos.filter((p) => p.destacado);
@@ -12,18 +13,23 @@ const destacados = productos.filter((p) => p.destacado);
   description="Alimentos Premium de Nueva York. Panes artesanales, cheesecakes, pizzas y especialidades para supermercados y servicio profesional en Caracas."
 >
   <section class="hero">
-    <div class="container">
-      <span class="eyebrow">Alimentos Premium · Caracas</span>
-      <h1>Calidad premium en cada<br />producto que servimos.</h1>
-      <p class="lead">
-        Panes artesanales, repostería fina y especialidades culinarias.
-        Desde supermercados hasta las mesas más exigentes de restaurantes
-        y hoteles en Caracas. New York Alimentos Premium, hecho con cuidado.
-      </p>
-      <div class="hero__actions">
-        <a href="/catalogo/" class="btn btn--solid">Ver catálogo</a>
-        <a href="/solicitar-llamada/" class="btn btn--solid">Solicitar llamada</a>
-        <a href="/sobre-nosotros/" class="btn">Nuestra historia</a>
+    <div class="container hero-content">
+      <div class="hero-text">
+        <span class="eyebrow">Alimentos Premium · Caracas</span>
+        <h1>Calidad premium en cada<br />producto que servimos.</h1>
+        <p class="lead">
+          Panes artesanales, repostería fina y especialidades culinarias.
+          Desde supermercados hasta las mesas más exigentes de restaurantes
+          y hoteles en Caracas. New York Alimentos Premium, hecho con cuidado.
+        </p>
+        <div class="hero__actions">
+          <a href="/catalogo/" class="btn btn--solid">Ver catálogo</a>
+          <a href="/solicitar-llamada/" class="btn btn--solid">Solicitar llamada</a>
+          <a href="/sobre-nosotros/" class="btn">Nuestra historia</a>
+        </div>
+      </div>
+      <div class="hero-cta">
+        <WhatsAppCTA />
       </div>
     </div>
   </section>
@@ -84,11 +90,33 @@ const destacados = productos.filter((p) => p.destacado);
     text-align: left;
   }
 
+  .hero-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-l);
+    align-items: start;
+  }
+
+  .hero-text {
+    /* content flows naturally */
+  }
+
+  .hero-cta {
+    /* sticky or fixed height */
+  }
+
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-s);
     margin-top: var(--space-m);
+  }
+
+  @media (max-width: 48rem) {
+    .hero-content {
+      grid-template-columns: 1fr;
+      gap: var(--space-m);
+    }
   }
 
   .philosophy {
