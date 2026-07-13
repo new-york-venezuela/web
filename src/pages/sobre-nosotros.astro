@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import CTASection from '../components/CTASection.astro';
 ---
 
 <BaseLayout
@@ -50,6 +51,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
     </div>
   </article>
+
+  <CTASection
+    title="¿Interesado en nuestros productos?"
+    description="Ya sea para tu supermercado, restaurante, hotel o servicio de catering, nuestro equipo está listo para ofrecerte soluciones personalizadas."
+    ctaText="Solicitar Información"
+    variant="secondary"
+  />
 </BaseLayout>
 
 <style>

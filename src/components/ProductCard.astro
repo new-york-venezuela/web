@@ -1,6 +1,5 @@
 ---
-import { Image } from 'astro:assets';
-import { formatPrecio, type Producto } from '../data/catalogo';
+import type { Producto } from '../data/catalogo';
 
 interface Props {
   producto: Producto;
@@ -8,40 +7,31 @@ interface Props {
 
 const { producto } = Astro.props;
 
-const etiquetas: Record<Producto['categoria'], string> = {
-  clasico: 'Clásico',
-  topping: 'Topping artesanal',
-  edicion: 'Edición limitada',
+const etiquetasPorCategoria: Record<Producto['categoria'], string> = {
+  'supermarket-panes': 'Panes Supermercado',
+  'supermarket-reposteria': 'Repostería Supermercado',
+  'supermarket-pizza': 'Pizza Supermercado',
+  'foodservice-panes': 'Panes Foodservice',
+  'foodservice-especialidades': 'Especialidades Foodservice',
 };
 ---
 
 <article class="card">
-  {
-    producto.imagen ? (
-      <div class="card__media">
-        <Image
-          src={producto.imagen}
-          alt={producto.imagenAlt ?? producto.nombre}
-          width={800}
-          height={600}
-          sizes="(min-width: 68rem) 21rem, (min-width: 44rem) 45vw, 92vw"
-        />
-      </div>
-    ) : (
-      <div class="card__media card__media--placeholder" aria-hidden="true">
-        <span class="card__monogram">M&Á</span>
-      </div>
-    )
-  }
+  <div class="card__media card__media--placeholder" aria-hidden="true">
+    <span class="card__monogram">M&Á</span>
+  </div>
   <div class="card__body">
-    <span class="card__tag">{etiquetas[producto.categoria]}</span>
+    <span class="card__tag">{etiquetasPorCategoria[producto.categoria]}</span>
     <h3 class="card__title">{producto.nombre}</h3>
     <p class="card__description">{producto.descripcion}</p>
     <p class="card__detail">{producto.detalle}</p>
-    <div class="card__footer">
-      <span class="card__price">{formatPrecio(producto.precioRef)}</span>
-      <span class="card__portions">{producto.porciones}</span>
-    </div>
+    {
+      producto.porciones && (
+        <div class="card__footer">
+          <span class="card__portions">{producto.porciones}</span>
+        </div>
+      )
+    }
   </div>
 </article>
 
@@ -111,18 +101,9 @@ const etiquetas: Record<Producto['categoria'], string> = {
   }
 
   .card__footer {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--space-s);
     margin-top: auto;
     padding-top: var(--space-s);
     border-top: 1px solid var(--color-border);
-  }
-
-  .card__price {
-    font-family: var(--font-display);
-    font-size: 1.5rem;
   }
 
   .card__portions {

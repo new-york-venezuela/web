@@ -1,0 +1,236 @@
+---
+import { LEAD_FORM_FIELDS } from '../data/formConfig';
+
+interface Props {
+  successMessage?: string;
+}
+
+const {
+  successMessage = '¡Gracias! Nos pondremos en contacto pronto para confirmar tu solicitud de llamada.'
+} = Astro.props;
+---
+
+<div class="lead-form">
+  <!-- Success state: hidden by default, shown client-side when ?success=true -->
+  <div class="form-success" id="lead-form-success" style="display:none">
+    <div class="success-icon">✓</div>
+    <h3>¡Solicitud Enviada!</h3>
+    <p>{successMessage}</p>
+    <p class="success-note">Te llamaremos en las próximas 24 horas para confirmar disponibilidad y precios.</p>
+  </div>
+
+  <!-- Form: shown by default, hidden client-side when ?success=true -->
+  <form class="form" id="lead-capture-form" method="POST" action="/api/submit-lead">
+    <fieldset class="form-group">
+      <legend class="form-legend">Información de Contacto</legend>
+
+      {LEAD_FORM_FIELDS.map((field) => (
+        <div class="form-field">
+          <label for={field.name} class="form-label">
+            {field.label}
+            {field.required && <span class="required-indicator">*</span>}
+          </label>
+
+          {field.type === 'select' ? (
+            <select
+              id={field.name}
+              name={field.name}
+              required={field.required}
+              class="form-input form-select"
+            >
+              {field.options?.map((option) => (
+                <option value={option.value}>{option.label}</option>
+              ))}
+            </select>
+          ) : field.type === 'textarea' ? (
+            <textarea
+              id={field.name}
+              name={field.name}
+              placeholder={field.placeholder}
+              required={field.required}
+              class="form-input form-textarea"
+              rows="4"
+            />
+          ) : (
+            <input
+              id={field.name}
+              type={field.type}
+              name={field.name}
+              placeholder={field.placeholder}
+              pattern={field.pattern}
+              required={field.required}
+              class="form-input"
+            />
+          )}
+        </div>
+      ))}
+    </fieldset>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn--solid">
+        Solicitar Llamada
+      </button>
+      <p class="form-note">
+        Te contactaremos para confirmar disponibilidad y precios personalizados.
+      </p>
+    </div>
+  </form>
+</div>
+
+<script>
+  // Check URL query param client-side (static site: build time has no access to query params).
+  const params = new URLSearchParams(window.location.search);
+  const isSuccess = params.get('success') === 'true';
+
+  const successEl = document.getElementById('lead-form-success');
+  const form = document.getElementById('lead-capture-form') as HTMLFormElement | null;
+
+  if (isSuccess) {
+    if (successEl) successEl.style.display = '';
+    if (form) form.style.display = 'none';
+  }
+
+  if (form) {
+    form.addEventListener('submit', async (e: SubmitEvent) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const data = {
+        fullName: formData.get('fullName'),
+        phone: formData.get('phone'),
+        email: formData.get('email'),
+        businessType: formData.get('businessType'),
+        companyName: formData.get('companyName'),
+        message: formData.get('message'),
+      };
+
+      try {
+        const response = await fetch('/api/submit-lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        if (response.ok) {
+          window.location.href = '/solicitar-llamada/?success=true';
+        } else {
+          alert('Error al enviar el formulario. Por favor intenta nuevamente.');
+        }
+      } catch (error) {
+        console.error('Form submission error:', error);
+        alert('Error de conexión. Por favor intenta nuevamente.');
+      }
+    });
+  }
+</script>
+
+<style>
+  .lead-form {
+    max-width: 100%;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-l);
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .form-legend {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--space-s);
+    padding: 0;
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .form-label {
+    font-size: 0.9375rem;
+    font-weight: 500;
+  }
+
+  .required-indicator {
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  .form-input {
+    padding: var(--space-xs) var(--space-s);
+    border: 1px solid var(--color-border);
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    font-family: inherit;
+    background-color: white;
+    color: var(--color-charcoal);
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 2px rgba(212, 164, 79, 0.1);
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 6rem;
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-m);
+    margin-top: var(--space-s);
+  }
+
+  .form-note {
+    font-size: 0.8125rem;
+    color: var(--color-charcoal-soft);
+    line-height: 1.4;
+    max-width: 28rem;
+  }
+
+  /* Success state */
+  .form-success {
+    text-align: center;
+    padding: var(--space-l);
+    background-color: var(--color-milk);
+    border-radius: 0.5rem;
+    border: 2px solid var(--color-accent);
+  }
+
+  .success-icon {
+    font-size: 3rem;
+    color: var(--color-accent);
+    margin-bottom: var(--space-m);
+    font-weight: 700;
+  }
+
+  .form-success h3 {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-s);
+  }
+
+  .form-success p {
+    margin-bottom: var(--space-s);
+    line-height: 1.5;
+  }
+
+  .success-note {
+    font-size: 0.875rem;
+    color: var(--color-charcoal-soft);
+  }
+</style>

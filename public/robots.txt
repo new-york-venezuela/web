@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /api/
+Disallow: /solicitar-llamada/
+
+Sitemap: https://www.alimentosnewyork.com/sitemap.xml

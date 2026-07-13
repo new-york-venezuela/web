@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProductCard from '../components/ProductCard.astro';
+import CTASection from '../components/CTASection.astro';
 import { productos, productosSupermercados, productosFoodservice } from '../data/catalogo';
 
 const secciones = [
@@ -26,16 +27,15 @@ const secciones = [
 
 <BaseLayout
   title="Catálogo — New York Alimentos Premium"
-  description="Catálogo de productos New York Alimentos Premium: panes artesanales, cheesecakes, pizzas para supermercados y especialidades para restaurantes y catering. Precios en $ Ref."
+  description="Catálogo de productos New York Alimentos Premium: panes artesanales, cheesecakes, pizzas para supermercados y especialidades para restaurantes y catering."
 >
   <section class="section intro">
     <div class="container">
       <span class="eyebrow">Catálogo</span>
       <h1>Productos New York Alimentos Premium</h1>
       <p class="lead">
-        Precios expresados en dólares de referencia ($ Ref). Líneas especializadas
-        para supermercados y servicio profesional. Consulta disponibilidad y plazos
-        de entrega en contacto.
+        Líneas especializadas para supermercados y servicio profesional.
+        Consulta precios y disponibilidad en contacto.
       </p>
     </div>
   </section>
@@ -56,14 +56,21 @@ const secciones = [
     ))
   }
 
+  <CTASection
+    title="Consulta precios y disponibilidad"
+    description="Completa nuestro formulario y recibirás una llamada en las próximas 24 horas con presupuestos personalizados según tu tipo de negocio."
+    ctaText="Solicitar Información de Precios"
+    variant="secondary"
+  />
+
   <section class="section">
     <div class="container pedido">
-      <h2>¿Listo para ordenar?</h2>
+      <h2>Otras preguntas</h2>
       <p>
-        Escríbenos por la página de contacto y confirma disponibilidad,
-        toppings y horario de entrega.
+        ¿Tienes consultas específicas sobre toppings, volúmenes mínimos o plazos?
+        Escríbenos por la página de contacto.
       </p>
-      <a href="/contacto/" class="btn btn--solid">Hacer un pedido</a>
+      <a href="/contacto/" class="btn">Ir a Contacto</a>
     </div>
   </section>
 </BaseLayout>

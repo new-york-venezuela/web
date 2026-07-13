@@ -12,7 +12,7 @@ const currentPath = Astro.url.pathname;
 <header class="site-header">
   <div class="container site-header__inner">
     <a href="/" class="site-header__brand" aria-label="New York — Alimentos Premium — Inicio">
-      New York
+      <img src="/logo.png" alt="New York Alimentos Premium" class="site-header__logo" />
     </a>
     <nav aria-label="Navegación principal">
       <ul class="site-header__nav">
@@ -53,10 +53,14 @@ const currentPath = Astro.url.pathname;
   }
 
   .site-header__brand {
-    font-family: var(--font-display);
-    font-size: clamp(1.25rem, 4vw, 1.5rem);
-    letter-spacing: 0.02em;
+    display: inline-block;
     padding-block: 0.25rem;
+  }
+
+  .site-header__logo {
+    height: clamp(50px, 8vw, 80px);
+    width: auto;
+    display: block;
   }
 
   .site-header__nav {
