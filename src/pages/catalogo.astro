@@ -1,39 +1,41 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProductCard from '../components/ProductCard.astro';
-import { productos, type Producto } from '../data/catalogo';
+import { productos, productosSupermercados, productosFoodservice } from '../data/catalogo';
 
-const secciones: { titulo: string; nota: string; categoria: Producto['categoria'] }[] = [
+const secciones = [
   {
-    titulo: 'Los clásicos',
-    nota: 'La receta neoyorquina en tres formatos, del molde familiar a la porción del café.',
-    categoria: 'clasico',
+    titulo: 'Para Supermercados',
+    nota: 'Panes, repostería, magdalenas y pizzas para distribución en retail. Formato estándar para consumidor final.',
+    productos: [
+      ...productosSupermercados.filter(p => p.categoria === 'supermarket-panes'),
+      ...productosSupermercados.filter(p => p.categoria === 'supermarket-reposteria'),
+      ...productosSupermercados.filter(p => p.categoria === 'supermarket-pizza'),
+    ],
   },
   {
-    titulo: 'Toppings artesanales',
-    nota: 'Compotas y coulis de cocción corta, elaborados con fruta venezolana de temporada.',
-    categoria: 'topping',
-  },
-  {
-    titulo: 'Ediciones limitadas',
-    nota: 'Producción semanal reducida. Recomendamos reservar con 48 horas de anticipación.',
-    categoria: 'edicion',
+    titulo: 'Para Foodservice (Restaurantes, Hoteles, Catering)',
+    nota: 'Panes especializados, bagels, croissants y grandes formatos. Diseñados para servicios profesionales.',
+    productos: [
+      ...productosFoodservice.filter(p => p.categoria === 'foodservice-panes'),
+      ...productosFoodservice.filter(p => p.categoria === 'foodservice-especialidades'),
+    ],
   },
 ];
 ---
 
 <BaseLayout
-  title="Catálogo — Manhattan & Ávila"
-  description="Catálogo de New York Cheesecake artesanal en Caracas: formatos entero, medio y porción, toppings de parchita y frutos rojos, y ediciones limitadas. Precios en $ Ref."
+  title="Catálogo — New York Alimentos Premium"
+  description="Catálogo de productos New York Alimentos Premium: panes artesanales, cheesecakes, pizzas para supermercados y especialidades para restaurantes y catering. Precios en $ Ref."
 >
   <section class="section intro">
     <div class="container">
       <span class="eyebrow">Catálogo</span>
-      <h1>Todo lo que horneamos</h1>
+      <h1>Productos New York Alimentos Premium</h1>
       <p class="lead">
-        Precios expresados en dólares de referencia ($ Ref). Pedidos con 24
-        horas de anticipación; ediciones limitadas con 48. Entregas en toda
-        el área metropolitana de Caracas.
+        Precios expresados en dólares de referencia ($ Ref). Líneas especializadas
+        para supermercados y servicio profesional. Consulta disponibilidad y plazos
+        de entrega en contacto.
       </p>
     </div>
   </section>
@@ -45,11 +47,9 @@ const secciones: { titulo: string; nota: string; categoria: Producto['categoria'
           <h2>{seccion.titulo}</h2>
           <p class="seccion-nota">{seccion.nota}</p>
           <div class="grid">
-            {productos
-              .filter((p) => p.categoria === seccion.categoria)
-              .map((producto) => (
-                <ProductCard producto={producto} />
-              ))}
+            {seccion.productos.map((producto) => (
+              <ProductCard producto={producto} />
+            ))}
           </div>
         </div>
       </section>

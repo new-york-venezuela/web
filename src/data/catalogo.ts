@@ -13,106 +13,280 @@ export interface Producto {
   descripcion: string;
   detalle: string;
   precioRef: number;
-  porciones: string;
-  categoria: 'clasico' | 'topping' | 'edicion';
+  porciones?: string;
+  categoria: 'supermarket-panes' | 'supermarket-reposteria' | 'supermarket-pizza' | 'foodservice-panes' | 'foodservice-especialidades';
   destacado?: boolean;
-  /**
-   * Foto del producto, importada desde `src/assets/productos/` (relación 4:3,
-   * mínimo 1200×900 px). Sin foto, la tarjeta muestra el monograma.
-   *
-   *   import fotoClasico from '../assets/productos/ny-clasico-entero.jpg';
-   *   // ...dentro del producto:
-   *   imagen: fotoClasico,
-   *   imagenAlt: 'New York Cheesecake entero sobre papel parchment',
-   */
   imagen?: ImageMetadata;
-  /** Texto alternativo en español. Obligatorio cuando hay `imagen`. */
   imagenAlt?: string;
 }
 
-export const productos: Producto[] = [
+// SUPERMERCADOS
+export const productosSupermercados: Producto[] = [
+  // Panes
   {
-    id: 'ny-clasico-entero',
-    nombre: 'New York Clásico — Entero',
-    descripcion:
-      'La receta original de Manhattan: base de galleta mantequillosa y crema densa de queso premium, horneada lentamente a baño de María.',
-    detalle: 'Molde de 24 cm · Empacado en papel parchment artesanal',
-    precioRef: 45,
-    porciones: '12–14 porciones',
-    categoria: 'clasico',
+    id: 'pan-sandwich-integral-4g',
+    nombre: 'Pan de Sandwich Integral de 4 granos',
+    descripcion: 'Pan integral nutritivo con mezcla equilibrada de cuatro granos.',
+    detalle: 'Presentación: 500g',
+    precioRef: 3.5,
+    categoria: 'supermarket-panes',
     destacado: true,
   },
   {
-    id: 'ny-clasico-medio',
-    nombre: 'New York Clásico — Medio',
-    descripcion:
-      'El mismo horneado lento y textura sedosa del entero, en formato pensado para reuniones íntimas o la mesa del domingo.',
-    detalle: 'Molde de 18 cm · Empacado en papel parchment artesanal',
-    precioRef: 28,
-    porciones: '6–8 porciones',
-    categoria: 'clasico',
+    id: 'pan-sandwich-integral-7c',
+    nombre: 'Pan de Sandwich Integral de 7 cereales',
+    descripcion: 'Pan integral completo con siete cereales naturales para máxima nutrición.',
+    detalle: 'Presentación: 600g',
+    precioRef: 4.2,
+    categoria: 'supermarket-panes',
   },
   {
-    id: 'ny-porcion',
-    nombre: 'Porción individual',
-    descripcion:
-      'Un corte generoso del clásico, listo para acompañar el café de la tarde. Disponible para retiro el mismo día.',
-    detalle: 'Porción de 160 g · Presentación individual en parchment',
-    precioRef: 5,
-    porciones: '1 porción',
-    categoria: 'clasico',
+    id: 'pan-sandwich-blanco',
+    nombre: 'Pan Blanco Especial de Sandwich',
+    descripcion: 'Pan blanco suave y esponjoso, perfectamente cortado para sandwich.',
+    detalle: 'Presentación: 600g',
+    precioRef: 3.8,
+    categoria: 'supermarket-panes',
   },
   {
-    id: 'topping-parchita',
-    nombre: 'Coulis de parchita',
-    descripcion:
-      'Nuestra insignia caraqueña: parchita criolla reducida a fuego lento, ácida y brillante sobre la crema neoyorquina.',
-    detalle: 'Frasco de 250 ml · Fruta de temporada de productores locales',
-    precioRef: 6,
-    porciones: 'Cubre un cheesecake entero',
-    categoria: 'topping',
+    id: 'pan-baguette-congelado',
+    nombre: 'Pan Baguette Precocido Congelado',
+    descripcion: 'Baguette crujiente precocida, lista para hornear en casa.',
+    detalle: 'Presentación: 225g',
+    precioRef: 2.5,
+    categoria: 'supermarket-panes',
+  },
+  {
+    id: 'pan-sandwich-integral-miel-pasas',
+    nombre: 'Pan de Sandwich Integral de Miel y Pasas',
+    descripcion: 'Pan integral dulce con pasas naturales y toque de miel pura.',
+    detalle: 'Presentación: 600g',
+    precioRef: 4.5,
+    categoria: 'supermarket-panes',
+  },
+  {
+    id: 'pan-pumpernickel',
+    nombre: 'Pan Pumpernickel',
+    descripcion: 'Pan oscuro tradicional alemán, denso y aromático.',
+    detalle: 'Presentación: 210g',
+    precioRef: 3.2,
+    categoria: 'supermarket-panes',
+  },
+  // Repostería
+  {
+    id: 'magdalenas-9',
+    nombre: 'Magdalenas Artesanales',
+    descripcion: 'Magdalenas suaves y esponjosas, receta clásica de panadería premium.',
+    detalle: 'Presentación: 9 unidades',
+    precioRef: 5.0,
+    categoria: 'supermarket-reposteria',
+  },
+  {
+    id: 'cheesecake-chocolate-700',
+    nombre: 'Cheese Cake de Chocolate',
+    descripcion: 'Cremoso cheese cake con cobertura de chocolate intenso y elegante.',
+    detalle: 'Presentación: 700g',
+    precioRef: 12.0,
+    categoria: 'supermarket-reposteria',
     destacado: true,
   },
   {
-    id: 'topping-frutos-rojos',
-    nombre: 'Compota de frutos rojos',
-    descripcion:
-      'Fresas de Galipán, moras y arándanos en compota artesanal de cocción corta, sin conservantes.',
-    detalle: 'Frasco de 250 ml · Cocción del día',
-    precioRef: 7,
-    porciones: 'Cubre un cheesecake entero',
-    categoria: 'topping',
+    id: 'cheesecake-fresa-700',
+    nombre: 'Cheese Cake de Fresa',
+    descripcion: 'Cheese cake clásico cubierto con fresas frescas y suave compota de fresa.',
+    detalle: 'Presentación: 700g',
+    precioRef: 12.0,
+    categoria: 'supermarket-reposteria',
+    destacado: true,
+  },
+  // Pizzas
+  {
+    id: 'pizza-americana-2u',
+    nombre: 'Pizza Americana — Caja 2 unidades',
+    descripcion: 'Pizza con los sabores clásicos americanos, lista para hornear.',
+    detalle: 'Presentación: 2 unidades',
+    precioRef: 8.5,
+    categoria: 'supermarket-pizza',
   },
   {
-    id: 'topping-mango',
-    nombre: 'Compota de mango de bocado',
-    descripcion:
-      'Mango venezolano en su punto exacto, apenas tocado con lima. Dulzor tropical que respeta la elegancia del clásico.',
-    detalle: 'Frasco de 250 ml · Disponible en temporada',
-    precioRef: 6,
-    porciones: 'Cubre un cheesecake entero',
-    categoria: 'topping',
+    id: 'pizza-margarita-2u',
+    nombre: 'Pizza Margarita — Caja 2 unidades',
+    descripcion: 'Pizza italiana auténtica con tomate, queso y albahaca fresca.',
+    detalle: 'Presentación: 2 unidades',
+    precioRef: 8.0,
+    categoria: 'supermarket-pizza',
   },
   {
-    id: 'edicion-guayaba-queso',
-    nombre: 'Edición Ávila: guayaba y queso crema',
-    descripcion:
-      'Homenaje al dulce criollo: veta de guayaba artesanal dentro de la crema, sobre base de galleta especiada.',
-    detalle: 'Molde de 18 cm · Producción limitada semanal',
-    precioRef: 32,
-    porciones: '6–8 porciones',
-    categoria: 'edicion',
+    id: 'pizza-newyork-2u',
+    nombre: 'Pizza New York — Caja 2 unidades',
+    descripcion: 'Pizza New York Style con nuestro toque distintivo premium.',
+    detalle: 'Presentación: 2 unidades',
+    precioRef: 9.0,
+    categoria: 'supermarket-pizza',
   },
   {
-    id: 'edicion-cacao',
-    nombre: 'Edición Chuao: cacao venezolano',
-    descripcion:
-      'Crema de queso marmoleada con cacao de Chuao 70 %. Intensidad justa, final limpio, cero empalago.',
-    detalle: 'Molde de 18 cm · Cacao de origen certificado',
-    precioRef: 34,
-    porciones: '6–8 porciones',
-    categoria: 'edicion',
+    id: 'pizza-margarita-1u',
+    nombre: 'Pizza Margarita — Unidad',
+    descripcion: 'Pizza Margarita de tamaño individual, perfecta para una persona.',
+    detalle: 'Presentación: 1 unidad',
+    precioRef: 4.5,
+    categoria: 'supermarket-pizza',
   },
 ];
+
+// FOODSERVICE (Restaurantes, hoteles, catering)
+export const productosFoodservice: Producto[] = [
+  // Panes especializado
+  {
+    id: 'fs-pan-baguette-normal',
+    nombre: 'Pan Baguette Congelado Precocido — Normal',
+    descripcion: 'Baguette clásica precocida para servicio profesional.',
+    detalle: 'Formato: Normal · Congelado',
+    precioRef: 2.8,
+    categoria: 'foodservice-panes',
+    destacado: true,
+  },
+  {
+    id: 'fs-pan-baguette-mediano',
+    nombre: 'Pan Baguette Congelado Precocido — Mediano',
+    descripcion: 'Baguette en tamaño mediano para máxima versatilidad.',
+    detalle: 'Formato: Mediano · Congelado',
+    precioRef: 2.4,
+    categoria: 'foodservice-panes',
+  },
+  {
+    id: 'fs-pan-baguette-pequeno',
+    nombre: 'Pan Baguette Congelado Precocido — Pequeño',
+    descripcion: 'Mini baguette para entrantes y degustaciones.',
+    detalle: 'Formato: Pequeño · Congelado',
+    precioRef: 1.8,
+    categoria: 'foodservice-panes',
+  },
+  {
+    id: 'fs-pan-hamburguesa-brioche',
+    nombre: 'Pan de Hamburguesa Brioche',
+    descripcion: 'Pan brioche suave y esponjoso, ideal para hamburguesas premium.',
+    detalle: 'Formato: Estándar',
+    precioRef: 1.2,
+    categoria: 'foodservice-panes',
+  },
+  {
+    id: 'fs-pan-hamburguesa-brioche-mini',
+    nombre: 'Pan de Hamburguesa Brioche Mini',
+    descripcion: 'Mini brioche para sliders y porciones elegantes.',
+    detalle: 'Formato: Mini',
+    precioRef: 0.8,
+    categoria: 'foodservice-panes',
+  },
+  {
+    id: 'fs-pan-perrito-brioche',
+    nombre: 'Pan de Perrito Brioche',
+    descripcion: 'Pan brioche alargado para hot dogs y sándwiches alargados.',
+    detalle: 'Formato: Estándar',
+    precioRef: 0.9,
+    categoria: 'foodservice-panes',
+  },
+  // Especialidades
+  {
+    id: 'fs-bagel-clasico-plain',
+    nombre: 'Bagel Clásico — Plain',
+    descripcion: 'Bagel tradicional sin toppings, versátil para cualquier preparación.',
+    detalle: 'Variedad: Plain',
+    precioRef: 1.5,
+    categoria: 'foodservice-especialidades',
+  },
+  {
+    id: 'fs-bagel-clasico-ajonjoli',
+    nombre: 'Bagel Clásico — Ajonjolí',
+    descripcion: 'Bagel cubierto con semillas de ajonjolí integral.',
+    detalle: 'Variedad: Ajonjolí',
+    precioRef: 1.6,
+    categoria: 'foodservice-especialidades',
+  },
+  {
+    id: 'fs-bagel-clasico-everything',
+    nombre: 'Bagel Clásico — Everything',
+    descripcion: 'Bagel con toppings gourmet: amapolas, sésamo, ajo, cebolla deshidratada y sal.',
+    detalle: 'Variedad: Everything (múltiples toppings)',
+    precioRef: 1.8,
+    categoria: 'foodservice-especialidades',
+    destacado: true,
+  },
+  {
+    id: 'fs-bagel-brioche-plain',
+    nombre: 'Bagel Brioche — Plain',
+    descripcion: 'Bagel con textura brioche más suave y delicada.',
+    detalle: 'Variedad: Plain',
+    precioRef: 1.7,
+    categoria: 'foodservice-especialidades',
+  },
+  {
+    id: 'fs-bagel-brioche-ajonjoli',
+    nombre: 'Bagel Brioche — Ajonjolí',
+    descripcion: 'Bagel brioche con cobertura de ajonjolí.',
+    detalle: 'Variedad: Ajonjolí',
+    precioRef: 1.8,
+    categoria: 'foodservice-especialidades',
+  },
+  {
+    id: 'fs-bagel-brioche-everything',
+    nombre: 'Bagel Brioche — Everything',
+    descripcion: 'Bagel brioche con toppings completos: amapolas, sésamo, ajo, cebolla y sal.',
+    detalle: 'Variedad: Everything',
+    precioRef: 2.0,
+    categoria: 'foodservice-especialidades',
+  },
+  {
+    id: 'fs-croissant',
+    nombre: 'Croissant',
+    descripcion: 'Croissant clásico crujiente y mantequilloso, hojaldrado artesanal.',
+    detalle: 'Formato: Estándar',
+    precioRef: 2.2,
+    categoria: 'foodservice-especialidades',
+  },
+  {
+    id: 'fs-mini-croissant',
+    nombre: 'Mini Croissant',
+    descripcion: 'Croissant en tamaño mini para desayunos elegantes y catering.',
+    detalle: 'Formato: Mini',
+    precioRef: 1.5,
+    categoria: 'foodservice-especialidades',
+  },
+  {
+    id: 'fs-pizza-margarita-artesanal',
+    nombre: 'Pizza Margarita Artesanal',
+    descripcion: 'Pizza de masa artesanal con receta auténtica italiana.',
+    detalle: 'Formato: Profesional · Precocida',
+    precioRef: 6.5,
+    categoria: 'foodservice-especialidades',
+    destacado: true,
+  },
+  {
+    id: 'fs-cheesecake-chocolate-1500',
+    nombre: 'Cheesecake de Chocolate — 1500g',
+    descripcion: 'Cheesecake de formato grande con cobertura de chocolate premium para múltiples porciones.',
+    detalle: 'Presentación: 1500g',
+    precioRef: 22.0,
+    categoria: 'foodservice-especialidades',
+  },
+  {
+    id: 'fs-cheesecake-fresa-1500',
+    nombre: 'Cheesecake de Fresa — 1500g',
+    descripcion: 'Cheesecake grande cubierto con fresas frescas, ideal para servicios completos.',
+    detalle: 'Presentación: 1500g',
+    precioRef: 22.0,
+    categoria: 'foodservice-especialidades',
+  },
+  {
+    id: 'fs-cheesecake-sin-cobertura-1500',
+    nombre: 'Cheesecake sin Cobertura — 1500g',
+    descripcion: 'Cheesecake base sin cobertura, especial para restaurantes con coberturas personalizadas.',
+    detalle: 'Presentación: 1500g · Sin cobertura',
+    precioRef: 20.0,
+    categoria: 'foodservice-especialidades',
+  },
+];
+
+export const productos: Producto[] = [...productosSupermercados, ...productosFoodservice];
 
 export const formatPrecio = (precio: number): string => `$${precio} Ref`;
