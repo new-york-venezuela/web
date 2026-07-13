@@ -2,87 +2,93 @@
 import { LEAD_FORM_FIELDS } from '../data/formConfig';
 
 interface Props {
-  showSuccess?: boolean;
   successMessage?: string;
 }
 
 const {
-  showSuccess = false,
   successMessage = '¡Gracias! Nos pondremos en contacto pronto para confirmar tu solicitud de llamada.'
 } = Astro.props;
 ---
 
 <div class="lead-form">
-  {
-    showSuccess ? (
-      <div class="form-success">
-        <div class="success-icon">✓</div>
-        <h3>¡Solicitud Enviada!</h3>
-        <p>{successMessage}</p>
-        <p class="success-note">Te llamaremos en las próximas 24 horas para confirmar disponibilidad y precios.</p>
-      </div>
-    ) : (
-      <form class="form" id="lead-capture-form" method="POST" action="/api/submit-lead">
-        <fieldset class="form-group">
-          <legend class="form-legend">Información de Contacto</legend>
+  <!-- Success state: hidden by default, shown client-side when ?success=true -->
+  <div class="form-success" id="lead-form-success" style="display:none">
+    <div class="success-icon">✓</div>
+    <h3>¡Solicitud Enviada!</h3>
+    <p>{successMessage}</p>
+    <p class="success-note">Te llamaremos en las próximas 24 horas para confirmar disponibilidad y precios.</p>
+  </div>
 
-          {LEAD_FORM_FIELDS.map((field) => (
-            <div class="form-field">
-              <label for={field.name} class="form-label">
-                {field.label}
-                {field.required && <span class="required-indicator">*</span>}
-              </label>
+  <!-- Form: shown by default, hidden client-side when ?success=true -->
+  <form class="form" id="lead-capture-form" method="POST" action="/api/submit-lead">
+    <fieldset class="form-group">
+      <legend class="form-legend">Información de Contacto</legend>
 
-              {field.type === 'select' ? (
-                <select
-                  id={field.name}
-                  name={field.name}
-                  required={field.required}
-                  class="form-input form-select"
-                >
-                  {field.options?.map((option) => (
-                    <option value={option.value}>{option.label}</option>
-                  ))}
-                </select>
-              ) : field.type === 'textarea' ? (
-                <textarea
-                  id={field.name}
-                  name={field.name}
-                  placeholder={field.placeholder}
-                  required={field.required}
-                  class="form-input form-textarea"
-                  rows="4"
-                />
-              ) : (
-                <input
-                  id={field.name}
-                  type={field.type}
-                  name={field.name}
-                  placeholder={field.placeholder}
-                  pattern={field.pattern}
-                  required={field.required}
-                  class="form-input"
-                />
-              )}
-            </div>
-          ))}
-        </fieldset>
+      {LEAD_FORM_FIELDS.map((field) => (
+        <div class="form-field">
+          <label for={field.name} class="form-label">
+            {field.label}
+            {field.required && <span class="required-indicator">*</span>}
+          </label>
 
-        <div class="form-actions">
-          <button type="submit" class="btn btn--solid">
-            Solicitar Llamada
-          </button>
-          <p class="form-note">
-            Te contactaremos para confirmar disponibilidad y precios personalizados.
-          </p>
+          {field.type === 'select' ? (
+            <select
+              id={field.name}
+              name={field.name}
+              required={field.required}
+              class="form-input form-select"
+            >
+              {field.options?.map((option) => (
+                <option value={option.value}>{option.label}</option>
+              ))}
+            </select>
+          ) : field.type === 'textarea' ? (
+            <textarea
+              id={field.name}
+              name={field.name}
+              placeholder={field.placeholder}
+              required={field.required}
+              class="form-input form-textarea"
+              rows="4"
+            />
+          ) : (
+            <input
+              id={field.name}
+              type={field.type}
+              name={field.name}
+              placeholder={field.placeholder}
+              pattern={field.pattern}
+              required={field.required}
+              class="form-input"
+            />
+          )}
         </div>
-      </form>
-    )
-  }
+      ))}
+    </fieldset>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn--solid">
+        Solicitar Llamada
+      </button>
+      <p class="form-note">
+        Te contactaremos para confirmar disponibilidad y precios personalizados.
+      </p>
+    </div>
+  </form>
 </div>
 
 <script>
+  // Check URL query param client-side (static site: build time has no access to query params).
+  const params = new URLSearchParams(window.location.search);
+  const isSuccess = params.get('success') === 'true';
+
+  const successEl = document.getElementById('lead-form-success');
   const form = document.getElementById('lead-capture-form') as HTMLFormElement | null;
+
+  if (isSuccess) {
+    if (successEl) successEl.style.display = '';
+    if (form) form.style.display = 'none';
+  }
 
   if (form) {
     form.addEventListener('submit', async (e: SubmitEvent) => {

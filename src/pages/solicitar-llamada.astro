@@ -2,7 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import LeadForm from '../components/LeadForm.astro';
 
-const showSuccess = Astro.url.searchParams.get('success') === 'true';
+// Static site: query params are not available at build time.
+// Success state is handled client-side via JavaScript in LeadForm.astro.
 ---
 
 <BaseLayout
@@ -37,7 +38,7 @@ const showSuccess = Astro.url.searchParams.get('success') === 'true';
         </div>
 
         <div class="form-wrapper">
-          <LeadForm showSuccess={showSuccess} />
+          <LeadForm />
         </div>
       </div>
     </div>
