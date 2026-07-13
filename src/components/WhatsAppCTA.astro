@@ -1,0 +1,138 @@
+---
+import { WHATSAPP_PHONE } from '../utils/whatsapp';
+---
+
+<div class="whatsapp-cta">
+  <div class="whatsapp-intro">
+    <span class="eyebrow">Chat Rápido</span>
+    <h3>Consulta instantánea por WhatsApp</h3>
+    <p class="lead-small">
+      Comparte tus datos y recibe información inmediata sobre productos y precios.
+    </p>
+  </div>
+
+  <form class="whatsapp-form" id="whatsapp-lead-form">
+    <div class="form-group">
+      <input
+        type="text"
+        name="fullName"
+        placeholder="Tu nombre"
+        required
+        class="form-input"
+      />
+    </div>
+
+    <div class="form-group">
+      <select name="businessType" required class="form-input">
+        <option value="">Tipo de negocio</option>
+        <option value="Supermercado">Supermercado</option>
+        <option value="Restaurante">Restaurante</option>
+        <option value="Hotel">Hotel</option>
+        <option value="Catering">Catering</option>
+        <option value="Otro">Otro</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <input
+        type="email"
+        name="email"
+        placeholder="tu@empresa.com"
+        required
+        class="form-input"
+      />
+    </div>
+
+    <button type="submit" class="btn btn--solid btn--whatsapp">
+      💬 Chatear por WhatsApp
+    </button>
+  </form>
+</div>
+
+<script>
+  const form = document.getElementById('whatsapp-lead-form') as HTMLFormElement | null;
+
+  if (form) {
+    form.addEventListener('submit', (e: SubmitEvent) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const name = formData.get('fullName') as string;
+      const businessType = formData.get('businessType') as string;
+      const email = formData.get('email') as string;
+
+      const message = `Hola! Estoy interesado en ser cliente:\n\nNombre: ${name}\nNegocio: ${businessType}\nCorreo: ${email}`;
+      const encoded = encodeURIComponent(message);
+      const whatsappUrl = `https://wa.me/584141552433?text=${encoded}`;
+
+      window.open(whatsappUrl, '_blank');
+    });
+  }
+</script>
+
+<style>
+  .whatsapp-cta {
+    background: linear-gradient(135deg, #f0f8f5 0%, #ffffff 100%);
+    border: 2px solid var(--color-accent);
+    border-radius: 0.75rem;
+    padding: var(--space-l);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+  }
+
+  .whatsapp-intro h3 {
+    font-size: 1.25rem;
+    margin-bottom: var(--space-s);
+  }
+
+  .lead-small {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--color-charcoal-soft);
+    margin: 0;
+  }
+
+  .whatsapp-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+  }
+
+  .form-group {
+    display: flex;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: var(--space-xs) var(--space-s);
+    border: 1px solid var(--color-border);
+    border-radius: 0.25rem;
+    font-size: 0.9375rem;
+    font-family: inherit;
+    background-color: white;
+    color: var(--color-charcoal);
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 2px rgba(212, 164, 79, 0.1);
+  }
+
+  .btn--whatsapp {
+    background-color: #25d366;
+    border-color: #25d366;
+  }
+
+  .btn--whatsapp:hover {
+    background-color: #20ba5a;
+    border-color: #20ba5a;
+  }
+
+  @media (max-width: 40rem) {
+    .whatsapp-cta {
+      padding: var(--space-m);
+    }
+  }
+</style>
