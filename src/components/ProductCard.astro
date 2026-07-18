@@ -7,29 +7,29 @@ interface Props {
 
 const { producto } = Astro.props;
 
-const etiquetasPorCategoria: Record<Producto['categoria'], string> = {
-  'supermarket-panes': 'Panes Supermercado',
-  'supermarket-reposteria': 'Repostería Supermercado',
-  'supermarket-pizza': 'Pizza Supermercado',
-  'foodservice-panes': 'Panes Foodservice',
-  'foodservice-especialidades': 'Especialidades Foodservice',
+const categoriasSecundarias: Record<string, string> = {
+  'panes': 'Panes',
+  'reposteria': 'Repostería',
+  'especialidades': 'Especialidades',
+  'pizza': 'Pizzas',
 };
+
+const imagenUrl = `/productos/${producto.imagen}.png`;
 ---
 
 <article class="card">
-  <div class="card__media card__media--placeholder" aria-hidden="true">
-    <span class="card__monogram">M&Á</span>
+  <div class="card__media">
+    <img src={imagenUrl} alt={producto.imagenAlt || producto.nombre} loading="lazy" />
   </div>
   <div class="card__body">
-    <span class="card__tag">{etiquetasPorCategoria[producto.categoria]}</span>
+    <span class="card__tag">{categoriasSecundarias[producto.categoria_secundaria] || producto.categoria_secundaria}</span>
     <h3 class="card__title">{producto.nombre}</h3>
     <p class="card__description">{producto.descripcion}</p>
-    <p class="card__detail">{producto.detalle}</p>
     {
-      producto.porciones && (
-        <div class="card__footer">
-          <span class="card__portions">{producto.porciones}</span>
-        </div>
+      producto.specs && (
+        <p class="card__detail">
+          {producto.specs.peso && `Peso: ${producto.specs.peso}`}
+        </p>
       )
     }
   </div>

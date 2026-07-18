@@ -2,25 +2,18 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProductCard from '../components/ProductCard.astro';
 import CTASection from '../components/CTASection.astro';
-import { productos, productosSupermercados, productosFoodservice } from '../data/catalogo';
+import { productos } from '../data/catalogo';
 
 const secciones = [
   {
     titulo: 'Para Supermercados',
     nota: 'Panes, repostería, magdalenas y pizzas para distribución en retail. Formato estándar para consumidor final.',
-    productos: [
-      ...productosSupermercados.filter(p => p.categoria === 'supermarket-panes'),
-      ...productosSupermercados.filter(p => p.categoria === 'supermarket-reposteria'),
-      ...productosSupermercados.filter(p => p.categoria === 'supermarket-pizza'),
-    ],
+    productos: productos.filter(p => p.categoria_primaria === 'supermarket'),
   },
   {
     titulo: 'Para Foodservice (Restaurantes, Hoteles, Catering)',
     nota: 'Panes especializados, bagels, croissants y grandes formatos. Diseñados para servicios profesionales.',
-    productos: [
-      ...productosFoodservice.filter(p => p.categoria === 'foodservice-panes'),
-      ...productosFoodservice.filter(p => p.categoria === 'foodservice-especialidades'),
-    ],
+    productos: productos.filter(p => p.categoria_primaria === 'foodservice'),
   },
 ];
 ---

@@ -101,21 +101,16 @@ export function validateProducto(producto: any): producto is Producto {
 }
 
 export function loadProductos(): Producto[] {
-  const supermercados = (productosData.supermercados || []).map((p: any) => {
+  const allProductos = (productosData.productos || []).map((p: any) => {
     validateProducto(p);
     return p as Producto;
   });
 
-  const foodservice = (productosData.foodservice || []).map((p: any) => {
-    validateProducto(p);
-    return p as Producto;
-  });
-
-  return [...supermercados, ...foodservice];
+  return allProductos;
 }
 
 export const productos = loadProductos();
-export const productosSupermercados = (productosData.supermercados || []) as Producto[];
-export const productosFoodservice = (productosData.foodservice || []) as Producto[];
+export const productosSupermercados = productos.filter(p => p.categoria_primaria === 'supermarket');
+export const productosFoodservice = productos.filter(p => p.categoria_primaria === 'foodservice');
 
 export const formatPrecio = (precio: number): string => `$${precio} Ref`;
