@@ -15,18 +15,9 @@ import { parseProductsCatalog } from './parseProductsCatalog.js';
 export interface NormalizeResult {
   renamed: Record<string, string>; // original -> normalized
   errors: string[];
+  warnings: string[];
   dryRun: boolean;
 }
-
-/**
- * Additional mappings for actual files found in the directory
- * Maps observed filenames to their target product slugs
- */
-const ADDITIONAL_MAPPINGS: Record<string, string> = {
-  'Bagels estilo New York.png': 'bagels-new-york-plain',
-  'Torta de Queso Comercial.png': 'torta-queso-new-york-comercial-fresa',
-  'Pizzas  Precocidas Congeladas.png': 'pizza-margarita-premium',
-};
 
 /**
  * Normalize product image filenames to kebab-case slugs
@@ -38,16 +29,15 @@ export async function normalizeImages(dryRun: boolean = true): Promise<Normalize
   const result: NormalizeResult = {
     renamed: {},
     errors: [],
+    warnings: [],
     dryRun
   };
 
   try {
-    // Get the image renaming map from the catalog
+    // Get the image renaming map from the catalog (Task 1)
+    // imageRenamingMap maps original filenames (with extensions) to slugs (without extensions)
     const manifest = parseProductsCatalog();
     const imageRenamingMap = manifest.imageRenamingMap;
-
-    // Combine with additional mappings for actual files
-    const combinedMap = { ...imageRenamingMap, ...ADDITIONAL_MAPPINGS };
 
     // Get the public/productos directory path
     const imageDir = path.join(process.cwd(), 'public', 'productos');
@@ -60,43 +50,36 @@ export async function normalizeImages(dryRun: boolean = true): Promise<Normalize
       return result;
     }
 
-    // Read all files in the directory
-    const files = await fs.readdir(imageDir);
-
-    // Filter for image files and .gitkeep
-    const imageFiles = files.filter(f => {
-      const ext = path.extname(f).toLowerCase();
-      return (ext === '.png' || ext === '.jpg' || ext === '.jpeg') && f !== '.gitkeep';
-    });
-
-    // Process each file
-    for (const originalFilename of imageFiles) {
+    // Process each file in the imageRenamingMap
+    for (const [originalFilename, normalizedSlug] of Object.entries(imageRenamingMap)) {
       const originalPath = path.join(imageDir, originalFilename);
 
-      // Check if this file should be renamed
-      const normalizedSlug = combinedMap[originalFilename];
-
-      if (!normalizedSlug) {
-        result.errors.push(`No mapping found for: ${originalFilename}`);
+      // Idempotent: skip if file not found (may have been renamed already or doesn't exist)
+      try {
+        await fs.access(originalPath);
+      } catch {
+        result.warnings.push(`File not found (skipped): ${originalFilename}`);
         continue;
       }
 
-      // Get file extension
+      // Get file extension from original filename
       const ext = path.extname(originalFilename);
 
-      // Skip if already normalized (starts with kebab-case slug)
-      if (originalFilename === `${normalizedSlug}${ext}`) {
-        // Already normalized, skip
+      // Reconstruct normalized filename: slug + original extension
+      const normalizedFilename = `${normalizedSlug}${ext}`;
+
+      // Skip if already normalized (original filename already matches target)
+      if (originalFilename === normalizedFilename) {
+        result.renamed[originalFilename] = normalizedFilename;
         continue;
       }
 
-      const normalizedFilename = `${normalizedSlug}${ext}`;
       const normalizedPath = path.join(imageDir, normalizedFilename);
 
-      // Check if target already exists
+      // Check if target already exists (conflict)
       try {
         await fs.access(normalizedPath);
-        result.errors.push(`Target file already exists: ${normalizedFilename}`);
+        result.errors.push(`Target exists, skipping: ${originalFilename} → ${normalizedFilename}`);
         continue;
       } catch {
         // Target doesn't exist, safe to proceed
@@ -125,12 +108,18 @@ export async function normalizeImages(dryRun: boolean = true): Promise<Normalize
 
 /**
  * Main entry point for CLI usage
+ * Can be invoked as: node --loader tsx src/utils/normalizeImages.ts [--execute]
  */
 if (import.meta.url === `file://${process.argv[1]}`) {
   const args = process.argv.slice(2);
   const isDryRun = !args.includes('--execute');
 
   normalizeImages(isDryRun).then(result => {
+    if (result.dryRun) {
+      console.log('DRY RUN - Files would be renamed:');
+    } else {
+      console.log('EXECUTED - Files renamed:');
+    }
     console.log(JSON.stringify(result, null, 2));
     process.exit(result.errors.length > 0 ? 1 : 0);
   }).catch(error => {
