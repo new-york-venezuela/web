@@ -1,8 +1,8 @@
 ---
 title: "Torta de Queso New York Comercial - Fresa"
 id: "torta-queso-new-york-comercial-fresa"
-descripcion_seo: "Cheesecake New York Comercial 1500g con cubierta de fresa. Ideal para hostelería y restaurantes profesionales. Panadería premium Caracas."
-palabras_clave: ["cheesecake comercial","torta grande","restaurante","hostelería","repostería professional"]
+descripcion_seo: "Cheesecake New York Comercial grande de 1500g con mermelada de fresa artesanal. Hostelería, restaurantes, eventos. Panadería premium Caracas."
+palabras_clave: ["cheesecake comercial", "torta grande", "restaurante", "hostelería", "repostería profesional"]
 categoria_primaria: "foodservice"
 categoria_secundaria: "reposteria"
 imagen: "torta-queso-comercial"
@@ -31,6 +31,7 @@ Cheesecake estilo New York grande para restaurantes y cafeterías. Hecha con que
 
 ## Usos Recomendados
 
-- Consumo directo o para preparaciones culinarias
-- Disponible en puntos de venta autorizados
-- Para consultas de distribución, contacte a nuestro equipo comercial
+- Servicio profesional en restaurantes y cafeterías
+- Eventos corporativos y celebraciones
+- Vitrinas de pastelería gourmet
+- Porciones individuales para catering
