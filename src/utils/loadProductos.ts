@@ -3,23 +3,29 @@ import productosData from '../data/productos.json';
 export interface Producto {
   id: string;
   nombre: string;
-  descripcion: string;
-  detalle: string;
-  precioRef: number;
-  categoria: 'supermarket-panes' | 'supermarket-reposteria' | 'supermarket-pizza' | 'foodservice-panes' | 'foodservice-especialidades';
-  destacado?: boolean;
-  imagen?: string;
+  descripcion: string; // short, for cards
+  descripcion_seo?: string; // 150-160 chars, keyword-rich
+  categoria_primaria: 'supermarket' | 'foodservice';
+  categoria_secundaria: 'panes' | 'reposteria' | 'especialidades' | 'pizza';
+  imagen: string; // slug, no extension (e.g., "pan-4-granos")
   imagenAlt?: string;
-  porciones?: string;
+  palabras_clave?: string[]; // 5-7 Spanish keywords
+  destacado?: boolean;
+  precioRef?: number;
+  certificaciones?: string[];
+  specs?: {
+    peso?: string;
+    codigo_barras?: string;
+    cpe?: string;
+    mpps?: string;
+    tiempoVida?: string;
+    temperatura?: string;
+  };
+  variantes_relacionadas?: string[]; // product IDs of siblings
 }
 
-const VALID_CATEGORIES = [
-  'supermarket-panes',
-  'supermarket-reposteria',
-  'supermarket-pizza',
-  'foodservice-panes',
-  'foodservice-especialidades',
-];
+const VALID_CATEGORIAS_PRIMARIAS = ['supermarket', 'foodservice'];
+const VALID_CATEGORIAS_SECUNDARIAS = ['panes', 'reposteria', 'especialidades', 'pizza'];
 
 export function validateProducto(producto: any): producto is Producto {
   if (!producto.id || typeof producto.id !== 'string') {
@@ -31,23 +37,65 @@ export function validateProducto(producto: any): producto is Producto {
   if (!producto.descripcion || typeof producto.descripcion !== 'string') {
     throw new Error(`Producto ${producto.id}: descripcion es requerida`);
   }
-  if (!producto.detalle || typeof producto.detalle !== 'string') {
-    throw new Error(`Producto ${producto.id}: detalle es requerido`);
+  if (!producto.categoria_primaria || !VALID_CATEGORIAS_PRIMARIAS.includes(producto.categoria_primaria)) {
+    throw new Error(`Producto ${producto.id}: categoria_primaria inválida "${producto.categoria_primaria}". Válidas: ${VALID_CATEGORIAS_PRIMARIAS.join(', ')}`);
   }
-  if (typeof producto.precioRef !== 'number') {
-    throw new Error(`Producto ${producto.id}: precioRef debe ser número`);
+  if (!producto.categoria_secundaria || !VALID_CATEGORIAS_SECUNDARIAS.includes(producto.categoria_secundaria)) {
+    throw new Error(`Producto ${producto.id}: categoria_secundaria inválida "${producto.categoria_secundaria}". Válidas: ${VALID_CATEGORIAS_SECUNDARIAS.join(', ')}`);
   }
-  if (!producto.categoria || !VALID_CATEGORIES.includes(producto.categoria)) {
-    throw new Error(`Producto ${producto.id}: categoría inválida "${producto.categoria}". Válidas: ${VALID_CATEGORIES.join(', ')}`);
+  if (!producto.imagen || typeof producto.imagen !== 'string') {
+    throw new Error(`Producto ${producto.id}: imagen es requerida y debe ser string (slug sin extensión)`);
+  }
+  if (producto.imagenAlt && typeof producto.imagenAlt !== 'string') {
+    throw new Error(`Producto ${producto.id}: imagenAlt debe ser string`);
+  }
+  if (producto.descripcion_seo !== undefined) {
+    if (typeof producto.descripcion_seo !== 'string') {
+      throw new Error(`Producto ${producto.id}: descripcion_seo debe ser string`);
+    }
+    const seoLength = producto.descripcion_seo.length;
+    if (seoLength < 100 || seoLength > 160) {
+      throw new Error(`Producto ${producto.id}: descripcion_seo debe tener 100-160 caracteres (actual: ${seoLength})`);
+    }
+  }
+  if (producto.palabras_clave !== undefined) {
+    if (!Array.isArray(producto.palabras_clave)) {
+      throw new Error(`Producto ${producto.id}: palabras_clave debe ser array`);
+    }
+    if (producto.palabras_clave.length < 3 || producto.palabras_clave.length > 10) {
+      throw new Error(`Producto ${producto.id}: palabras_clave debe tener 3-10 keywords (actual: ${producto.palabras_clave.length})`);
+    }
+    if (!producto.palabras_clave.every((kw: any) => typeof kw === 'string')) {
+      throw new Error(`Producto ${producto.id}: todos los elementos de palabras_clave deben ser strings`);
+    }
   }
   if (producto.destacado !== undefined && typeof producto.destacado !== 'boolean') {
     throw new Error(`Producto ${producto.id}: destacado debe ser booleano`);
   }
-  if (producto.imagen && typeof producto.imagen !== 'string') {
-    throw new Error(`Producto ${producto.id}: imagen debe ser string`);
+  if (producto.precioRef !== undefined && typeof producto.precioRef !== 'number') {
+    throw new Error(`Producto ${producto.id}: precioRef debe ser número`);
   }
-  if (producto.imagenAlt && typeof producto.imagenAlt !== 'string') {
-    throw new Error(`Producto ${producto.id}: imagenAlt debe ser string`);
+  if (producto.certificaciones !== undefined) {
+    if (!Array.isArray(producto.certificaciones)) {
+      throw new Error(`Producto ${producto.id}: certificaciones debe ser array`);
+    }
+    if (!producto.certificaciones.every((cert: any) => typeof cert === 'string')) {
+      throw new Error(`Producto ${producto.id}: todos los elementos de certificaciones deben ser strings`);
+    }
+  }
+  if (producto.specs !== undefined) {
+    if (typeof producto.specs !== 'object' || producto.specs === null) {
+      throw new Error(`Producto ${producto.id}: specs debe ser un objeto`);
+    }
+    // All fields in specs are optional, so no further validation needed
+  }
+  if (producto.variantes_relacionadas !== undefined) {
+    if (!Array.isArray(producto.variantes_relacionadas)) {
+      throw new Error(`Producto ${producto.id}: variantes_relacionadas debe ser array`);
+    }
+    if (!producto.variantes_relacionadas.every((id: any) => typeof id === 'string')) {
+      throw new Error(`Producto ${producto.id}: todos los elementos de variantes_relacionadas deben ser strings`);
+    }
   }
   return true;
 }
