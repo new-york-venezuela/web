@@ -1,0 +1,216 @@
+---
+interface Props {
+  imagenes: string[];
+  alt: string;
+  class?: string;
+}
+
+const { imagenes, alt, class: className } = Astro.props;
+
+// Validate at least one image
+if (!imagenes || imagenes.length === 0) {
+  throw new Error('ImageCarousel requires at least one image');
+}
+---
+
+<div class:list={['carousel', className]}>
+  <button
+    class="carousel__button carousel__button--prev"
+    aria-label="Previous image"
+    data-action="prev"
+  >
+    ←
+  </button>
+
+  <div class="carousel__viewport">
+    <img
+      src={`/productos/${imagenes[0]}.png`}
+      alt={alt}
+      class="carousel__image"
+      data-carousel-image
+    />
+  </div>
+
+  <button
+    class="carousel__button carousel__button--next"
+    aria-label="Next image"
+    data-action="next"
+  >
+    →
+  </button>
+
+  <div class="carousel__counter" data-carousel-counter>
+    1 / {imagenes.length}
+  </div>
+</div>
+
+<script define:vars={{ imagenes }}>
+  (function initCarousel() {
+    const carousel = document.currentScript.closest('.carousel');
+    if (!carousel) return;
+
+    let currentIndex = 0;
+
+    const image = carousel.querySelector('[data-carousel-image]');
+    const counter = carousel.querySelector('[data-carousel-counter]');
+    const prevBtn = carousel.querySelector('[data-action="prev"]');
+    const nextBtn = carousel.querySelector('[data-action="next"]');
+
+    function updateImage() {
+      const slug = imagenes[currentIndex];
+      image.src = `/productos/${slug}.png`;
+      counter.textContent = `${currentIndex + 1} / ${imagenes.length}`;
+    }
+
+    function handlePrev() {
+      currentIndex = (currentIndex - 1 + imagenes.length) % imagenes.length;
+      updateImage();
+    }
+
+    function handleNext() {
+      currentIndex = (currentIndex + 1) % imagenes.length;
+      updateImage();
+    }
+
+    function handleKeydown(e) {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        handlePrev();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        handleNext();
+      }
+    }
+
+    prevBtn.addEventListener('click', handlePrev);
+    nextBtn.addEventListener('click', handleNext);
+    carousel.addEventListener('keydown', handleKeydown);
+
+    // Cleanup
+    return () => {
+      prevBtn.removeEventListener('click', handlePrev);
+      nextBtn.removeEventListener('click', handleNext);
+      carousel.removeEventListener('keydown', handleKeydown);
+    };
+  })();
+</script>
+
+<style>
+  .carousel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    align-items: center;
+  }
+
+  .carousel__viewport {
+    width: 100%;
+    aspect-ratio: 5 / 4;
+    overflow: hidden;
+    background-color: var(--color-milk);
+    border-radius: 0.5rem;
+  }
+
+  .carousel__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.2s ease;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .carousel__image {
+      transition: none;
+    }
+  }
+
+  .carousel__button {
+    background: transparent;
+    border: none;
+    color: var(--color-charcoal);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    line-height: 1;
+    transition: color 0.2s ease;
+  }
+
+  .carousel__button:hover {
+    color: var(--color-accent);
+  }
+
+  .carousel__button:focus {
+    outline: 2px solid var(--color-charcoal);
+    outline-offset: 2px;
+  }
+
+  .carousel__counter {
+    font-size: 0.875rem;
+    color: var(--color-charcoal-soft);
+  }
+
+  /* Mobile: buttons stack below image */
+  @media (max-width: 39.9375rem) {
+    .carousel {
+      gap: var(--space-s);
+    }
+
+    .carousel__button {
+      order: 2;
+    }
+
+    .carousel__button--prev {
+      margin-right: var(--space-s);
+    }
+
+    .carousel__button--next {
+      margin-left: var(--space-s);
+    }
+
+    .carousel__counter {
+      order: 3;
+    }
+
+    .carousel__viewport {
+      order: 1;
+    }
+
+    /* Buttons side-by-side on mobile */
+    .carousel {
+      align-items: center;
+    }
+  }
+
+  /* Desktop: buttons flank image horizontally */
+  @media (min-width: 40rem) {
+    .carousel {
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .carousel__viewport {
+      flex: 0 1 auto;
+      max-width: 100%;
+    }
+
+    .carousel__button {
+      flex-shrink: 0;
+    }
+
+    .carousel__button--prev {
+      order: 1;
+      margin-right: var(--space-m);
+    }
+
+    .carousel__viewport {
+      order: 2;
+    }
+
+    .carousel__button--next {
+      order: 3;
+      margin-left: var(--space-m);
+    }
+  }
+</style>
