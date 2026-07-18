@@ -9,6 +9,7 @@
       "categoria_secundaria": "panes",
       "imagen": "pan-4-granos",
       "imagenAlt": "Pan 4 Granos - panadería premium New York, Caracas, Venezuela",
+      "imagenes": ["pan-4-granos", "pan-4-granos-paquete"],
       "palabras_clave": [
         "pan integral",
         "pan 4 granos",
@@ -39,6 +40,7 @@
       "categoria_secundaria": "panes",
       "imagen": "pan-7-cereales",
       "imagenAlt": "Pan 7 Cereales - panadería artesanal New York, Caracas",
+      "imagenes": ["pan-7-cereales", "pan-7-cereales-paquete"],
       "palabras_clave": [
         "pan 7 cereales",
         "pan integral multicereales",
@@ -71,6 +73,7 @@
       "categoria_secundaria": "panes",
       "imagen": "pan-blanco-especial",
       "imagenAlt": "Pan Blanco Especial - pan de sandwich esponjoso, Caracas",
+      "imagenes": ["pan-blanco-especial", "pan-blanco-especial-paquete"],
       "palabras_clave": [
         "pan blanco",
         "pan de sandwich",
@@ -129,6 +132,7 @@
       "categoria_secundaria": "reposteria",
       "imagen": "magdalenas",
       "imagenAlt": "Magdalenas - ponquecitos de limón artesanales, New York",
+      "imagenes": ["magdalenas", "magdalenas-paquete"],
       "palabras_clave": [
         "magdalenas",
         "ponquecitos",
