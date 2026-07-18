@@ -57,49 +57,45 @@ if (!imagenes || imagenes.length === 0) {
 
     const image = carousel.querySelector('[data-carousel-image]');
     const counter = carousel.querySelector('[data-carousel-counter]');
-    const prevBtn = carousel.querySelector('[data-action="prev"]');
-    const nextBtn = carousel.querySelector('[data-action="next"]');
 
     function updateImage() {
       const slug = imagenes[currentIndex];
       image.src = `/productos/${slug}.png`;
-      counter.textContent = `${currentIndex + 1} / ${imagenes.length}`;
+      if (counter) {
+        counter.textContent = `${currentIndex + 1} / ${imagenes.length}`;
+      }
     }
 
-    function handlePrev(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      currentIndex = (currentIndex - 1 + imagenes.length) % imagenes.length;
-      updateImage();
-    }
+    function handleClick(e) {
+      const btn = e.target.closest('[data-action]');
+      if (!btn) return;
 
-    function handleNext(e) {
       e.preventDefault();
       e.stopPropagation();
-      currentIndex = (currentIndex + 1) % imagenes.length;
+
+      const action = btn.getAttribute('data-action');
+      if (action === 'prev') {
+        currentIndex = (currentIndex - 1 + imagenes.length) % imagenes.length;
+      } else if (action === 'next') {
+        currentIndex = (currentIndex + 1) % imagenes.length;
+      }
       updateImage();
     }
 
     function handleKeydown(e) {
       if (e.key === 'ArrowLeft') {
         e.preventDefault();
-        handlePrev();
+        currentIndex = (currentIndex - 1 + imagenes.length) % imagenes.length;
+        updateImage();
       } else if (e.key === 'ArrowRight') {
         e.preventDefault();
-        handleNext();
+        currentIndex = (currentIndex + 1) % imagenes.length;
+        updateImage();
       }
     }
 
-    prevBtn.addEventListener('click', handlePrev);
-    nextBtn.addEventListener('click', handleNext);
+    carousel.addEventListener('click', handleClick);
     carousel.addEventListener('keydown', handleKeydown);
-
-    // Cleanup
-    return () => {
-      prevBtn.removeEventListener('click', handlePrev);
-      nextBtn.removeEventListener('click', handleNext);
-      carousel.removeEventListener('keydown', handleKeydown);
-    };
   })();
 </script>
 
