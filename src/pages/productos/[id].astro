@@ -1,21 +1,16 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import StructuredData from '../../components/StructuredData.astro';
 import { productos } from '../../data/catalogo';
 
 export async function getStaticPaths() {
-  const productosCollection = await getCollection('productos');
-  return productosCollection.map(entry => ({
-    params: { id: entry.id },
-    props: { entry }
+  return productos.map(producto => ({
+    params: { id: producto.id },
+    props: { producto }
   }));
 }
 
-const { entry } = Astro.props;
-const { Content } = await entry.render();
-
-const producto = productos.find(p => p.id === entry.id);
+const { producto } = Astro.props;
 if (!producto) {
   return new Response('Not found', { status: 404 });
 }
@@ -31,7 +26,7 @@ const imagenUrl = `/productos/${producto.imagen}.png`;
 
 <BaseLayout
   title={`${producto.nombre} | New York Alimentos Premium`}
-  description={entry.data.descripcion_seo}
+  description={producto.descripcion_seo}
 >
   <StructuredData breadcrumbs={breadcrumbs} type="breadcrumb" />
   <StructuredData {producto} type="product" />
@@ -59,16 +54,16 @@ const imagenUrl = `/productos/${producto.imagen}.png`;
         <div class="detail-info">
           <div class="detail-meta">
             <span class="category-tag">
-              {entry.data.categoria_secundaria}
+              {producto.categoria_secundaria}
             </span>
             <span class="channel-tag">
-              {entry.data.categoria_primaria === 'supermarket' ? 'Supermercado' : 'Foodservice'}
+              {producto.categoria_primaria === 'supermarket' ? 'Supermercado' : 'Foodservice'}
             </span>
           </div>
 
           <h1>{producto.nombre}</h1>
 
-          <p class="seo-description">{entry.data.descripcion_seo}</p>
+          <p class="seo-description">{producto.descripcion_seo}</p>
 
           {producto.specs?.peso && (
             <div class="spec-highlight">
@@ -87,11 +82,11 @@ const imagenUrl = `/productos/${producto.imagen}.png`;
             </div>
           )}
 
-          {entry.data.palabras_clave && (
+          {producto.palabras_clave && (
             <div class="keywords">
               <strong>Etiquetas:</strong>
               <div class="tag-list">
-                {entry.data.palabras_clave.map(kw => (
+                {producto.palabras_clave.map(kw => (
                   <span class="tag">{kw}</span>
                 ))}
               </div>
@@ -101,7 +96,8 @@ const imagenUrl = `/productos/${producto.imagen}.png`;
       </div>
 
       <div class="detail-content">
-        <Content />
+        <h2>Descripción del Producto</h2>
+        <p>{producto.descripcion}</p>
       </div>
 
       {producto.specs && (

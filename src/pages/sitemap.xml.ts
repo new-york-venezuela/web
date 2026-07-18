@@ -1,4 +1,4 @@
-import { getCollection } from 'astro:content';
+import productosData from '../data/productos.json';
 
 export async function GET() {
   const baseUrl = 'https://alimentosnewyork.com';
@@ -12,10 +12,9 @@ export async function GET() {
     { url: '/solicitar-llamada/', priority: '0.7', changefreq: 'monthly' }
   ];
 
-  // Dynamic product routes
-  const productosCollection = await getCollection('productos');
-  const productRoutes = productosCollection.map(entry => ({
-    url: `/productos/${entry.id}/`,
+  // Dynamic product routes from JSON
+  const productRoutes = productosData.productos.map(producto => ({
+    url: `/productos/${producto.id}/`,
     priority: '0.8',
     changefreq: 'monthly'
   }));
