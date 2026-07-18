@@ -1,0 +1,516 @@
+/**
+ * generateProductsJSON.ts
+ *
+ * Generate complete productos.json with all 25 products and SEO metadata
+ */
+
+import fs from 'fs';
+import path from 'path';
+
+interface ProductData {
+  id: string;
+  nombre: string;
+  descripcion: string;
+  descripcion_seo: string;
+  categoria_primaria: 'supermarket' | 'foodservice';
+  categoria_secundaria: 'panes' | 'reposteria' | 'especialidades' | 'pizza';
+  imagen: string;
+  imagenAlt: string;
+  palabras_clave: string[];
+  destacado?: boolean;
+  precioRef?: number;
+  certificaciones: string[];
+  specs?: {
+    peso?: string;
+    codigo_barras?: string;
+    cpe?: string;
+    mpps?: string;
+    tiempoVida?: string;
+    temperatura?: string;
+  };
+  variantes_relacionadas?: string[];
+}
+
+const PRODUCTS: ProductData[] = [
+  {
+    id: 'pan-4-granos',
+    nombre: 'Pan 4 Granos',
+    descripcion: 'Elaborado con una combinación de harina de trigo, trigo entero molido, agua, granos enteros de linaza, avena, ajonjolí, girasol, sal, levadura y conservantes. Es 100% libre de azúcares y grasas añadidas.',
+    descripcion_seo: 'Pan integral de 4 granos con linaza, avena y ajonjolí. 100% libre de azúcares y grasas. Certificado Kosher Pat Israel. Ideal para dietas balanceadas.',
+    categoria_primaria: 'supermarket',
+    categoria_secundaria: 'panes',
+    imagen: 'pan-4-granos',
+    imagenAlt: 'Pan 4 Granos - panadería premium New York, Caracas, Venezuela',
+    palabras_clave: ['pan integral', 'pan 4 granos', 'pan sin azúcar', 'pan kosher', 'panadería New York Caracas'],
+    destacado: true,
+    precioRef: 3.5,
+    certificaciones: ['Kosher Pat Israel'],
+    specs: {
+      peso: '500 g',
+      codigo_barras: '7591348001031',
+      cpe: '0309165344',
+      mpps: 'A-67.733',
+      tiempoVida: '15 días',
+      temperatura: 'ambiente'
+    }
+  },
+  {
+    id: 'pan-7-cereales',
+    nombre: 'Pan 7 Cereales',
+    descripcion: 'Una mezcla artesanal de centeno, trigo, maíz, avena, quinoa, cebada y ajonjolí. Fuente de carbohidratos complejos, cero colesterol, bajo índice glicémico, cero grasas trans, rico en fibras solubles e insolubles.',
+    descripcion_seo: 'Pan integral de 7 cereales con centeno, trigo, maíz, avena, quinoa, cebada y ajonjolí. Bajo índice glucémico, rico en fibra. Kosher Pat Israel.',
+    categoria_primaria: 'supermarket',
+    categoria_secundaria: 'panes',
+    imagen: 'pan-7-cereales',
+    imagenAlt: 'Pan 7 Cereales - panadería artesanal New York, Caracas',
+    palabras_clave: ['pan 7 cereales', 'pan integral multicereales', 'pan bajo índice glucémico', 'pan sin colesterol', 'panadería artesanal Caracas'],
+    precioRef: 4.2,
+    certificaciones: ['Kosher Pat Israel'],
+    specs: {
+      peso: '600 g',
+      codigo_barras: '7591348000126',
+      cpe: '070115778',
+      mpps: 'A-88.120',
+      tiempoVida: '15 días',
+      temperatura: 'ambiente'
+    },
+    variantes_relacionadas: ['pan-4-granos']
+  },
+  {
+    id: 'pan-blanco-especial',
+    nombre: 'Pan Blanco Especial',
+    descripcion: 'Pan elaborado con harina de trigo refinada de alta calidad, proporcionando una miga ligera y esponjosa. Excelente opción para quienes requieren una fuente rápida de energía.',
+    descripcion_seo: 'Pan blanco especial de sandwich esponjoso de alta calidad. Miga ligera perfecta para sándwiches. Panadería premium New York.',
+    categoria_primaria: 'supermarket',
+    categoria_secundaria: 'panes',
+    imagen: 'pan-blanco-especial',
+    imagenAlt: 'Pan Blanco Especial - pan de sandwich esponjoso, Caracas',
+    palabras_clave: ['pan blanco', 'pan de sandwich', 'pan esponjoso', 'panadería New York', 'pan premium'],
+    precioRef: 3.8,
+    certificaciones: ['Kosher Pat Israel'],
+    specs: {
+      peso: '600 g',
+      codigo_barras: '7591348001123',
+      cpe: '1018454715',
+      mpps: 'A-125.841',
+      tiempoVida: '15 días',
+      temperatura: 'ambiente'
+    }
+  },
+  {
+    id: 'pan-uvas-pasas-miel-canela',
+    nombre: 'Pan Uvas Pasas, Miel y Canela',
+    descripcion: 'Pan integral que incorpora pasas, miel y canela. La miel actúa como prebiótico favoreciendo la flora intestinal, mientras que la canela ayuda a regular los niveles de azúcar en la sangre.',
+    descripcion_seo: 'Pan integral dulce con uvas pasas, miel y canela. Prebiótico natural. Regula niveles de azúcar. Panadería premium Caracas.',
+    categoria_primaria: 'supermarket',
+    categoria_secundaria: 'panes',
+    imagen: 'pan-uvas-pasas-miel-canela',
+    imagenAlt: 'Pan Uvas Pasas Miel y Canela - pan integral dulce, New York',
+    palabras_clave: ['pan integral', 'pan con pasas', 'pan con miel y canela', 'pan prebiótico', 'panadería New York'],
+    precioRef: 4.5,
+    certificaciones: ['Kosher Pat Israel'],
+    specs: {
+      peso: '600 g',
+      codigo_barras: '7591348000119',
+      cpe: '090563823',
+      mpps: 'A-50.167',
+      tiempoVida: '15 días',
+      temperatura: 'ambiente'
+    }
+  },
+  {
+    id: 'magdalenas',
+    nombre: 'Magdalenas',
+    descripcion: 'Magdalenas inspiradas en la receta clásica del ponqué español, con una miga esponjosa y un delicado aroma a limón. Individualmente empacadas, ideales para la lonchera escolar, la oficina o la playa.',
+    descripcion_seo: 'Magdalenas artesanales de limón, ponquecitos esponjosos. Empacadas individualmente para lonchera. Panadería premium New York Caracas.',
+    categoria_primaria: 'supermarket',
+    categoria_secundaria: 'reposteria',
+    imagen: 'magdalenas',
+    imagenAlt: 'Magdalenas - ponquecitos de limón artesanales, New York',
+    palabras_clave: ['magdalenas', 'ponquecitos', 'ponqué de limón', 'repostería artesanal', 'panadería premium'],
+    precioRef: 5.0,
+    certificaciones: ['Producto Kosher'],
+    specs: {
+      peso: '10x45g',
+      codigo_barras: '7591348000232',
+      cpe: '090563822',
+      mpps: 'A-55.587',
+      tiempoVida: '3 meses',
+      temperatura: 'ambiente'
+    }
+  },
+  {
+    id: 'pan-pumpernickel',
+    nombre: 'Pan Pumpernickel',
+    descripcion: 'Elaborado exclusivamente con granos enteros de centeno 100% orgánicos y con masa madre natural. Excelente opción para regular el metabolismo y mejorar la salud digestiva. Su bajo índice glucémico lo hace ideal para personas con resistencia a la insulina o diabetes.',
+    descripcion_seo: 'Pan Pumpernickel 100% centeno orgánico con masa madre. Bajo índice glucémico. Ideal para diabetes. Panadería premium Caracas.',
+    categoria_primaria: 'supermarket',
+    categoria_secundaria: 'panes',
+    imagen: 'pan-pumpernickel',
+    imagenAlt: 'Pan Pumpernickel - pan de centeno 100% orgánico, New York',
+    palabras_clave: ['pan pumpernickel', 'pan de centeno', 'pan orgánico', 'pan bajo índice glucémico', 'panadería premium'],
+    precioRef: 3.2,
+    certificaciones: ['Kosher Pat Israel'],
+    specs: {
+      peso: '210 g',
+      codigo_barras: '7591348000188',
+      cpe: '090563824',
+      mpps: 'A-54.179',
+      tiempoVida: '3 meses',
+      temperatura: 'ambiente'
+    }
+  },
+  {
+    id: 'pan-molido-especial',
+    nombre: 'Pan Molido Especial',
+    descripcion: 'A diferencia de otros panes rallados que provienen del reciclaje de pan sobrante, nuestro producto es elaborado específicamente para ser molido, garantizando frescura, uniformidad y una textura ideal para rebozados, gratinados y mezclas culinarias.',
+    descripcion_seo: 'Pan rallado artesanal molido especialmente. Fresco y uniforme. Ideal para rebozados y gratinados. Panadería premium New York.',
+    categoria_primaria: 'supermarket',
+    categoria_secundaria: 'reposteria',
+    imagen: 'pan-molido-especial',
+    imagenAlt: 'Pan Molido Especial - pan rallado artesanal, New York',
+    palabras_clave: ['pan rallado', 'pan molido', 'rebozos', 'gratinados', 'panadería premium'],
+    precioRef: 2.0,
+    certificaciones: ['Kosher Pat Israel'],
+    specs: {
+      peso: '300 g',
+      codigo_barras: '7591348000171',
+      cpe: '090563817',
+      mpps: 'A-50.611',
+      tiempoVida: '12 meses',
+      temperatura: 'ambiente'
+    }
+  },
+  {
+    id: 'baguettes-precocida-comercial',
+    nombre: 'Baguettes Precocida Congelada - Comercial',
+    descripcion: 'Baguettes precocidas congeladas que combinan la tradición artesanal con la comodidad moderna. Elaboradas con masa madre, ofrecen una corteza crujiente y una miga aireada. Disponibles en tres tamaños: 32 cm, 21 cm y 11 cm.',
+    descripcion_seo: 'Baguettes precocidas congeladas artesanales. Empaque comercial retail. Tres tamaños (32/21/11 cm). Panadería premium New York.',
+    categoria_primaria: 'supermarket',
+    categoria_secundaria: 'panes',
+    imagen: 'baguettes-precocida-comercial',
+    imagenAlt: 'Baguettes Precocidas - empaque comercial, panadería New York',
+    palabras_clave: ['baguettes', 'baguette congelada', 'pan francés', 'precocido', 'panadería New York'],
+    precioRef: 2.5,
+    certificaciones: ['Kosher Pat Israel'],
+    specs: {
+      peso: '225 g',
+      codigo_barras: '7591348001116',
+      cpe: '1118457183',
+      mpps: 'A-50-166',
+      tiempoVida: '9 meses',
+      temperatura: '-18°C'
+    }
+  },
+  {
+    id: 'baguettes-precocida-foodservice',
+    nombre: 'Baguettes Precocida Congelada - Foodservice',
+    descripcion: 'Baguettes precocidas congeladas para servicio profesional. Elaboradas con masa madre, ofrecen corteza crujiente y miga aireada. Formato bulk/bolsa sin empaque especial.',
+    descripcion_seo: 'Baguettes precocidas congeladas formato foodservice. Bulk. Restaurantes y catering. Panadería premium Caracas.',
+    categoria_primaria: 'foodservice',
+    categoria_secundaria: 'panes',
+    imagen: 'baguettes-precocida-foodservice',
+    imagenAlt: 'Baguettes Precocidas - formato foodservice, panadería New York',
+    palabras_clave: ['baguettes foodservice', 'baguette congelada restaurante', 'pan francés catering', 'bulk', 'panadería profesional'],
+    precioRef: 2.4,
+    certificaciones: ['Kosher Pat Israel'],
+    specs: {
+      peso: '225 g',
+      codigo_barras: '7591348001116',
+      cpe: '1118457183',
+      mpps: 'A-50-166',
+      tiempoVida: '9 meses',
+      temperatura: '-18°C'
+    }
+  },
+  {
+    id: 'pizza-margarita-premium',
+    nombre: 'Pizza Margarita Premium',
+    descripcion: 'Pizza artesanal precocida premium con masa de fermentación lenta. Ingredientes de alta calidad con harina de trigo seleccionada y fermentación natural. Sabor auténtico con digestión más ligera.',
+    descripcion_seo: 'Pizza Margarita Premium artesanal congelada. Fermentación lenta. Ingredientes seleccionados. Panadería premium New York.',
+    categoria_primaria: 'supermarket',
+    categoria_secundaria: 'pizza',
+    imagen: 'pizza-margarita-premium',
+    imagenAlt: 'Pizza Margarita Premium - pizza congelada artesanal, New York',
+    palabras_clave: ['pizza margarita', 'pizza congelada', 'pizza premium', 'pizza artesanal', 'panadería New York'],
+    destacado: true,
+    precioRef: 8.5,
+    certificaciones: ['Producto Premium'],
+    specs: {
+      peso: '2 Uds - 550g',
+      codigo_barras: '7591348000263',
+      cpe: '0410191278',
+      mpps: 'A-101.811',
+      tiempoVida: '9 meses',
+      temperatura: '-18°C'
+    },
+    variantes_relacionadas: ['pizza-margarita-clasica', 'pizza-americana']
+  },
+  {
+    id: 'pizza-margarita-clasica',
+    nombre: 'Pizza Margarita Clásica',
+    descripcion: 'Pizza margarita estándar, precocida y congelada. Masa artesanal con fermentación natural. Auténtica receta italiana: tomate, queso y albahaca.',
+    descripcion_seo: 'Pizza Margarita Clásica congelada. Receta italiana auténtica. Masa fermentada natural. Panadería premium Caracas.',
+    categoria_primaria: 'supermarket',
+    categoria_secundaria: 'pizza',
+    imagen: 'pizza-margarita-premium',
+    imagenAlt: 'Pizza Margarita - pizza congelada tradicional, New York',
+    palabras_clave: ['pizza margarita', 'pizza italiana', 'pizza congelada', 'pizza tradicional', 'panadería premium'],
+    precioRef: 8.0,
+    certificaciones: ['Producto Premium'],
+    specs: {
+      peso: '2 Uds - 550g',
+      codigo_barras: '7591348000195',
+      cpe: '090563818',
+      mpps: 'A-53.967',
+      tiempoVida: '9 meses',
+      temperatura: '-18°C'
+    },
+    variantes_relacionadas: ['pizza-margarita-premium', 'pizza-americana']
+  },
+  {
+    id: 'pizza-americana',
+    nombre: 'Pizza Americana',
+    descripcion: 'Pizza con los sabores clásicos americanos, precocida y congelada. Masa artesanal de fermentación lenta con ingredientes seleccionados.',
+    descripcion_seo: 'Pizza Americana congelada. Sabores americanos. Masa artesanal fermentada. Panadería premium New York Caracas.',
+    categoria_primaria: 'supermarket',
+    categoria_secundaria: 'pizza',
+    imagen: 'pizza-margarita-premium',
+    imagenAlt: 'Pizza Americana - pizza congelada con toque americano, New York',
+    palabras_clave: ['pizza americana', 'pizza congelada', 'pizza artesanal', 'pizza premium', 'panadería New York'],
+    precioRef: 9.0,
+    certificaciones: ['Producto Premium'],
+    specs: {
+      peso: '2 Uds - 650g',
+      codigo_barras: '7591348000225',
+      cpe: '090563819',
+      mpps: 'A-53.968',
+      tiempoVida: '9 meses',
+      temperatura: '-18°C'
+    },
+    variantes_relacionadas: ['pizza-margarita-premium', 'pizza-margarita-clasica']
+  },
+  {
+    id: 'torta-queso-new-york-fresa',
+    nombre: 'Torta de Queso New York - Fresa',
+    descripcion: 'Cheesecake estilo New York que combina la suavidad de un queso crema premium con una base delicada. Cubierta con mermelada de fresa artesanal. Perfecto balance entre dulzura y textura cremosa en cada bocado.',
+    descripcion_seo: 'Cheesecake New York Fresa congelada. Queso crema premium. Mermelada artesanal. Postre gourmet Caracas.',
+    categoria_primaria: 'supermarket',
+    categoria_secundaria: 'reposteria',
+    imagen: 'torta-queso-new-york-fresa',
+    imagenAlt: 'Torta de Queso New York con Fresa - cheesecake premium, Caracas',
+    palabras_clave: ['cheesecake', 'torta de queso', 'cheesecake fresa', 'postre premium', 'repostería Caracas'],
+    destacado: true,
+    precioRef: 12.0,
+    certificaciones: ['Producto Premium'],
+    specs: {
+      peso: '700g',
+      codigo_barras: '7591348000010',
+      cpe: '090563813',
+      mpps: 'A-33.454',
+      tiempoVida: '9 meses',
+      temperatura: '-18°C'
+    },
+    variantes_relacionadas: ['torta-queso-new-york-chocolate']
+  },
+  {
+    id: 'torta-queso-new-york-chocolate',
+    nombre: 'Torta de Queso New York - Chocolate',
+    descripcion: 'Cheesecake estilo New York con queso crema premium y cobertura de chocolate intenso. Equilibrio perfecto entre dulzura y textura cremosa, elegante presentación.',
+    descripcion_seo: 'Cheesecake New York Chocolate. Cobertura chocolate intenso. Queso crema premium. Postre gourmet premium.',
+    categoria_primaria: 'supermarket',
+    categoria_secundaria: 'reposteria',
+    imagen: 'torta-queso-new-york-fresa',
+    imagenAlt: 'Torta de Queso New York con Chocolate - cheesecake premium, Caracas',
+    palabras_clave: ['cheesecake', 'torta de queso', 'cheesecake chocolate', 'postre premium', 'repostería gourmet'],
+    destacado: true,
+    precioRef: 12.0,
+    certificaciones: ['Producto Premium'],
+    specs: {
+      peso: '700g',
+      codigo_barras: '7591348000027',
+      cpe: '090563812',
+      mpps: 'A-34.281',
+      tiempoVida: '9 meses',
+      temperatura: '-18°C'
+    },
+    variantes_relacionadas: ['torta-queso-new-york-fresa']
+  },
+  {
+    id: 'torta-queso-new-york-comercial-fresa',
+    nombre: 'Torta de Queso New York Comercial - Fresa',
+    descripcion: 'Cheesecake estilo New York grande para restaurantes y cafeterías. Hecha con queso crema de la más alta calidad sobre una base de galleta artesanal especiada. Textura suave, densa y equilibrada. Cubierta con mermelada de fresa artesanal.',
+    descripcion_seo: 'Cheesecake New York Comercial 1500g Fresa. Hostelería. Restaurantes. Panadería premium Caracas.',
+    categoria_primaria: 'foodservice',
+    categoria_secundaria: 'reposteria',
+    imagen: 'torta-queso-comercial',
+    imagenAlt: 'Torta de Queso New York Comercial - cheesecake grande para hostelería, Caracas',
+    palabras_clave: ['cheesecake comercial', 'torta grande', 'restaurante', 'hostelería', 'repostería professional'],
+    precioRef: 22.0,
+    certificaciones: ['Producto Premium'],
+    specs: {
+      peso: '1500g',
+      tiempoVida: '9 meses',
+      temperatura: '-18°C'
+    },
+    variantes_relacionadas: ['torta-queso-new-york-comercial-chocolate', 'torta-queso-new-york-comercial-plain']
+  },
+  {
+    id: 'torta-queso-new-york-comercial-chocolate',
+    nombre: 'Torta de Queso New York Comercial - Chocolate',
+    descripcion: 'Cheesecake estilo New York grande para hostelería. Queso crema premium sobre base de galleta especiada. Cubierta con chocolate premium. Ideal para restaurantes, eventos y vitrinas de pastelería.',
+    descripcion_seo: 'Cheesecake New York Comercial 1500g Chocolate. Hostelería. Restaurantes catering. Panadería premium.',
+    categoria_primaria: 'foodservice',
+    categoria_secundaria: 'reposteria',
+    imagen: 'torta-queso-comercial',
+    imagenAlt: 'Torta de Queso New York Comercial Chocolate - cheesecake hostelería, Caracas',
+    palabras_clave: ['cheesecake comercial', 'torta chocolate', 'restaurante', 'hostelería', 'repostería profesional'],
+    precioRef: 22.0,
+    certificaciones: ['Producto Premium'],
+    specs: {
+      peso: '1500g',
+      tiempoVida: '9 meses',
+      temperatura: '-18°C'
+    },
+    variantes_relacionadas: ['torta-queso-new-york-comercial-fresa', 'torta-queso-new-york-comercial-plain']
+  },
+  {
+    id: 'torta-queso-new-york-comercial-plain',
+    nombre: 'Torta de Queso New York Comercial - Plain',
+    descripcion: 'Cheesecake estilo New York grande sin cobertura, ideal para clientes que deseen personalizar la base. Queso crema premium sobre base de galleta artesanal especiada. Formato perfecto para restaurantes con coberturas personalizadas.',
+    descripcion_seo: 'Cheesecake New York Comercial 1500g Plain sin cobertura. Hostelería personalizada. Panadería premium Caracas.',
+    categoria_primaria: 'foodservice',
+    categoria_secundaria: 'reposteria',
+    imagen: 'torta-queso-comercial',
+    imagenAlt: 'Torta de Queso New York Comercial Plain - cheesecake sin cobertura, Caracas',
+    palabras_clave: ['cheesecake plain', 'cheesecake sin cobertura', 'restaurante', 'hostelería', 'repostería profesional'],
+    precioRef: 20.0,
+    certificaciones: ['Producto Premium'],
+    specs: {
+      peso: '1300g',
+      tiempoVida: '9 meses',
+      temperatura: '-18°C'
+    },
+    variantes_relacionadas: ['torta-queso-new-york-comercial-fresa', 'torta-queso-new-york-comercial-chocolate']
+  },
+  {
+    id: 'pan-hamburguesa-new-york',
+    nombre: 'Pan de Hamburguesa - New York',
+    descripcion: 'Pan de hamburguesa con textura esponjosa de miga suave. Resistente a rellenos y salsas sin perder su forma. Versión clásica New York con topping de ajonjolí que realza su sabor.',
+    descripcion_seo: 'Pan de hamburguesa New York esponjoso con ajonjolí. Miga suave. Resistente salsas. Panadería premium Caracas.',
+    categoria_primaria: 'supermarket',
+    categoria_secundaria: 'panes',
+    imagen: 'pan-hamburguesa-new-york',
+    imagenAlt: 'Pan de Hamburguesa New York - pan esponjoso con ajonjolí, Caracas',
+    palabras_clave: ['pan hamburguesa', 'pan esponjoso', 'pan ajonjolí', 'panadería New York', 'pan artesanal'],
+    precioRef: 1.5,
+    certificaciones: ['Producto Kosher'],
+    variantes_relacionadas: ['pan-hamburguesa-brioche']
+  },
+  {
+    id: 'pan-hamburguesa-brioche',
+    nombre: 'Pan de Hamburguesa - Brioche',
+    descripcion: 'Pan de hamburguesa brioche con miga esponjosa y suave. Versión brioche sin topping. La miga tiene memoria que garantiza una llamativa presentación. Resistente a rellenos y salsas.',
+    descripcion_seo: 'Pan de hamburguesa Brioche esponjoso. Miga con memoria. Sin topping. Panadería premium New York.',
+    categoria_primaria: 'supermarket',
+    categoria_secundaria: 'panes',
+    imagen: 'pan-hamburguesa-new-york',
+    imagenAlt: 'Pan de Hamburguesa Brioche - pan esponjoso sin topping, Caracas',
+    palabras_clave: ['pan brioche', 'pan hamburguesa', 'pan esponjoso', 'panadería premium', 'pan artesanal'],
+    precioRef: 1.5,
+    certificaciones: ['Producto Kosher'],
+    variantes_relacionadas: ['pan-hamburguesa-new-york']
+  },
+  {
+    id: 'baguettes-demi-mini',
+    nombre: 'Baguettes Demi/Mini',
+    descripcion: 'Baguettes con corteza crujiente e interior aireado. Disponibles en tres tamaños: 32 cm, 21 cm y 11 cm. Versión plain ideal para pepitos y sándwiches, versión con topping (orégano o ajonjolí) para más sabor.',
+    descripcion_seo: 'Baguettes Mini Demi artesanales crujientes. Tres tamaños (32/21/11 cm). Plain o con topping. Panadería New York.',
+    categoria_primaria: 'supermarket',
+    categoria_secundaria: 'panes',
+    imagen: 'baguettes-demi-mini',
+    imagenAlt: 'Baguettes Demi/Mini - panes crujientes en tres tamaños, New York',
+    palabras_clave: ['baguettes', 'baguette mini', 'demi baguette', 'pan francés', 'panadería artesanal'],
+    precioRef: 1.8,
+    certificaciones: ['Kosher Pat Israel']
+  },
+  {
+    id: 'croissants',
+    nombre: 'Croissants y Petit Croissants',
+    descripcion: 'Croissants de técnica, tiempo y mantequilla 100% de calidad superior. Corteza dorada que cruje al primer contacto e interior alveolado, ligero y profundo en sabor. Sin conservantes. Disponibles en tamaño estándar (80g) y petit (25g).',
+    descripcion_seo: 'Croissants artesanales hojaldre francés 100% mantequilla. Sin conservantes. Dos tamaños. Panadería premium Caracas.',
+    categoria_primaria: 'supermarket',
+    categoria_secundaria: 'reposteria',
+    imagen: 'croissants',
+    imagenAlt: 'Croissants y Petit Croissants - hojaldre francés artesanal, New York',
+    palabras_clave: ['croissants', 'hojaldre', 'pan francés', 'mantequilla', 'panadería artesanal'],
+    precioRef: 2.2,
+    certificaciones: []
+  },
+  {
+    id: 'bagels-new-york-plain',
+    nombre: 'Bagels estilo New York - Plain',
+    descripcion: 'Auténticos bagels estilo New York elaborados bajo el proceso genuino de escaldado y horneado. Miga densa y masticable, sabor clásico pero lleno de sabor. Versión plain sin toppings.',
+    descripcion_seo: 'Bagels New York Plain auténticos escaldados. Miga densa masticable. Panadería premium Caracas.',
+    categoria_primaria: 'supermarket',
+    categoria_secundaria: 'especialidades',
+    imagen: 'bagels-new-york-plain',
+    imagenAlt: 'Bagels estilo New York Plain - bagel auténtico escaldado, Caracas',
+    palabras_clave: ['bagels', 'bagel new york', 'pan escaldado', 'miga densa', 'panadería artesanal'],
+    precioRef: 1.5,
+    certificaciones: ['Kosher Pat Israel'],
+    variantes_relacionadas: ['bagels-new-york-ajonjoli', 'bagels-new-york-everything']
+  },
+  {
+    id: 'bagels-new-york-ajonjoli',
+    nombre: 'Bagels estilo New York - Ajonjolí',
+    descripcion: 'Bagels estilo New York con cobertura de ajonjolí. Escaldados y horneados auténticamente. Crunch y toque tostado sutil. Miga densa y masticable.',
+    descripcion_seo: 'Bagels New York Ajonjolí con topping. Escaldados auténticos. Miga densa. Panadería premium New York.',
+    categoria_primaria: 'supermarket',
+    categoria_secundaria: 'especialidades',
+    imagen: 'bagels-new-york-plain',
+    imagenAlt: 'Bagels estilo New York Ajonjolí - bagel con topping, Caracas',
+    palabras_clave: ['bagels', 'bagel ajonjolí', 'pan escaldado', 'sesame bagel', 'panadería artesanal'],
+    precioRef: 1.6,
+    certificaciones: ['Kosher Pat Israel'],
+    variantes_relacionadas: ['bagels-new-york-plain', 'bagels-new-york-everything']
+  },
+  {
+    id: 'bagels-new-york-everything',
+    nombre: 'Bagels estilo New York - Everything',
+    descripcion: 'Bagels estilo New York con mezcla aromática everything: sésamo, amapola, ajo y cebolla deshidratada. Diseñados para escalar tu menú al siguiente nivel. Auténtica receta escaldada y horneada.',
+    descripcion_seo: 'Bagels New York Everything múltiples toppings. Sésamo amapola ajo cebolla. Panadería premium Caracas.',
+    categoria_primaria: 'supermarket',
+    categoria_secundaria: 'especialidades',
+    imagen: 'bagels-new-york-plain',
+    imagenAlt: 'Bagels estilo New York Everything - bagel con múltiples toppings, Caracas',
+    palabras_clave: ['bagels', 'bagel everything', 'sésamo amapola', 'pan escaldado', 'panadería artesanal'],
+    destacado: true,
+    precioRef: 1.8,
+    certificaciones: ['Kosher Pat Israel'],
+    variantes_relacionadas: ['bagels-new-york-plain', 'bagels-new-york-ajonjoli']
+  },
+  {
+    id: 'pan-1700',
+    nombre: 'Pan 1700',
+    descripcion: 'El Pan 1700 es una versión ampliada del Pan Blanco Especial, manteniendo su suavidad y equilibrio perfecto entre miga esponjosa y corteza delicada. Ideal para sector de restauración, eventos o familias. Rinde 40 rebanadas. Disponible en versión brioche estilo Hokkaido.',
+    descripcion_seo: 'Pan 1700 grande blanco esponjoso. Hostelería eventos familias. 40 rebanadas. Panadería premium New York.',
+    categoria_primaria: 'foodservice',
+    categoria_secundaria: 'panes',
+    imagen: 'pan-1700',
+    imagenAlt: 'Pan 1700 - pan blanco grande formato hostelería, Caracas',
+    palabras_clave: ['pan 1700', 'pan grande', 'pan blanco', 'panadería profesional', 'pan hostelería'],
+    precioRef: 8.0,
+    certificaciones: ['Kosher Pat Israel']
+  }
+];
+
+export function generateProductsJSON() {
+  return { productos: PRODUCTS };
+}
+
+// Main execution
+if (import.meta.url === `file://${process.argv[1]}`) {
+  const output = generateProductsJSON();
+  console.log(JSON.stringify(output, null, 2));
+}

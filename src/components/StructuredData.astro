@@ -1,0 +1,27 @@
+---
+import { generateProductSchema, generateBreadcrumbSchema, generateLocalBusinessSchema } from '../utils/generateProductMetadata';
+import type { Producto } from '../utils/generateProductMetadata';
+
+interface Props {
+  producto?: Producto;
+  breadcrumbs?: Array<{ name: string; url: string }>;
+  type?: 'product' | 'breadcrumb' | 'organization';
+}
+
+const { producto, breadcrumbs, type = 'product' } = Astro.props;
+const baseUrl = Astro.url.origin;
+
+let schema = '';
+
+if (type === 'product' && producto) {
+  schema = generateProductSchema(producto, baseUrl);
+} else if (type === 'breadcrumb' && breadcrumbs) {
+  schema = generateBreadcrumbSchema(breadcrumbs, baseUrl);
+} else if (type === 'organization') {
+  schema = generateLocalBusinessSchema(baseUrl);
+}
+---
+
+{schema && (
+  <script type="application/ld+json" set:html={schema} />
+)}
