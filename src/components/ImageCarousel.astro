@@ -14,14 +14,6 @@ if (!imagenes || imagenes.length === 0) {
 ---
 
 <div class:list={['carousel', className]}>
-  <button
-    class="carousel__button carousel__button--prev"
-    aria-label="Previous image"
-    data-action="prev"
-  >
-    ←
-  </button>
-
   <div class="carousel__viewport">
     <img
       src={`/productos/${imagenes[0]}.png`}
@@ -29,18 +21,30 @@ if (!imagenes || imagenes.length === 0) {
       class="carousel__image"
       data-carousel-image
     />
-  </div>
 
-  <button
-    class="carousel__button carousel__button--next"
-    aria-label="Next image"
-    data-action="next"
-  >
-    →
-  </button>
+    {imagenes.length > 1 && (
+      <>
+        <button
+          class="carousel__button carousel__button--prev"
+          aria-label="Previous image"
+          data-action="prev"
+        >
+          ←
+        </button>
 
-  <div class="carousel__counter" data-carousel-counter>
-    1 / {imagenes.length}
+        <button
+          class="carousel__button carousel__button--next"
+          aria-label="Next image"
+          data-action="next"
+        >
+          →
+        </button>
+
+        <div class="carousel__counter" data-carousel-counter>
+          1 / {imagenes.length}
+        </div>
+      </>
+    )}
   </div>
 </div>
 
@@ -101,13 +105,11 @@ if (!imagenes || imagenes.length === 0) {
 
 <style>
   .carousel {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-s);
-    align-items: center;
+    width: 100%;
   }
 
   .carousel__viewport {
+    position: relative;
     width: 100%;
     aspect-ratio: 5 / 4;
     overflow: hidden;
@@ -130,91 +132,49 @@ if (!imagenes || imagenes.length === 0) {
   }
 
   .carousel__button {
-    background: transparent;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
     border: none;
-    color: var(--color-charcoal);
-    font-size: 1.5rem;
+    color: white;
+    font-size: 1.75rem;
     cursor: pointer;
-    padding: 0.5rem;
+    padding: 0.5rem 0.75rem;
     line-height: 1;
-    transition: color 0.2s ease;
+    border-radius: 0.25rem;
+    transition: background-color 0.2s ease;
+    z-index: 10;
   }
 
   .carousel__button:hover {
-    color: var(--color-accent);
+    background-color: rgba(0, 0, 0, 0.7);
   }
 
   .carousel__button:focus {
-    outline: 2px solid var(--color-charcoal);
+    outline: 2px solid white;
     outline-offset: 2px;
   }
 
+  .carousel__button--prev {
+    left: 0.5rem;
+  }
+
+  .carousel__button--next {
+    right: 0.5rem;
+  }
+
   .carousel__counter {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
     font-size: 0.875rem;
-    color: var(--color-charcoal-soft);
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    z-index: 10;
   }
 
-  /* Mobile: buttons stack below image */
-  @media (max-width: 39.9375rem) {
-    .carousel {
-      gap: var(--space-s);
-    }
-
-    .carousel__button {
-      order: 2;
-    }
-
-    .carousel__button--prev {
-      margin-right: var(--space-s);
-    }
-
-    .carousel__button--next {
-      margin-left: var(--space-s);
-    }
-
-    .carousel__counter {
-      order: 3;
-    }
-
-    .carousel__viewport {
-      order: 1;
-    }
-
-    /* Buttons side-by-side on mobile */
-    .carousel {
-      align-items: center;
-    }
-  }
-
-  /* Desktop: buttons flank image horizontally */
-  @media (min-width: 40rem) {
-    .carousel {
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .carousel__viewport {
-      flex: 0 1 auto;
-      max-width: 100%;
-    }
-
-    .carousel__button {
-      flex-shrink: 0;
-    }
-
-    .carousel__button--prev {
-      order: 1;
-      margin-right: var(--space-m);
-    }
-
-    .carousel__viewport {
-      order: 2;
-    }
-
-    .carousel__button--next {
-      order: 3;
-      margin-left: var(--space-m);
-    }
-  }
 </style>

@@ -1,5 +1,6 @@
 ---
 import type { Producto } from '../data/catalogo';
+import ImageCarousel from './ImageCarousel.astro';
 
 interface Props {
   producto: Producto;
@@ -15,12 +16,18 @@ const categoriasSecundarias: Record<string, string> = {
 };
 
 const imagenUrl = `/productos/${producto.imagen}.png`;
+const imagenes = producto.imagenes || [producto.imagen];
+const tieneMultiplesImagenes = imagenes.length > 1;
 ---
 
 <article class="card">
   <a href={`/productos/${producto.id}/`} class="card-link">
     <div class="card__media">
-      <img src={imagenUrl} alt={producto.imagenAlt || producto.nombre} loading="lazy" />
+      {tieneMultiplesImagenes ? (
+        <ImageCarousel imagenes={imagenes} alt={producto.imagenAlt || producto.nombre} />
+      ) : (
+        <img src={imagenUrl} alt={producto.imagenAlt || producto.nombre} loading="lazy" />
+      )}
     </div>
     <div class="card__body">
       <span class="card__tag">{categoriasSecundarias[producto.categoria_secundaria] || producto.categoria_secundaria}</span>
