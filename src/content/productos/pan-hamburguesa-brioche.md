@@ -1,7 +1,7 @@
 ---
 title: "Pan de Hamburguesa - Brioche"
 id: "pan-hamburguesa-brioche"
-descripcion_seo: "Pan de hamburguesa Brioche esponjoso. Miga con memoria. Sin topping. Panadería premium New York."
+descripcion_seo: "Pan de hamburguesa Brioche esponjoso con miga de calidad premium. Miga con memoria que garantiza presentación. Sin topping. Panadería New York."
 palabras_clave: ["pan brioche","pan hamburguesa","pan esponjoso","panadería premium","pan artesanal"]
 categoria_primaria: "supermarket"
 categoria_secundaria: "panes"

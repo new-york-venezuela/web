@@ -1,7 +1,7 @@
 ---
 title: "Torta de Queso New York Comercial - Fresa"
 id: "torta-queso-new-york-comercial-fresa"
-descripcion_seo: "Cheesecake New York Comercial 1500g Fresa. Hostelería. Restaurantes. Panadería premium Caracas."
+descripcion_seo: "Cheesecake New York Comercial 1500g con cubierta de fresa. Ideal para hostelería y restaurantes profesionales. Panadería premium Caracas."
 palabras_clave: ["cheesecake comercial","torta grande","restaurante","hostelería","repostería professional"]
 categoria_primaria: "foodservice"
 categoria_secundaria: "reposteria"

@@ -1,7 +1,7 @@
 ---
 title: "Bagels estilo New York - Plain"
 id: "bagels-new-york-plain"
-descripcion_seo: "Bagels New York Plain auténticos escaldados. Miga densa masticable. Panadería premium Caracas."
+descripcion_seo: "Bagels estilo New York Plain auténticos escaldados. Miga densa y masticable. Panadería premium especializada en Caracas, Venezuela."
 palabras_clave: ["bagels","bagel new york","pan escaldado","miga densa","panadería artesanal"]
 categoria_primaria: "supermarket"
 categoria_secundaria: "especialidades"
