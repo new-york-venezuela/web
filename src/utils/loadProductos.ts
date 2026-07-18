@@ -9,6 +9,7 @@ export interface Producto {
   categoria_secundaria: 'panes' | 'reposteria' | 'especialidades' | 'pizza';
   imagen: string; // slug, no extension (e.g., "pan-4-granos")
   imagenAlt?: string;
+  imagenes?: string[]; // multiple images for carousel (product + variants)
   palabras_clave?: string[]; // 5-7 Spanish keywords
   destacado?: boolean;
   precioRef?: number;
@@ -95,6 +96,17 @@ export function validateProducto(producto: any): producto is Producto {
     }
     if (!producto.variantes_relacionadas.every((id: any) => typeof id === 'string')) {
       throw new Error(`Producto ${producto.id}: todos los elementos de variantes_relacionadas deben ser strings`);
+    }
+  }
+  if (producto.imagenes !== undefined) {
+    if (!Array.isArray(producto.imagenes)) {
+      throw new Error(`Producto ${producto.id}: imagenes debe ser array`);
+    }
+    if (producto.imagenes.length < 1) {
+      throw new Error(`Producto ${producto.id}: imagenes debe contener al menos 1 imagen`);
+    }
+    if (!producto.imagenes.every((img: any) => typeof img === 'string')) {
+      throw new Error(`Producto ${producto.id}: todos los elementos de imagenes deben ser strings`);
     }
   }
   return true;
