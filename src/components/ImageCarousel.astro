@@ -68,9 +68,6 @@ if (!imagenes || imagenes.length === 0) {
 
     function handleButtonClick(e) {
       e.preventDefault();
-      e.stopPropagation();
-      e.stopImmediatePropagation();
-
       const action = this.getAttribute('data-action');
       if (action === 'prev') {
         currentIndex = (currentIndex - 1 + imagenes.length) % imagenes.length;
@@ -92,10 +89,10 @@ if (!imagenes || imagenes.length === 0) {
       }
     }
 
-    // Attach click handlers directly to buttons with capture phase
+    // Attach click handlers to buttons
     const buttons = carousel.querySelectorAll('[data-action]');
     buttons.forEach(btn => {
-      btn.addEventListener('click', handleButtonClick, true);
+      btn.addEventListener('click', handleButtonClick);
     });
 
     carousel.addEventListener('keydown', handleKeydown);
