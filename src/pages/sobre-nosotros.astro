@@ -129,4 +129,21 @@ import CTASection from '../components/CTASection.astro';
     font-size: 0.85rem;
     letter-spacing: 0.05em;
   }
+
+  .ig-video-wrapper {
+    margin: var(--space-xl) 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .ig-video-wrapper iframe {
+    max-width: 550px;
+    border-radius: 8px;
+  }
+
+  @media (max-width: 640px) {
+    .ig-video-wrapper iframe {
+      height: 500px !important;
+    }
+  }
 </style>
