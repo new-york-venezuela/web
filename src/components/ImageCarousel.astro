@@ -94,6 +94,7 @@ if (!imagenes || imagenes.length === 0) {
         e.preventDefault();
         e.stopPropagation();
         goToPrev();
+        this.blur();
       });
     }
 
@@ -102,6 +103,7 @@ if (!imagenes || imagenes.length === 0) {
         e.preventDefault();
         e.stopPropagation();
         goToNext();
+        this.blur();
       });
     }
 
@@ -151,7 +153,7 @@ if (!imagenes || imagenes.length === 0) {
     line-height: 1;
     border-radius: 0.25rem;
     transition: background-color 0.2s ease, transform 0.2s ease;
-    z-index: 10;
+    z-index: 1;
     pointer-events: auto;
   }
 
@@ -164,7 +166,7 @@ if (!imagenes || imagenes.length === 0) {
     transform: translateY(-50%) scale(0.95);
   }
 
-  .carousel__button:focus {
+  .carousel__button:focus-visible {
     outline: 2px solid white;
     outline-offset: 2px;
   }
@@ -187,7 +189,7 @@ if (!imagenes || imagenes.length === 0) {
     background: rgba(0, 0, 0, 0.5);
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
-    z-index: 10;
+    z-index: 1;
   }
 
 </style>
