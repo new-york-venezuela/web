@@ -264,7 +264,11 @@
         "mpps": "A-101.811",
         "tiempoVida": "9 meses",
         "temperatura": "-18°C"
-      }
+      },
+      "variantes_relacionadas": [
+        "pizza-margarita-clasica",
+        "pizza-americana"
+      ]
     },
     {
       "id": "torta-queso-new-york-fresa",
@@ -330,8 +334,7 @@
         "temperatura": "-18°C"
       },
       "variantes_relacionadas": [
-        "torta-queso-new-york-fresa",
-        "torta-queso-new-york-comercial-chocolate"
+        "torta-queso-new-york-fresa"
       ]
     },
     {
@@ -429,7 +432,7 @@
       "nombre": "Pan Hamburguesa New York",
       "descripcion": "Pan de hamburguesa esponjoso con miga de calidad premium. Miga con memoria que garantiza una llamativa presentación. Resistente a rellenos y salsas. Sin topping.",
       "descripcion_seo": "Pan hamburguesa New York esponjoso premium. Miga con memoria. Resistente a salsas. Panadería artesanal Caracas.",
-      "categoria_primaria": "supermarket",
+      "categoria_primaria": "foodservice",
       "categoria_secundaria": "panes",
       "imagen": "pan-hamburguesa-new-york",
       "imagenAlt": "Pan Hamburguesa New York - panadería premium, Caracas",
@@ -461,7 +464,7 @@
       "nombre": "Pan de Hamburguesa - Brioche",
       "descripcion": "Pan de hamburguesa Brioche esponjoso con miga de calidad premium. Miga con memoria que garantiza presentación. Sin topping. Panadería New York.",
       "descripcion_seo": "Pan hamburguesa Brioche esponjoso miga premium. Miga con memoria garantiza presentación. Panadería New York Caracas.",
-      "categoria_primaria": "supermarket",
+      "categoria_primaria": "foodservice",
       "categoria_secundaria": "panes",
       "imagen": "pan-hamburguesa-new-york",
       "imagenAlt": "Pan Hamburguesa Brioche - panadería premium New York, Caracas",
@@ -493,7 +496,7 @@
       "nombre": "Baguettes Demi Mini",
       "descripcion": "Baguettes precocidas congeladas en formato Demi y Mini. Combinan tradición francesa con comodidad moderna. Masa madre, corteza crujiente y miga aireada. Ideales para consumo rápido.",
       "descripcion_seo": "Baguettes Demi Mini congeladas precocidas. Masa madre francesa. Tres tamaños disponibles. Panadería premium New York.",
-      "categoria_primaria": "supermarket",
+      "categoria_primaria": "foodservice",
       "categoria_secundaria": "panes",
       "imagen": "baguettes-demi-mini",
       "imagenAlt": "Baguettes Demi Mini - panadería New York artesanal",
@@ -522,7 +525,7 @@
       "nombre": "Croissants y Petit Croissants",
       "descripcion": "Croissants artesanales con masa hojaldrada mantequilla real. Variedades de tamaño estándar y petit. Preparados con técnicas tradicionales francesas. Crujientes por fuera, suaves por dentro.",
       "descripcion_seo": "Croissants artesanales hojaldrados mantequilla real. Petit croissants disponibles. Panadería premium francesa New York.",
-      "categoria_primaria": "supermarket",
+      "categoria_primaria": "foodservice",
       "categoria_secundaria": "reposteria",
       "imagen": "croissants",
       "imagenAlt": "Croissants y Petit Croissants - repostería artesanal New York",
@@ -551,7 +554,7 @@
       "nombre": "Bagels estilo New York - Plain",
       "descripcion": "Auténticos bagels estilo New York elaborados bajo el proceso genuino de escaldado y horneado. Miga densa y masticable, sabor clásico pero lleno de sabor. Versión plain sin toppings.",
       "descripcion_seo": "Bagels estilo New York Plain auténticos escaldados. Miga densa y masticable. Panadería premium especializada en Caracas, Venezuela.",
-      "categoria_primaria": "supermarket",
+      "categoria_primaria": "foodservice",
       "categoria_secundaria": "especialidades",
       "imagen": "bagels-new-york-plain",
       "imagenAlt": "Bagels estilo New York - Plain - panadería premium New York, Caracas",
@@ -584,7 +587,7 @@
       "nombre": "Bagels estilo New York - Ajonjolí",
       "descripcion": "Bagels estilo New York con cubierta de semillas de ajonjolí. Escaldados y horneados artesanalmente. Miga densa, sabor auténtico con toque de nuez del ajonjolí. Para consumo directo o preparaciones.",
       "descripcion_seo": "Bagels New York Ajonjolí escaldados artesanales. Semillas ajonjolí. Miga densa. Panadería premium New York Caracas.",
-      "categoria_primaria": "supermarket",
+      "categoria_primaria": "foodservice",
       "categoria_secundaria": "especialidades",
       "imagen": "bagels-new-york-plain",
       "imagenAlt": "Bagels estilo New York - Ajonjolí - panadería artesanal Caracas",
@@ -617,7 +620,7 @@
       "nombre": "Bagels estilo New York - Everything",
       "descripcion": "Bagels estilo New York con mezcla aromática everything: sésamo, amapola, ajo y cebolla deshidratada. Diseñados para escalar tu menú al siguiente nivel. Auténtica receta escaldada y horneada.",
       "descripcion_seo": "Bagels New York Everything múltiples toppings. Sésamo amapola ajo cebolla. Panadería premium Caracas.",
-      "categoria_primaria": "supermarket",
+      "categoria_primaria": "foodservice",
       "categoria_secundaria": "especialidades",
       "imagen": "bagels-new-york-plain",
       "imagenAlt": "Bagels estilo New York Everything - bagel con múltiples toppings, Caracas",
@@ -674,6 +677,72 @@
         "tiempoVida": "15 días",
         "temperatura": "ambiente"
       }
+    },
+    {
+      "id": "pizza-margarita-clasica",
+      "nombre": "Pizza Margarita Clásica",
+      "descripcion": "Pizza margarita estándar, precocida y congelada. Masa artesanal con fermentación natural. Auténtica receta italiana: tomate, queso y albahaca.",
+      "descripcion_seo": "Pizza Margarita Clásica congelada. Receta italiana auténtica. Masa fermentada natural. Panadería premium Caracas.",
+      "categoria_primaria": "supermarket",
+      "categoria_secundaria": "pizza",
+      "imagen": "pizza-margarita-premium",
+      "imagenAlt": "Pizza Margarita Clásica - panadería premium New York, Caracas",
+      "palabras_clave": [
+        "pizza margarita",
+        "pizza italiana",
+        "pizza congelada",
+        "pizza tradicional",
+        "panadería premium"
+      ],
+      "precioRef": 7.5,
+      "certificaciones": [
+        "Producto Premium"
+      ],
+      "specs": {
+        "peso": "2 Uds - 550g",
+        "codigo_barras": "7591348000158",
+        "cpe": "0510191279",
+        "mpps": "A-99.615",
+        "tiempoVida": "9 meses",
+        "temperatura": "-18°C"
+      },
+      "variantes_relacionadas": [
+        "pizza-margarita-premium",
+        "pizza-americana"
+      ]
+    },
+    {
+      "id": "pizza-americana",
+      "nombre": "Pizza Americana",
+      "descripcion": "Pizza con los sabores clásicos americanos, precocida y congelada. Masa artesanal de fermentación lenta con ingredientes seleccionados.",
+      "descripcion_seo": "Pizza Americana congelada. Sabores americanos. Masa artesanal fermentada. Panadería premium New York Caracas.",
+      "categoria_primaria": "supermarket",
+      "categoria_secundaria": "pizza",
+      "imagen": "pizza-margarita-premium",
+      "imagenAlt": "Pizza Americana - panadería premium New York, Caracas",
+      "palabras_clave": [
+        "pizza americana",
+        "pizza congelada",
+        "pizza artesanal",
+        "pizza premium",
+        "panadería New York"
+      ],
+      "precioRef": 8.0,
+      "certificaciones": [
+        "Producto Premium"
+      ],
+      "specs": {
+        "peso": "2 Uds - 650g",
+        "codigo_barras": "7591348000165",
+        "cpe": "0510191280",
+        "mpps": "A-117.914",
+        "tiempoVida": "9 meses",
+        "temperatura": "-18°C"
+      },
+      "variantes_relacionadas": [
+        "pizza-margarita-premium",
+        "pizza-margarita-clasica"
+      ]
     }
   ]
 }
