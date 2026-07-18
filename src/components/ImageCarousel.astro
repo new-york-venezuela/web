@@ -50,8 +50,8 @@ if (!imagenes || imagenes.length === 0) {
 
 <script define:vars={{ imagenes }}>
   (function initCarousel() {
-    const carousel = document.currentScript.closest('.carousel');
-    if (!carousel) return;
+    const carousel = document.currentScript.previousElementSibling;
+    if (!carousel || !carousel.classList.contains('carousel')) return;
 
     let currentIndex = 0;
 
