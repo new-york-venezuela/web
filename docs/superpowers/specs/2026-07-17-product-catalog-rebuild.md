@@ -190,9 +190,176 @@ Su alto contenido en fibra dietética contribuye a la salud digestiva, favorecie
 
 ---
 
-## 5. Implementation Workflow
+## 5. Spanish SEO Optimization Strategy
 
-### 5.1 Multi-Agent Orchestration
+All product pages optimized for Spanish-language search and social discovery.
+
+### 5.1 URL & Slug Structure
+
+- **Base path:** `/productos/<id>` (Spanish-friendly kebab-case slugs, no transliteration)
+- **Example:** `/productos/pan-4-granos`, `/productos/torta-queso-new-york-fresa`
+- **Canonical tag:** Explicit `rel="canonical"` on each page to avoid duplicate content
+
+### 5.2 Markdown Frontmatter (SEO Metadata)
+
+Each markdown file includes rich metadata for search engines and social sharing:
+
+```yaml
+---
+title: "Pan 4 Granos"
+id: "pan-4-granos"
+descripcion_seo: "Pan integral de 4 granos con linaza, avena y ajonjolí. 100% libre de azúcares y grasas. Certificado Kosher Pat Israel. Ideal para dietas balanceadas."
+palabras_clave: ["pan integral", "pan 4 granos", "pan sin azúcar", "pan kosher", "panadería New York Caracas"]
+categoria_primaria: "supermarket"
+categoria_secundaria: "panes"
+imagen: "pan-4-granos"
+imagen_alt: "Pan 4 Granos - panadería premium New York, Caracas, Venezuela"
+destacado: true
+og_type: "product"
+---
+```
+
+**Fields:**
+- `title` — product name (max 60 chars for SERP display)
+- `descripcion_seo` — 150-160 chars, keyword-rich, unique per product
+- `palabras_clave` — 5-7 Spanish keywords for semantic relevance
+- `imagen_alt` — descriptive alt text in Spanish (accessibility + SEO)
+- `og_type` — "product" for Open Graph social cards
+
+### 5.3 Structured Data (JSON-LD)
+
+Each product detail page includes three JSON-LD schemas:
+
+**1. BreadcrumbList**
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://alimentosnewyork.com"},
+    {"@type": "ListItem", "position": 2, "name": "Productos", "item": "https://alimentosnewyork.com/productos"},
+    {"@type": "ListItem", "position": 3, "name": "Pan 4 Granos", "item": "https://alimentosnewyork.com/productos/pan-4-granos"}
+  ]
+}
+```
+
+**2. Product Schema**
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Pan 4 Granos",
+  "description": "Pan integral de 4 granos con linaza, avena y ajonjolí...",
+  "image": "https://alimentosnewyork.com/public/productos/pan-4-granos.png",
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "USD",
+    "price": "3.50",
+    "availability": "https://schema.org/InStock"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "ratingCount": "24"
+  }
+}
+```
+
+**3. LocalBusiness (on homepage/footer)**
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "New York Cheesecake",
+  "image": "https://alimentosnewyork.com/logo.png",
+  "description": "Panadería y pastelería premium en Caracas, Venezuela",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Caracas",
+    "addressRegion": "DF",
+    "addressCountry": "VE"
+  },
+  "url": "https://alimentosnewyork.com"
+}
+```
+
+### 5.4 On-Page SEO Elements
+
+**H1 & Heading Hierarchy:**
+- One H1 per page = product name (e.g., `# Pan 4 Granos`)
+- H2 sections: Descripción, Certificaciones, Especificaciones Técnicas, Usos Recomendados
+- No skipped heading levels (H1 → H2, not H1 → H3)
+
+**Meta Tags (Astro component):**
+- `<title>` — `{producto.nombre} | New York Cheesecake Caracas` (max 60 chars)
+- `<meta name="description">` — `descripcion_seo` field (150-160 chars)
+- `<meta name="keywords">` — comma-separated `palabras_clave`
+- `<meta name="robots">` — `index, follow`
+- `<link rel="canonical">` — product URL
+
+**Open Graph / Twitter Cards:**
+- `og:title`, `og:description`, `og:image` — product details
+- `og:type` — "product"
+- `og:locale` — "es_VE"
+- `twitter:card` — "summary_large_image"
+
+### 5.5 Internal Linking Strategy
+
+**Variant Cross-Linking:**
+- Torta de Queso Fresa page links to Chocolate & Plain variants
+- "Productos Relacionados" section (sidebar or footer) shows 3-5 similar products by category
+- Breadcrumbs link back to category pages
+
+**Category Pages:**
+- `/productos?categoria=panes` — lists all bread products
+- `/productos?canal=supermarket` — filters by channel (supermarket/foodservice)
+- Each category page is crawlable, indexable, internal-linked
+
+**Homepage Interlinking:**
+- "Productos Destacados" section links to top 5-6 featured products
+- Footer has category links + product links
+
+### 5.6 Image Optimization
+
+- **Filename:** kebab-case Spanish slugs (pan-4-granos.png, not "pan_4_granos" or transliteration)
+- **Alt text:** `imagen_alt` field (e.g., "Pan 4 Granos - panadería premium New York, Caracas, Venezuela")
+- **File size:** Already optimized (~250KB per image), no additional compression needed
+- **Format:** PNG (current); consider WebP for future performance boost (optional)
+
+### 5.7 Hreflang Tags (Future-Proofing)
+
+If expanding to other Spanish-speaking countries:
+```html
+<link rel="alternate" hreflang="es-VE" href="https://alimentosnewyork.com/productos/pan-4-granos">
+<link rel="alternate" hreflang="es" href="https://alimentosnewyork.com/es/productos/pan-4-granos">
+```
+
+For now (Spanish-only Venezuela), use:
+```html
+<link rel="alternate" hreflang="es-VE" href="https://alimentosnewyork.com/productos/pan-4-granos">
+<link rel="alternate" hreflang="x-default" href="https://alimentosnewyork.com/productos/pan-4-granos">
+```
+
+### 5.8 SEO Validation Checklist
+
+- [ ] All product slugs are Spanish kebab-case (no transliteration)
+- [ ] Each product has unique `descripcion_seo` (150-160 chars)
+- [ ] Each product has 5-7 `palabras_clave` in Spanish
+- [ ] Alt text describes product in Spanish
+- [ ] JSON-LD schemas valid (test with Google Schema Markup Validator)
+- [ ] Breadcrumbs render correctly on all product pages
+- [ ] Product schema includes price, availability, ratings
+- [ ] Open Graph tags populate social previews correctly
+- [ ] Internal links work (no 404s from cross-linking)
+- [ ] Hreflang tags set to es-VE + x-default
+- [ ] XML sitemap includes all product URLs
+- [ ] robots.txt allows indexing
+
+---
+
+## 6. Implementation Workflow
+
+### 6.1 Multi-Agent Orchestration
 
 **Conductor Agent:**
 - Parses markdown catalog
@@ -236,7 +403,7 @@ Each agent handles one base product:
 
 ---
 
-## 6. TypeScript Interface Updates
+## 7. TypeScript Interface Updates
 
 Current `Producto` interface will expand:
 
@@ -266,7 +433,7 @@ export interface Producto {
 
 ---
 
-## 7. File Structure After Implementation
+## 8. File Structure After Implementation
 
 ```
 src/
@@ -297,7 +464,7 @@ public/
 
 ---
 
-## 8. Success Criteria
+## 9. Success Criteria
 
 - [x] Design approved
 - [ ] All 16 markdown products parsed
@@ -314,7 +481,7 @@ public/
 
 ---
 
-## 9. Risks & Mitigations
+## 10. Risks & Mitigations
 
 | Risk | Mitigation |
 |------|-----------|
@@ -326,7 +493,7 @@ public/
 
 ---
 
-## 10. Next Steps (After Approval)
+## 11. Next Steps (After Approval)
 
 1. **Invoke writing-plans skill** → detailed implementation plan with task breakdown
 2. **Conductor agent** parses markdown, creates work manifest
