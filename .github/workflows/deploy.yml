@@ -31,7 +31,8 @@ jobs:
         run: |
           cat > .env << 'EOF'
           PUBLIC_POSTHOG_KEY=${{ vars.PUBLIC_POSTHOG_KEY }}
-          PUBLIC_POSTHOG_HOST=${{ vars.PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com' }}
+          PUBLIC_POSTHOG_API_HOST=${{ vars.PUBLIC_POSTHOG_API_HOST || 'https://us.i.posthog.com' }}
+          PUBLIC_POSTHOG_UI_HOST=${{ vars.PUBLIC_POSTHOG_UI_HOST || 'https://us.posthog.com' }}
           HUBSPOT_PORTAL_ID=${{ vars.HUBSPOT_PORTAL_ID }}
           HUBSPOT_FORM_ID=${{ vars.HUBSPOT_FORM_ID }}
           HUBSPOT_FIELD_MAPPING=${{ vars.HUBSPOT_FIELD_MAPPING }}
