@@ -1,6 +1,5 @@
 ---
 import type { Producto } from '../data/catalogo';
-import ImageCarousel from './ImageCarousel.astro';
 
 interface Props {
   producto: Producto;
@@ -16,19 +15,13 @@ const categoriasSecundarias: Record<string, string> = {
 };
 
 const imagenUrl = `/productos/${producto.imagen}.png`;
-const imagenes = producto.imagenes || [producto.imagen];
-const tieneMultiplesImagenes = imagenes.length > 1;
 ---
 
 <article class="card">
-  <div class="card__media">
-    {tieneMultiplesImagenes ? (
-      <ImageCarousel imagenes={imagenes} alt={producto.imagenAlt || producto.nombre} />
-    ) : (
-      <img src={imagenUrl} alt={producto.imagenAlt || producto.nombre} loading="lazy" />
-    )}
-  </div>
   <a href={`/productos/${producto.id}/`} class="card-link">
+    <div class="card__media">
+      <img src={imagenUrl} alt={producto.imagenAlt || producto.nombre} loading="lazy" />
+    </div>
     <div class="card__body">
       <span class="card__tag">{categoriasSecundarias[producto.categoria_secundaria] || producto.categoria_secundaria}</span>
       <h3 class="card__title">{producto.nombre}</h3>
@@ -63,7 +56,7 @@ const tieneMultiplesImagenes = imagenes.length > 1;
   .card-link {
     display: flex;
     flex-direction: column;
-    flex: 1;
+    height: 100%;
     text-decoration: none;
     color: inherit;
   }
@@ -83,11 +76,6 @@ const tieneMultiplesImagenes = imagenes.length > 1;
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-
-  .carousel {
-    width: 100%;
-    height: 100%;
   }
 
   .card__monogram {
