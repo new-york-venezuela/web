@@ -62,12 +62,16 @@ if (!imagenes || imagenes.length === 0) {
       counter.textContent = `${currentIndex + 1} / ${imagenes.length}`;
     }
 
-    function handlePrev() {
+    function handlePrev(e) {
+      e.preventDefault();
+      e.stopPropagation();
       currentIndex = (currentIndex - 1 + imagenes.length) % imagenes.length;
       updateImage();
     }
 
-    function handleNext() {
+    function handleNext(e) {
+      e.preventDefault();
+      e.stopPropagation();
       currentIndex = (currentIndex + 1) % imagenes.length;
       updateImage();
     }

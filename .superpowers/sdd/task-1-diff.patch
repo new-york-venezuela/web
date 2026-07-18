@@ -1,0 +1,100 @@
+src/utils/loadProductos.ts | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/src/utils/loadProductos.ts b/src/utils/loadProductos.ts
+index 31f78d4..69a9045 100644
+--- a/src/utils/loadProductos.ts
++++ b/src/utils/loadProductos.ts
+@@ -2,20 +2,21 @@ import productosData from '../data/productos.json';
+ 
+ export interface Producto {
+   id: string;
+   nombre: string;
+   descripcion: string; // short, for cards
+   descripcion_seo?: string; // 150-160 chars, keyword-rich
+   categoria_primaria: 'supermarket' | 'foodservice';
+   categoria_secundaria: 'panes' | 'reposteria' | 'especialidades' | 'pizza';
+   imagen: string; // slug, no extension (e.g., "pan-4-granos")
+   imagenAlt?: string;
++  imagenes?: string[]; // multiple images for carousel (product + variants)
+   palabras_clave?: string[]; // 5-7 Spanish keywords
+   destacado?: boolean;
+   precioRef?: number;
+   certificaciones?: string[];
+   specs?: {
+     peso?: string;
+     codigo_barras?: string;
+     cpe?: string;
+     mpps?: string;
+     tiempoVida?: string;
+@@ -90,20 +91,31 @@ export function validateProducto(producto: any): producto is Producto {
+     // All fields in specs are optional, so no further validation needed
+   }
+   if (producto.variantes_relacionadas !== undefined) {
+     if (!Array.isArray(producto.variantes_relacionadas)) {
+       throw new Error(`Producto ${producto.id}: variantes_relacionadas debe ser array`);
+     }
+     if (!producto.variantes_relacionadas.every((id: any) => typeof id === 'string')) {
+       throw new Error(`Producto ${producto.id}: todos los elementos de variantes_relacionadas deben ser strings`);
+     }
+   }
++  if (producto.imagenes !== undefined) {
++    if (!Array.isArray(producto.imagenes)) {
++      throw new Error(`Producto ${producto.id}: imagenes debe ser array`);
++    }
++    if (producto.imagenes.length < 1) {
++      throw new Error(`Producto ${producto.id}: imagenes debe contener al menos 1 imagen`);
++    }
++    if (!producto.imagenes.every((img: any) => typeof img === 'string')) {
++      throw new Error(`Producto ${producto.id}: todos los elementos de imagenes deben ser strings`);
++    }
++  }
+   return true;
+ }
+ 
+ export function loadProductos(): Producto[] {
+   const allProductos = (productosData.productos || []).map((p: any) => {
+     validateProducto(p);
+     return p as Producto;
+   });
+ 
+   return allProductos;
+
+--- Changes ---
+
+src/utils/loadProductos.ts
+  @@ -2,20 +2,21 @@
+  +  imagenes?: string[]; // multiple images for carousel (product + variants)
+     palabras_clave?: string[]; // 5-7 Spanish keywords
+     destacado?: boolean;
+     precioRef?: number;
+     certificaciones?: string[];
+     specs?: {
+       peso?: string;
+       codigo_barras?: string;
+       cpe?: string;
+       mpps?: string;
+       tiempoVida?: string;
+  @@ -90,20 +91,31 @@
+  +  if (producto.imagenes !== undefined) {
+  +    if (!Array.isArray(producto.imagenes)) {
+  +      throw new Error(`Producto ${producto.id}: imagenes debe ser array`);
+  +    }
+  +    if (producto.imagenes.length < 1) {
+  +      throw new Error(`Producto ${producto.id}: imagenes debe contener al menos 1 imagen`);
+  +    }
+  +    if (!producto.imagenes.every((img: any) => typeof img === 'string')) {
+  +      throw new Error(`Producto ${producto.id}: todos los elementos de imagenes deben ser strings`);
+  +    }
+  +  }
+     return true;
+   }
+   
+   export function loadProductos(): Producto[] {
+     const allProductos = (productosData.productos || []).map((p: any) => {
+       validateProducto(p);
+       return p as Producto;
+     });
+   
+     return allProductos;
+  +12 -0
