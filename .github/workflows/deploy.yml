@@ -30,7 +30,7 @@ jobs:
         run: |
           cat > .env << 'EOF'
           PUBLIC_POSTHOG_KEY=${{ secrets.PUBLIC_POSTHOG_KEY }}
-          PUBLIC_POSTHOG_HOST=https://us.i.posthog.com
+          PUBLIC_POSTHOG_HOST=${{ secrets.PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com' }}
           HUBSPOT_PORTAL_ID=${{ secrets.HUBSPOT_PORTAL_ID }}
           HUBSPOT_FORM_ID=${{ secrets.HUBSPOT_FORM_ID }}
           HUBSPOT_FIELD_MAPPING=${{ secrets.HUBSPOT_FIELD_MAPPING }}
