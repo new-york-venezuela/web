@@ -307,7 +307,7 @@
       "descripcion_seo": "Cheesecake New York Chocolate. Cobertura chocolate intenso. Queso crema premium. Postre gourmet premium.",
       "categoria_primaria": "supermarket",
       "categoria_secundaria": "reposteria",
-      "imagen": "torta-queso-new-york-chocolate",
+      "imagen": "torta-queso-new-york-fresa",
       "imagenAlt": "Torta de Queso New York con Chocolate - cheesecake premium, Caracas",
       "palabras_clave": [
         "cheesecake",
@@ -371,7 +371,7 @@
       "descripcion_seo": "Cheesecake New York Comercial Chocolate 1500g. Chocolate intenso. Restaurantes, hoteles, catering. Panadería premium.",
       "categoria_primaria": "foodservice",
       "categoria_secundaria": "reposteria",
-      "imagen": "torta-queso-new-york-comercial-chocolate",
+      "imagen": "torta-queso-new-york-comercial-fresa",
       "imagenAlt": "Torta de Queso New York Comercial - Chocolate - panadería profesional New York",
       "palabras_clave": [
         "cheesecake comercial",
@@ -401,7 +401,7 @@
       "descripcion_seo": "Cheesecake New York Comercial Plain 1500g. Sin cobertura. Restaurantes profesionales. Panadería premium Caracas.",
       "categoria_primaria": "foodservice",
       "categoria_secundaria": "reposteria",
-      "imagen": "torta-queso-new-york-comercial-plain",
+      "imagen": "torta-queso-new-york-comercial-fresa",
       "imagenAlt": "Torta de Queso New York Comercial - Plain - panadería profesional",
       "palabras_clave": [
         "cheesecake plain",
@@ -463,7 +463,7 @@
       "descripcion_seo": "Pan hamburguesa Brioche esponjoso miga premium. Miga con memoria garantiza presentación. Panadería New York Caracas.",
       "categoria_primaria": "supermarket",
       "categoria_secundaria": "panes",
-      "imagen": "pan-hamburguesa-brioche",
+      "imagen": "pan-hamburguesa-new-york",
       "imagenAlt": "Pan Hamburguesa Brioche - panadería premium New York, Caracas",
       "palabras_clave": [
         "pan brioche",
@@ -586,7 +586,7 @@
       "descripcion_seo": "Bagels New York Ajonjolí escaldados artesanales. Semillas ajonjolí. Miga densa. Panadería premium New York Caracas.",
       "categoria_primaria": "supermarket",
       "categoria_secundaria": "especialidades",
-      "imagen": "bagels-new-york-ajonjoli",
+      "imagen": "bagels-new-york-plain",
       "imagenAlt": "Bagels estilo New York - Ajonjolí - panadería artesanal Caracas",
       "palabras_clave": [
         "bagels ajonjolí",
@@ -619,7 +619,7 @@
       "descripcion_seo": "Bagels New York Everything múltiples toppings. Sésamo amapola ajo cebolla. Panadería premium Caracas.",
       "categoria_primaria": "supermarket",
       "categoria_secundaria": "especialidades",
-      "imagen": "bagels-new-york-everything",
+      "imagen": "bagels-new-york-plain",
       "imagenAlt": "Bagels estilo New York Everything - bagel con múltiples toppings, Caracas",
       "palabras_clave": [
         "bagels",
