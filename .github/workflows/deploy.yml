@@ -26,6 +26,23 @@ jobs:
 
       - run: bun install --frozen-lockfile
 
+      - name: Build .env file
+        run: |
+          cat > .env << 'EOF'
+          PUBLIC_POSTHOG_KEY=${{ vars.PUBLIC_POSTHOG_KEY }}
+          PUBLIC_POSTHOG_HOST=${{ vars.PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com' }}
+          HUBSPOT_PORTAL_ID=${{ vars.HUBSPOT_PORTAL_ID }}
+          HUBSPOT_FORM_ID=${{ vars.HUBSPOT_FORM_ID }}
+          HUBSPOT_FIELD_MAPPING=${{ vars.HUBSPOT_FIELD_MAPPING }}
+          PUBLIC_GOOGLE_FORM_ID=${{ vars.PUBLIC_GOOGLE_FORM_ID }}
+          PUBLIC_GFORM_ENTRY_NOMBRE=${{ vars.PUBLIC_GFORM_ENTRY_NOMBRE }}
+          PUBLIC_GFORM_ENTRY_TELEFONO=${{ vars.PUBLIC_GFORM_ENTRY_TELEFONO }}
+          PUBLIC_GFORM_ENTRY_PRODUCTO=${{ vars.PUBLIC_GFORM_ENTRY_PRODUCTO }}
+          PUBLIC_GFORM_ENTRY_MENSAJE=${{ vars.PUBLIC_GFORM_ENTRY_MENSAJE }}
+          PUBLIC_WHATSAPP_NUMBER=${{ vars.PUBLIC_WHATSAPP_NUMBER }}
+          PUBLIC_CONTACT_EMAIL=${{ vars.PUBLIC_CONTACT_EMAIL }}
+          EOF
+
       - run: bun run build
         env:
           SITE_URL: https://www.alimentosnewyork.com
