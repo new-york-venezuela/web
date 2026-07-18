@@ -243,7 +243,7 @@
       "descripcion_seo": "Pizza Margarita Premium artesanal congelada. Fermentación lenta. Ingredientes seleccionados. Panadería premium New York.",
       "categoria_primaria": "supermarket",
       "categoria_secundaria": "pizza",
-      "imagen": "pizza-margarita-premium",
+      "imagen": "pizza-margarita",
       "imagenAlt": "Pizza Margarita Premium - pizza congelada artesanal, New York",
       "palabras_clave": [
         "pizza margarita",
@@ -277,7 +277,7 @@
       "descripcion_seo": "Pizza New York de jamón congelada. Receta clásica americana. Masa fermentada natural. Panadería premium Caracas.",
       "categoria_primaria": "supermarket",
       "categoria_secundaria": "pizza",
-      "imagen": "pizza-margarita-premium",
+      "imagen": "pizza-new-york",
       "imagenAlt": "Pizza Margarita Clásica - panadería premium New York, Caracas",
       "palabras_clave": [
         "pizza margarita",
@@ -310,7 +310,7 @@
       "descripcion_seo": "Pizza Americana congelada. Sabores americanos. Masa artesanal fermentada. Panadería premium New York Caracas.",
       "categoria_primaria": "supermarket",
       "categoria_secundaria": "pizza",
-      "imagen": "pizza-margarita-premium",
+      "imagen": "pizza-americana",
       "imagenAlt": "Pizza Americana - panadería premium New York, Caracas",
       "palabras_clave": [
         "pizza americana",
@@ -343,7 +343,7 @@
       "descripcion_seo": "Cheesecake New York Fresa congelada. Queso crema premium. Mermelada artesanal. Postre gourmet Caracas.",
       "categoria_primaria": "supermarket",
       "categoria_secundaria": "reposteria",
-      "imagen": "torta-queso-new-york-fresa",
+      "imagen": "torta-queso-new-york-masivo-fresa",
       "imagenAlt": "Torta de Queso New York con Fresa - cheesecake premium, Caracas",
       "palabras_clave": [
         "cheesecake",
@@ -377,7 +377,7 @@
       "descripcion_seo": "Cheesecake New York Chocolate. Cobertura chocolate intenso. Queso crema premium. Postre gourmet premium.",
       "categoria_primaria": "supermarket",
       "categoria_secundaria": "reposteria",
-      "imagen": "torta-queso-new-york-chocolate",
+      "imagen": "torta-queso-new-york-masivo-chocolate",
       "imagenAlt": "Torta de Queso New York con Chocolate - cheesecake premium, Caracas",
       "palabras_clave": [
         "cheesecake",
@@ -520,7 +520,7 @@
       "descripcion_seo": "Pan hamburguesa Brioche esponjoso miga premium. Miga con memoria garantiza presentación. Panadería New York Caracas.",
       "categoria_primaria": "foodservice",
       "categoria_secundaria": "panes",
-      "imagen": "pan-hamburguesa-new-york",
+      "imagen": "pan-hamburguesa-brioche",
       "imagenAlt": "Pan Hamburguesa Brioche - panadería premium New York, Caracas",
       "palabras_clave": [
         "pan brioche",
@@ -631,7 +631,7 @@
       "descripcion_seo": "Bagels New York Ajonjolí escaldados artesanales. Semillas ajonjolí. Miga densa. Panadería premium New York Caracas.",
       "categoria_primaria": "foodservice",
       "categoria_secundaria": "especialidades",
-      "imagen": "bagels-new-york-plain",
+      "imagen": "bagels-new-york-ajonjoli",
       "imagenAlt": "Bagels estilo New York - Ajonjolí - panadería artesanal Caracas",
       "palabras_clave": [
         "bagels ajonjolí",
@@ -661,7 +661,7 @@
       "descripcion_seo": "Bagels New York Everything múltiples toppings. Sésamo amapola ajo cebolla. Panadería premium Caracas.",
       "categoria_primaria": "foodservice",
       "categoria_secundaria": "especialidades",
-      "imagen": "bagels-new-york-plain",
+      "imagen": "bagels-new-york-everything",
       "imagenAlt": "Bagels estilo New York Everything - bagel con múltiples toppings, Caracas",
       "palabras_clave": [
         "bagels",
