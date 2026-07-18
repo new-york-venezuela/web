@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import StructuredData from '../../components/StructuredData.astro';
+import ImageCarousel from '../../components/ImageCarousel.astro';
 import { productos } from '../../data/catalogo';
 
 export async function getStaticPaths() {
@@ -22,6 +23,8 @@ const breadcrumbs = [
 ];
 
 const imagenUrl = `/productos/${producto.imagen}.png`;
+const imagenes = producto.imagenes || [producto.imagen];
+const tieneMultiplesImagenes = imagenes.length > 1;
 ---
 
 <BaseLayout
@@ -48,7 +51,11 @@ const imagenUrl = `/productos/${producto.imagen}.png`;
 
       <div class="detail-grid">
         <div class="detail-media">
-          <img src={imagenUrl} alt={producto.imagenAlt || producto.nombre} />
+          {tieneMultiplesImagenes ? (
+            <ImageCarousel imagenes={imagenes} alt={producto.imagenAlt || producto.nombre} />
+          ) : (
+            <img src={imagenUrl} alt={producto.imagenAlt || producto.nombre} />
+          )}
         </div>
 
         <div class="detail-info">
@@ -179,6 +186,15 @@ const imagenUrl = `/productos/${producto.imagen}.png`;
   .detail-media img {
     width: 100%;
     height: auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .carousel {
+    width: 100%;
+  }
+
+  .carousel__viewport {
     border-radius: 0.5rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
