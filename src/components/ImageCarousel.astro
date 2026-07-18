@@ -66,9 +66,14 @@ if (!imagenes || imagenes.length === 0) {
       }
     }
 
-    function handleButtonClick(e) {
+    function handleClick(e) {
+      const btn = e.target.closest('[data-action]');
+      if (!btn) return;
+
       e.preventDefault();
-      const action = this.getAttribute('data-action');
+      e.stopPropagation();
+
+      const action = btn.getAttribute('data-action');
       if (action === 'prev') {
         currentIndex = (currentIndex - 1 + imagenes.length) % imagenes.length;
       } else if (action === 'next') {
@@ -89,12 +94,8 @@ if (!imagenes || imagenes.length === 0) {
       }
     }
 
-    // Attach click handlers to buttons
-    const buttons = carousel.querySelectorAll('[data-action]');
-    buttons.forEach(btn => {
-      btn.addEventListener('click', handleButtonClick);
-    });
-
+    // Use event delegation on carousel
+    carousel.addEventListener('click', handleClick);
     carousel.addEventListener('keydown', handleKeydown);
   })();
 </script>
