@@ -21,13 +21,15 @@ const tieneMultiplesImagenes = imagenes.length > 1;
 ---
 
 <article class="card">
-  <div class="card__media">
-    {tieneMultiplesImagenes ? (
-      <ImageCarousel imagenes={imagenes} alt={producto.imagenAlt || producto.nombre} />
-    ) : (
-      <img src={imagenUrl} alt={producto.imagenAlt || producto.nombre} loading="lazy" />
-    )}
-  </div>
+  <a href={`/productos/${producto.id}/`} class="card__media-link">
+    <div class="card__media">
+      {tieneMultiplesImagenes ? (
+        <ImageCarousel imagenes={imagenes} alt={producto.imagenAlt || producto.nombre} />
+      ) : (
+        <img src={imagenUrl} alt={producto.imagenAlt || producto.nombre} loading="lazy" />
+      )}
+    </div>
+  </a>
   <a href={`/productos/${producto.id}/`} class="card-link">
     <div class="card__body">
       <span class="card__tag">{categoriasSecundarias[producto.categoria_secundaria] || producto.categoria_secundaria}</span>
@@ -60,10 +62,8 @@ const tieneMultiplesImagenes = imagenes.length > 1;
     transform: translateY(-2px);
   }
 
-  .card-link {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
+  .card__media-link {
+    display: block;
     text-decoration: none;
     color: inherit;
   }
@@ -72,6 +72,19 @@ const tieneMultiplesImagenes = imagenes.length > 1;
     aspect-ratio: 5 / 4;
     background-color: var(--color-milk);
     border-bottom: 1px solid var(--color-border);
+    transition: opacity 0.2s ease;
+  }
+
+  .card__media-link:hover .card__media {
+    opacity: 0.9;
+  }
+
+  .card-link {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    text-decoration: none;
+    color: inherit;
   }
 
   .card__media--placeholder {
