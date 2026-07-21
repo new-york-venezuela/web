@@ -1,7 +1,7 @@
 import productosData from '../data/productos.json';
 
 export async function GET() {
-  const baseUrl = 'https://alimentosnewyork.com';
+  const baseUrl = 'https://www.alimentosnewyork.com';
 
   // Static routes
   const staticRoutes = [
