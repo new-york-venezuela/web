@@ -157,7 +157,7 @@ if (!imagenes || imagenes.length === 0) {
     pointer-events: auto;
   }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .carousel__button:hover {
       background-color: rgba(0, 0, 0, 0.85);
       transform: translateY(-50%) scale(1.1);
@@ -166,6 +166,17 @@ if (!imagenes || imagenes.length === 0) {
 
   .carousel__button:active {
     transform: translateY(-50%) scale(0.95);
+  }
+
+  @media (pointer: coarse) {
+    .carousel__button:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+
+    .carousel__button:not(:focus-visible) {
+      background-color: rgba(0, 0, 0, 0.5);
+      transform: translateY(-50%);
+    }
   }
 
   .carousel__button:focus-visible {
