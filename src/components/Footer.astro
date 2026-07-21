@@ -15,11 +15,18 @@ const year = new Date().getFullYear();
         <p><strong>Oficina:</strong> <a href="tel:+582122418035">+58 212 241 8035</a> / <a href="tel:+582122419059">9059</a></p>
       </div>
     </div>
-    <ul class="site-footer__links">
-      <li><a href="/catalogo/">Catálogo</a></li>
-      <li><a href="/sobre-nosotros/">Nosotros</a></li>
-      <li><a href="/contacto/">Contacto</a></li>
-    </ul>
+    <div>
+        <ul class="site-footer__links">
+          <li><a href="/catalogo/">Catálogo</a></li>
+          <li><a href="/sobre-nosotros/">Nosotros</a></li>
+          <li><a href="/contacto/">Contacto</a></li>
+        </ul>
+        <img
+          src="/logos/classic.png"
+          alt="New York Alimentos Premium"
+          class="site-footer__logo"
+        />
+    </div>
   </div>
   <div class="container site-footer__legal">
     <p>© {year} New York Cheese Cake C.A. — Caracas, Venezuela. Todos los derechos reservados.</p>
@@ -84,6 +91,8 @@ const year = new Date().getFullYear();
 
   .site-footer__links {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: var(--space-m);
     list-style: none;
     margin: 0;
@@ -97,6 +106,13 @@ const year = new Date().getFullYear();
     letter-spacing: 0.12em;
     text-transform: uppercase;
     padding-block: 0.625rem;
+  }
+
+  .site-footer__logo {
+    width: 140px;
+    height: auto;
+    margin-top: var(--space-m);
+    display: block;
   }
 
   .site-footer__legal {
