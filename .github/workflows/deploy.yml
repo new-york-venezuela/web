@@ -22,13 +22,72 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Generate .env from GitHub Actions vars
+        run: |
+          # Mandatory vars
+          MANDATORY_VARS=(
+            "PUBLIC_HUBSPOT_PORTAL_ID"
+            "PUBLIC_HUBSPOT_FORM_ID"
+            "PUBLIC_WHATSAPP_NUMBER"
+            "PUBLIC_CONTACT_EMAIL"
+            "PUBLIC_POSTHOG_KEY"
+            "PUBLIC_POSTHOG_HOST"
+          )
+
+          # Check all mandatory vars are set
+          for var in "${MANDATORY_VARS[@]}"; do
+            if [ -z "${!var}" ]; then
+              echo "ERROR: Required variable $var is not set"
+              exit 1
+            fi
+          done
+
+          # Optional vars (only write if defined)
+          OPTIONAL_VARS=(
+            "PUBLIC_GOOGLE_FORM_ID"
+            "PUBLIC_GFORM_ENTRY_NOMBRE"
+            "PUBLIC_GFORM_ENTRY_TELEFONO"
+            "PUBLIC_GFORM_ENTRY_PRODUCTO"
+            "PUBLIC_GFORM_ENTRY_MENSAJE"
+          )
+
+          # Start .env file
+          {
+            # Write all mandatory vars
+            for var in "${MANDATORY_VARS[@]}"; do
+              echo "$var=${!var}"
+            done
+
+            # Write optional vars only if defined
+            for var in "${OPTIONAL_VARS[@]}"; do
+              if [ -n "${!var}" ]; then
+                echo "$var=${!var}"
+              fi
+            done
+
+            # Add SITE_URL (already hardcoded below in build step)
+            echo "SITE_URL=https://www.alimentosnewyork.com"
+          } > .env
+
+          echo ".env generated successfully"
+        env:
+          PUBLIC_HUBSPOT_PORTAL_ID: ${{ vars.PUBLIC_HUBSPOT_PORTAL_ID }}
+          PUBLIC_HUBSPOT_FORM_ID: ${{ vars.PUBLIC_HUBSPOT_FORM_ID }}
+          PUBLIC_WHATSAPP_NUMBER: ${{ vars.PUBLIC_WHATSAPP_NUMBER }}
+          PUBLIC_CONTACT_EMAIL: ${{ vars.PUBLIC_CONTACT_EMAIL }}
+          PUBLIC_POSTHOG_KEY: ${{ vars.PUBLIC_POSTHOG_KEY }}
+          PUBLIC_POSTHOG_HOST: ${{ vars.PUBLIC_POSTHOG_HOST }}
+          PUBLIC_GOOGLE_FORM_ID: ${{ vars.PUBLIC_GOOGLE_FORM_ID }}
+          PUBLIC_GFORM_ENTRY_NOMBRE: ${{ vars.PUBLIC_GFORM_ENTRY_NOMBRE }}
+          PUBLIC_GFORM_ENTRY_TELEFONO: ${{ vars.PUBLIC_GFORM_ENTRY_TELEFONO }}
+          PUBLIC_GFORM_ENTRY_PRODUCTO: ${{ vars.PUBLIC_GFORM_ENTRY_PRODUCTO }}
+          PUBLIC_GFORM_ENTRY_MENSAJE: ${{ vars.PUBLIC_GFORM_ENTRY_MENSAJE }}
+
       - uses: oven-sh/setup-bun@v2
 
       - run: bun install --frozen-lockfile
 
       - run: bun run build
-        env:
-          SITE_URL: https://www.alimentosnewyork.com
 
       - uses: actions/upload-pages-artifact@v3
         with:
