@@ -1,9 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import LeadForm from '../components/LeadForm.astro';
-
-// Static site: query params are not available at build time.
-// Success state is handled client-side via JavaScript in LeadForm.astro.
+import HubSpotForm from '../components/HubSpotForm.astro';
 ---
 
 <BaseLayout
@@ -38,7 +35,7 @@ import LeadForm from '../components/LeadForm.astro';
         </div>
 
         <div class="form-wrapper">
-          <LeadForm />
+          <HubSpotForm />
         </div>
       </div>
     </div>
