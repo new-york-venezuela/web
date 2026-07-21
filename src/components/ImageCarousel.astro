@@ -157,9 +157,11 @@ if (!imagenes || imagenes.length === 0) {
     pointer-events: auto;
   }
 
-  .carousel__button:hover {
-    background-color: rgba(0, 0, 0, 0.85);
-    transform: translateY(-50%) scale(1.1);
+  @media (hover: hover) {
+    .carousel__button:hover {
+      background-color: rgba(0, 0, 0, 0.85);
+      transform: translateY(-50%) scale(1.1);
+    }
   }
 
   .carousel__button:active {
