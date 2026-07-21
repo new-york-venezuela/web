@@ -16,6 +16,38 @@ if (!portalId || !formId) {
 </div>
 
 <script define:vars={{ portalId, formId }}>
+  const hideLoader = () => {
+    const loader = document.getElementById('hubspot-loader');
+    if (loader) {
+      loader.style.display = 'none';
+    }
+  };
+
+  const setupFormObserver = () => {
+    const formContainer = document.getElementById('hubspot-form-container');
+    if (!formContainer) return;
+
+    // Watch for form rendering via MutationObserver
+    const observer = new MutationObserver(() => {
+      // Check if HubSpot form has been inserted
+      if (formContainer.querySelector('.hbspt-form, .hs-form')) {
+        hideLoader();
+        observer.disconnect();
+      }
+    });
+
+    observer.observe(formContainer, {
+      childList: true,
+      subtree: true
+    });
+
+    // Fallback: hide loader after reasonable timeout
+    setTimeout(() => {
+      hideLoader();
+      observer.disconnect();
+    }, 5000);
+  };
+
   // Load HubSpot embed script if not already loaded
   if (!window.hbspt) {
     const script = document.createElement('script');
@@ -29,21 +61,17 @@ if (!portalId || !formId) {
           formId: formId,
           target: '#hubspot-form-container',
           onFormReady: () => {
-            const loader = document.getElementById('hubspot-loader');
-            if (loader) {
-              loader.style.display = 'none';
-            }
+            hideLoader();
           }
         });
+        setupFormObserver();
       }
     };
     document.body.appendChild(script);
   } else if (window.hbspt) {
     // Script already loaded, form may already exist
-    const loader = document.getElementById('hubspot-loader');
-    if (loader) {
-      loader.style.display = 'none';
-    }
+    hideLoader();
+    setupFormObserver();
   }
 </script>
 
