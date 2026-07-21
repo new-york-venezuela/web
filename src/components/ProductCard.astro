@@ -75,14 +75,6 @@ const tieneMultiplesImagenes = imagenes.length > 1;
     }
   }
 
-  /* On touch devices, always keep carousel media opaque */
-  @media (pointer: coarse) {
-    .card-link:hover .card__media,
-    .card-link:active .card__media {
-      opacity: 1;
-    }
-  }
-
   .card__media {
     aspect-ratio: 5 / 4;
     background-color: var(--color-milk);

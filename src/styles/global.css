@@ -92,8 +92,10 @@ a {
   transition: opacity 0.2s ease;
 }
 
-a:hover {
-  opacity: 0.6;
+@media (hover: hover) and (pointer: fine) {
+  a:hover {
+    opacity: 0.6;
+  }
 }
 
 img {
