@@ -1,0 +1,38 @@
+---
+const portalId = import.meta.env.PUBLIC_HUBSPOT_PORTAL_ID as string;
+const formId = import.meta.env.PUBLIC_HUBSPOT_FORM_ID as string;
+
+if (!portalId || !formId) {
+  throw new Error('HubSpot Portal ID and Form ID are required. Check PUBLIC_HUBSPOT_PORTAL_ID and PUBLIC_HUBSPOT_FORM_ID in .env');
+}
+---
+
+<div class="hubspot-form-wrapper">
+  <div id="hubspot-form-container"></div>
+</div>
+
+<script define:vars={{ portalId, formId }}>
+  // Load HubSpot embed script if not already loaded
+  if (!window.hbspt) {
+    const script = document.createElement('script');
+    script.src = 'https://js.hsforms.net/forms/embed/v2.js';
+    script.async = true;
+    script.onload = () => {
+      if (window.hbspt) {
+        window.hbspt.forms.create({
+          region: 'na1',
+          portalId: portalId,
+          formId: formId,
+          target: '#hubspot-form-container'
+        });
+      }
+    };
+    document.body.appendChild(script);
+  }
+</script>
+
+<style>
+  .hubspot-form-wrapper {
+    width: 100%;
+  }
+</style>
