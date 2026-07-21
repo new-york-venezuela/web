@@ -231,7 +231,7 @@ img {
 .hs-form input.hs-input,
 .hs-form textarea.hs-input,
 .hs-form select.hs-input {
-  padding: 0.875rem 1rem;
+  padding: 0.5rem 0.75rem;
   border: 1px solid var(--color-border);
   background-color: var(--color-cream);
   color: var(--color-charcoal);
@@ -239,6 +239,11 @@ img {
   font-size: 1rem;
   border-radius: 0;
   appearance: none;
+}
+
+.hs-form .hs-fieldtype-textarea textarea {
+  padding: 0.75rem;
+  min-height: 8rem;
 }
 
 .hs-form input.hs-input:focus,
