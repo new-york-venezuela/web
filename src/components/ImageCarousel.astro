@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import { getProductImage } from '../utils/getProductImage';
+
 interface Props {
   imagenes: string[];
   alt: string;
@@ -7,20 +10,59 @@ interface Props {
 
 const { imagenes, alt, class: className } = Astro.props;
 
-// Validate at least one image
 if (!imagenes || imagenes.length === 0) {
   throw new Error('ImageCarousel requires at least one image');
 }
+
+// Pre-load all carousel images for switching
+const imagenesData = imagenes.map(slug => ({
+  slug,
+  data: getProductImage(slug),
+}));
+
+const primeraImagenData = imagenesData[0].data;
 ---
 
 <div class:list={['carousel', className]}>
   <div class="carousel__viewport">
-    <img
-      src={`/productos/${imagenes[0]}.png`}
-      alt={alt}
-      class="carousel__image"
-      data-carousel-image
-    />
+    {primeraImagenData ? (
+      <Image
+        src={primeraImagenData}
+        alt={alt}
+        width={700}
+        height={560}
+        sizes="(max-width: 640px) 350px, (max-width: 1024px) 500px, 700px"
+        class="carousel__image"
+        data-carousel-image
+        data-index="0"
+      />
+    ) : (
+      <img
+        src={`/productos/${imagenes[0]}.png`}
+        alt={alt}
+        class="carousel__image"
+        data-carousel-image
+        data-index="0"
+      />
+    )}
+
+    {/* Pre-render all carousel images (hidden) to preload srcset */}
+    {imagenesData.slice(1).map((item, idx) => (
+      item.data && (
+        <Image
+          src={item.data}
+          alt={alt}
+          width={350}
+          height={280}
+          sizes="(max-width: 640px) 350px, (max-width: 1024px) 500px, 700px"
+          class="carousel__preload"
+          data-carousel-preload
+          data-index={idx + 1}
+          loading="lazy"
+          style="display:none"
+        />
+      )
+    ))}
 
     {imagenes.length > 1 && (
       <>
@@ -55,14 +97,35 @@ if (!imagenes || imagenes.length === 0) {
 
     let currentIndex = 0;
 
-    const image = carousel.querySelector('[data-carousel-image]');
+    const activeImage = carousel.querySelector('[data-carousel-image]');
+    const viewport = carousel.querySelector('.carousel__viewport');
     const counter = carousel.querySelector('[data-carousel-counter]');
     const prevBtn = carousel.querySelector('[data-action="prev"]');
     const nextBtn = carousel.querySelector('[data-action="next"]');
 
+    // Build map of index -> source, including the original (index 0) image.
+    // We snapshot index 0's src/srcset up front because activeImage is the
+    // same DOM node we mutate on every swap - once we overwrite it there is
+    // no other element left holding the original picture to go back to.
+    const sourcesMap = {
+      0: { src: activeImage.src, srcset: activeImage.srcset },
+    };
+    viewport.querySelectorAll('[data-carousel-preload]').forEach(img => {
+      const idx = img.getAttribute('data-index');
+      sourcesMap[idx] = { src: img.src, srcset: img.srcset };
+    });
+
     function updateImage() {
-      const slug = imagenes[currentIndex];
-      image.src = `/productos/${slug}.png`;
+      const source = sourcesMap[currentIndex];
+      if (source) {
+        activeImage.src = source.src;
+        // Always assign srcset (even if empty) - otherwise a previous
+        // swap's srcset lingers on the element and browsers prefer it
+        // over the new src when it still matches the current viewport.
+        activeImage.srcset = source.srcset || '';
+        activeImage.style.opacity = '1';
+      }
+
       if (counter) {
         counter.textContent = `${currentIndex + 1} / ${imagenes.length}`;
       }
@@ -88,7 +151,6 @@ if (!imagenes || imagenes.length === 0) {
       }
     }
 
-    // Attach click handlers directly to buttons
     if (prevBtn) {
       prevBtn.addEventListener('click', function(e) {
         e.preventDefault();

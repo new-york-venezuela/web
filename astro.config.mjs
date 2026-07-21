@@ -21,11 +21,12 @@ export default defineConfig({
   },
 
   image: {
-    // Imágenes responsivas por defecto (estable desde Astro 5.10):
-    // cada <Image> genera srcset/sizes automáticamente y se adapta
-    // a su contenedor sin ampliarse más allá del tamaño solicitado.
     layout: 'constrained',
-    // Inyecta los estilos base (max-width, aspect-ratio) para los layouts.
     responsiveStyles: true,
+    // Optimización para conexiones lentas: prioriza formatos pequeños
+    formats: ['webp', 'avif', 'png'],
+    // Punto de corte para mobile-first: 640px / 1024px / desktop
+    // Genera múltiples resoluciones (1x, 2x) automáticamente
+    remotePatterns: [],
   },
 });

@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import type { Producto } from '../data/catalogo';
 import ImageCarousel from './ImageCarousel.astro';
+import { getProductImage } from '../utils/getProductImage';
 
 interface Props {
   producto: Producto;
@@ -15,9 +17,9 @@ const categoriasSecundarias: Record<string, string> = {
   'pizza': 'Pizzas',
 };
 
-const imagenUrl = `/productos/${producto.imagen}.png`;
 const imagenes = producto.imagenes || [producto.imagen];
 const tieneMultiplesImagenes = imagenes.length > 1;
+const imagenPrincipal = getProductImage(producto.imagen);
 ---
 
 <article class="card">
@@ -25,8 +27,19 @@ const tieneMultiplesImagenes = imagenes.length > 1;
     <div class="card__media">
       {tieneMultiplesImagenes ? (
         <ImageCarousel imagenes={imagenes} alt={producto.imagenAlt || producto.nombre} />
+      ) : imagenPrincipal ? (
+        <Image
+          src={imagenPrincipal}
+          alt={producto.imagenAlt || producto.nombre}
+          width={350}
+          height={280}
+          sizes="(max-width: 640px) 350px, (max-width: 1024px) 500px, 700px"
+          loading="lazy"
+        />
       ) : (
-        <img src={imagenUrl} alt={producto.imagenAlt || producto.nombre} loading="lazy" />
+        <div class="card__media--placeholder">
+          <span class="card__monogram">IMG</span>
+        </div>
       )}
     </div>
     <div class="card__body">

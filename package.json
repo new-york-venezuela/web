@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "astro": "7.1.1",
-    "googleapis": "^173.0.0"
+    "googleapis": "^173.0.0",
+    "sharp": "^0.33.0"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.9",
