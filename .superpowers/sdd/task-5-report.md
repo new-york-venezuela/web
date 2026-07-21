@@ -1,77 +1,28 @@
-# Task 5 Report: Add `imagenes` Arrays to productos.json
+# Task 5: Delete Old Form Infrastructure - Report
 
-**Date:** 2026-07-18  
-**Task:** Data migration to add image carousel support  
-**Status:** DONE
+## Status: DONE
 
 ## Summary
+Successfully deleted all deprecated form infrastructure files. HubSpot integration complete - all form handling now routed through HubSpot.
 
-Successfully added `imagenes` arrays to 4 products with package variant images in `src/data/productos.json`. This enables the ImageCarousel component (Task 2) to display multiple images for these products.
+## Deleted Files (5 total)
+1. ✓ `src/components/LeadForm.astro` - Old lead form component
+2. ✓ `src/data/formConfig.ts` - Form configuration
+3. ✓ `src/utils/formValidation.ts` - Form validation utilities
+4. ✓ `src/utils/formValidation.manual-test.ts` - Validation test file
+5. ✓ `src/pages/api/submit-lead.ts` - API endpoint (existed, deleted)
 
-## Changes Made
+## Files Retained
+- `src/scripts/google-form.ts` - **KEPT** (still used by `src/pages/landing/promocion.astro`)
 
-### Products Updated: 4
+## Dependency Analysis
+- Grep scan confirmed `google-form.ts` is actively imported in promocion.astro
+- No other files reference the deleted infrastructure
+- Clean removal with no orphaned dependencies
 
-1. **pan-4-granos**
-   - Added: `"imagenes": ["pan-4-granos", "pan-4-granos-paquete"]`
-   - Location: After `imagenAlt` field
+## Commit
+- **Hash (base7):** `3af4c10`
+- **Message:** "refactor: remove old form infrastructure (LeadForm, formConfig, validation, API endpoint)"
 
-2. **pan-7-cereales**
-   - Added: `"imagenes": ["pan-7-cereales", "pan-7-cereales-paquete"]`
-   - Location: After `imagenAlt` field
-
-3. **pan-blanco-especial**
-   - Added: `"imagenes": ["pan-blanco-especial", "pan-blanco-especial-paquete"]`
-   - Location: After `imagenAlt` field
-
-4. **magdalenas**
-   - Added: `"imagenes": ["magdalenas", "magdalenas-paquete"]`
-   - Location: After `imagenAlt` field
-
-## Validation Results
-
-### JSON Validity Check
-```bash
-cat src/data/productos.json | jq . > /dev/null && echo "JSON valid"
-```
-**Output:** `JSON valid`  
-**Status:** ✓ PASSED
-
-### Verification of All Updates
-All 4 products successfully verified using jq:
-- pan-4-granos: ✓ imagenes confirmed
-- pan-7-cereales: ✓ imagenes confirmed
-- pan-blanco-especial: ✓ imagenes confirmed
-- magdalenas: ✓ imagenes confirmed
-
-## Git Commit
-
-**Commit Hash:** `dfd0a99`  
-**Message:** "data: add imagenes arrays for products with package variants"
-
-```
-[main dfd0a99] data: add imagenes arrays for products with package variants
- 1 file changed, 4 insertions(+)
-```
-
-## Implementation Notes
-
-- No products without package images were modified
-- The `imagen` field remains unchanged for all products (backward compatibility)
-- All `imagenes` arrays follow the specification: primary image first, package variant second
-- File structure and JSON validity maintained throughout
-
-## Completion Checklist
-
-- [x] Added `imagenes` for pan-4-granos
-- [x] Added `imagenes` for pan-7-cereales
-- [x] Added `imagenes` for pan-blanco-especial
-- [x] Added `imagenes` for magdalenas
-- [x] JSON validated with jq
-- [x] All 4 products verified
-- [x] Commit created
-- [x] Report generated
-
-## Status Code
-
-**DONE** — All 4 products updated, JSON validated, commit created successfully.
+## Test Summary
+Files verified deleted; google-form.ts dependency confirmed in use; build ready (5 files removed, 0 breaking changes)

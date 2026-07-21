@@ -1,13 +1,24 @@
-# HubSpot Form Integration — Progress Ledger
+# Dev-Mode Conditional Rendering — Progress Ledger
 
-**Baseline:** 97f3b70 (deploy: fix sticky hover)
-**Plan:** docs/superpowers/plans/2026-07-20-hubspot-form-integration.md
+**Baseline:** d389ac9 (style: reduce HubSpot form input padding and set textarea min-height)
+**Plan:** docs/superpowers/plans/2026-07-20-dev-mode-implementation.md
 
 ## Tasks
 
-- [x] Task 1: Add HubSpot env vars to `.env.example` — complete (a590b0c, review clean)
-- [x] Task 2: Create `HubSpotForm.astro` component — complete (e8b0c3f, review clean)
-- [x] Task 3: Update `/solicitar-llamada.astro` to use HubSpotForm — complete (f3e8b10, review clean)
-- [x] Task 4: Add HubSpot CSS overrides to global styles — complete (039a86f, review clean)
-- [ ] Task 5: Delete old form infrastructure files
-- [ ] Task 6: Test the HubSpot embed in browser
+- [x] Task 1: Create Dev-Mode Utility Module — complete (0cc8b32, review approved)
+- [x] Task 2: Integrate Dev-Mode into sobre-nosotros.astro — complete (d98499b, review approved)
+- [x] Task 3: Manual Testing — complete (754064b, testing ready)
+
+## Final Review
+
+**Status:** REQUEST CHANGES
+
+**Critical Issues:**
+1. Spec violation: Placeholders in DOM (hidden with CSS), not removed
+2. Dead code: `src/utils/devMode.ts` created but abandoned in Commit 3
+3. Untested: Manual testing never executed
+4. Regression: Commit 3 reverts spec-compliant Commit 2
+
+**Required fixes before merge:**
+- Revert to Commit 2 approach OR update spec to accept CSS hiding
+- Execute manual testing and document results
