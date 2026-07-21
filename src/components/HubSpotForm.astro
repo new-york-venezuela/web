@@ -10,42 +10,82 @@ if (!portalId || !formId) {
 <div class="hubspot-form-wrapper">
   <div id="hubspot-loader" class="loader">
     <div class="spinner"></div>
-    <p>Loading form...</p>
+    <p>Cargando formulario...</p>
+  </div>
+  <div id="hubspot-error" class="error-message" style="display: none;">
+    <p>No pudimos cargar el formulario. Por favor, intenta recargar la página.</p>
   </div>
   <div id="hubspot-form-container"></div>
 </div>
 
 <script define:vars={{ portalId, formId }}>
-  const hideLoader = () => {
+  const hideLoader = (isError = false) => {
     const loader = document.getElementById('hubspot-loader');
+    const error = document.getElementById('hubspot-error');
     if (loader) {
       loader.style.display = 'none';
     }
+    if (isError && error) {
+      error.style.display = 'block';
+    }
   };
 
+  let loaderHidden = false;
+  const ensureLoaderHidden = (isError = false) => {
+    if (!loaderHidden) {
+      hideLoader(isError);
+      loaderHidden = true;
+    }
+  };
+
+  let observer;
   const setupFormObserver = () => {
     const formContainer = document.getElementById('hubspot-form-container');
     if (!formContainer) return;
 
-    // Watch for form rendering via MutationObserver
-    const observer = new MutationObserver(() => {
-      // Check if HubSpot form has been inserted
-      if (formContainer.querySelector('.hbspt-form, .hs-form')) {
-        hideLoader();
+    observer = new MutationObserver(() => {
+      const iframe = formContainer.querySelector('iframe');
+      // Wait for iframe to have height (indicates it's rendered and interactive)
+      if (iframe && iframe.offsetHeight > 0) {
+        clearFallback();
+        ensureLoaderHidden();
         observer.disconnect();
       }
     });
 
     observer.observe(formContainer, {
       childList: true,
-      subtree: true
+      subtree: true,
+      attributes: true
     });
+  };
 
-    // Fallback: hide loader after reasonable timeout
-    setTimeout(() => {
-      hideLoader();
-      observer.disconnect();
-    }, 5000);
+  // Fallback: hide loader after timeout (guards against script/network/config failures)
+  const fallbackTimeout = setTimeout(() => {
+    console.warn('HubSpot form did not load within 10s, hiding loader');
+    if (observer) observer.disconnect();
+    ensureLoaderHidden();
+  }, 10000);
+
+  const clearFallback = () => {
+    clearTimeout(fallbackTimeout);
+    if (observer) observer.disconnect();
+  };
+
+  const createForm = () => {
+    if (window.hbspt) {
+      setupFormObserver();
+      window.hbspt.forms.create({
+        region: 'na1',
+        portalId: portalId,
+        formId: formId,
+        target: '#hubspot-form-container',
+        onFormReady: () => {
+          clearFallback();
+          ensureLoaderHidden(false);
+        }
+      });
+    }
   };
 
   // Load HubSpot embed script if not already loaded
@@ -53,25 +93,16 @@ if (!portalId || !formId) {
     const script = document.createElement('script');
     script.src = 'https://js.hsforms.net/forms/embed/v2.js';
     script.async = true;
-    script.onload = () => {
-      if (window.hbspt) {
-        window.hbspt.forms.create({
-          region: 'na1',
-          portalId: portalId,
-          formId: formId,
-          target: '#hubspot-form-container',
-          onFormReady: () => {
-            hideLoader();
-          }
-        });
-        setupFormObserver();
-      }
+    script.onload = createForm;
+    script.onerror = () => {
+      console.error('Failed to load HubSpot embed script');
+      clearFallback();
+      ensureLoaderHidden(true);
     };
     document.body.appendChild(script);
-  } else if (window.hbspt) {
-    // Script already loaded, form may already exist
-    hideLoader();
-    setupFormObserver();
+  } else {
+    // Script already loaded, create form immediately
+    createForm();
   }
 </script>
 
@@ -100,6 +131,22 @@ if (!portalId || !formId) {
 
   .loader p {
     color: #666;
+    font-size: 0.95rem;
+    margin: 0;
+  }
+
+  .error-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background-color: #fee;
+    border-left: 4px solid #d32f2f;
+    border-radius: 4px;
+  }
+
+  .error-message p {
+    color: #d32f2f;
     font-size: 0.95rem;
     margin: 0;
   }
