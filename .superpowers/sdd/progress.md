@@ -1,24 +1,13 @@
-# Product Image Carousel Implementation Progress
+# HubSpot Form Integration — Progress Ledger
 
-**Baseline:** bcbcddf (docs spec committed)
+**Baseline:** 97f3b70 (deploy: fix sticky hover)
+**Plan:** docs/superpowers/plans/2026-07-20-hubspot-form-integration.md
 
 ## Tasks
 
-- [ ] Task 1: Update Producto type
-- [ ] Task 2: Create ImageCarousel component
-- [ ] Task 3: Update ProductCard
-- [ ] Task 4: Update detail page
-- [ ] Task 5: Add imagenes to JSON
-- [ ] Task 6: Test carousel
-- [ ] Task 7: Final validation
-- [x] Task 1: Update Producto type (commits 3d1a5a1, review clean)
-- [x] Task 2: Create ImageCarousel component (commits b2ab39a, review clean)
-- [x] Task 3: Integrate ProductCard (commits d6eca16..HEAD, review clean)
-- [x] Task 4: Integrate detail page (commits 629b13f..HEAD, review clean)
-- [x] Task 5: Add imagenes to JSON (review clean)
-- [x] Task 6: Test carousel (all tests passed)
-- [x] Task 7: Final validation (all checks passed)
-
-## Implementation Complete ✅
-
-All 7 tasks passed. Feature is production-ready.
+- [x] Task 1: Add HubSpot env vars to `.env.example` — complete (a590b0c, review clean)
+- [x] Task 2: Create `HubSpotForm.astro` component — complete (e8b0c3f, review clean)
+- [x] Task 3: Update `/solicitar-llamada.astro` to use HubSpotForm — complete (f3e8b10, review clean)
+- [x] Task 4: Add HubSpot CSS overrides to global styles — complete (039a86f, review clean)
+- [ ] Task 5: Delete old form infrastructure files
+- [ ] Task 6: Test the HubSpot embed in browser
