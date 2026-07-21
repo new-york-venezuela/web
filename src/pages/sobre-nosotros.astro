@@ -1,6 +1,9 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import CTASection from '../components/CTASection.astro';
+import { isDevMode } from '../utils/devMode';
+
+const showDevPlaceholders = isDevMode(Astro.url);
 ---
 
 <BaseLayout
@@ -34,14 +37,18 @@ import CTASection from '../components/CTASection.astro';
         con obsesivo detalle ya habían copado casi la totalidad del mercado de restaurantes de la capital.
       </p>
 
-      <!-- SUGERENCIA DE IMAGEN/VÍDEO 1 -->
-      <div class="image-placeholder">
-        <p class="placeholder-title">📸 RECOMENDACIÓN VISUAL: EL ORIGEN</p>
-        <p>
-          Ideal para: El vídeo de Sergio contando la historia, o en su defecto, una fotografía antigua de los inicios, 
-          de los hermanos Doñaque, o un bodegón clásico y emotivo de la Cheesecake original estilo New York.
-        </p>
-      </div>
+      {showDevPlaceholders && (
+        <>
+          <!-- SUGERENCIA DE IMAGEN/VÍDEO 1 -->
+          <div class="image-placeholder">
+            <p class="placeholder-title">📸 RECOMENDACIÓN VISUAL: EL ORIGEN</p>
+            <p>
+              Ideal para: El vídeo de Sergio contando la historia, o en su defecto, una fotografía antigua de los inicios,
+              de los hermanos Doñaque, o un bodegón clásico y emotivo de la Cheesecake original estilo New York.
+            </p>
+          </div>
+        </>
+      )}
 
       {/* SECCIÓN 2 */}
       <h2>2. La Evolución: El Arte de la Panadería Premium</h2>
@@ -58,14 +65,18 @@ import CTASection from '../components/CTASection.astro';
         tartas de queso.
       </p>
 
-      <!-- SUGERENCIA DE IMAGEN 2 -->
-      <div class="image-placeholder">
-        <p class="placeholder-title">🍞 RECOMENDACIÓN VISUAL: LA MAESTRÍA DEL PAN</p>
-        <p>
-          Ideal para: Una cuadrícula o foto de alta calidad que muestre la variedad de panes (el Pumpernickel oscuro, las Baguettes crujientes, 
-          los panes integrales), resaltando la textura, los cortes artesanales y la calidad de la producción.
-        </p>
-      </div>
+      {showDevPlaceholders && (
+        <>
+          <!-- SUGERENCIA DE IMAGEN 2 -->
+          <div class="image-placeholder">
+            <p class="placeholder-title">🍞 RECOMENDACIÓN VISUAL: LA MAESTRÍA DEL PAN</p>
+            <p>
+              Ideal para: Una cuadrícula o foto de alta calidad que muestre la variedad de panes (el Pumpernickel oscuro, las Baguettes crujientes,
+              los panes integrales), resaltando la textura, los cortes artesanales y la calidad de la producción.
+            </p>
+          </div>
+        </>
+      )}
 
       {/* SECCIÓN 3 */}
       <h2>3. El Compromiso: Calidad y Bienestar Innegociables</h2>
@@ -76,14 +87,18 @@ import CTASection from '../components/CTASection.astro';
         alimentaria en cada uno de nuestros procesos.
       </p>
 
-      <!-- SUGERENCIA DE IMAGEN 3 -->
-      <div class="image-placeholder">
-        <p class="placeholder-title">🛡️ RECOMENDACIÓN VISUAL: SELLO DE CALIDAD</p>
-        <p>
-          Ideal para: Un plano detalle de un pan siendo rebanado en un ambiente familiar/cálido, o una composición limpia 
-          donde se visualice discretamente el sello decorativo de "Certificado Kosher Parve" y "Alimentos Premium".
-        </p>
-      </div>
+      {showDevPlaceholders && (
+        <>
+          <!-- SUGERENCIA DE IMAGEN 3 -->
+          <div class="image-placeholder">
+            <p class="placeholder-title">🛡️ RECOMENDACIÓN VISUAL: SELLO DE CALIDAD</p>
+            <p>
+              Ideal para: Un plano detalle de un pan siendo rebanado en un ambiente familiar/cálido, o una composición limpia
+              donde se visualice discretamente el sello decorativo de "Certificado Kosher Parve" y "Alimentos Premium".
+            </p>
+          </div>
+        </>
+      )}
 
       <div class="editorial__cta">
         <a href="/catalogo/" class="btn btn--solid">Conocer el catálogo</a>
