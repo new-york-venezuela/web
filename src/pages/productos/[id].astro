@@ -1,8 +1,10 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import StructuredData from '../../components/StructuredData.astro';
 import ImageCarousel from '../../components/ImageCarousel.astro';
 import { productos } from '../../data/catalogo';
+import { getProductImage } from '../../utils/getProductImage';
 
 export async function getStaticPaths() {
   return productos.map(producto => ({
@@ -22,9 +24,9 @@ const breadcrumbs = [
   { name: producto.nombre, url: `/productos/${producto.id}/` }
 ];
 
-const imagenUrl = `/productos/${producto.imagen}.png`;
 const imagenes = producto.imagenes || [producto.imagen];
 const tieneMultiplesImagenes = imagenes.length > 1;
+const mainImageData = getProductImage(producto.imagen);
 ---
 
 <BaseLayout
@@ -53,8 +55,16 @@ const tieneMultiplesImagenes = imagenes.length > 1;
         <div class="detail-media">
           {tieneMultiplesImagenes ? (
             <ImageCarousel imagenes={imagenes} alt={producto.imagenAlt || producto.nombre} />
+          ) : mainImageData ? (
+            <Image
+              src={mainImageData}
+              alt={producto.imagenAlt || producto.nombre}
+              width={700}
+              height={560}
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 700px"
+            />
           ) : (
-            <img src={imagenUrl} alt={producto.imagenAlt || producto.nombre} />
+            <img src={`/productos/${producto.imagen}.png`} alt={producto.imagenAlt || producto.nombre} />
           )}
         </div>
 
@@ -127,11 +137,22 @@ const tieneMultiplesImagenes = imagenes.length > 1;
           <div class="related-grid">
             {producto.variantes_relacionadas.map(variantId => {
               const variant = productos.find(p => p.id === variantId);
+              const variantImageData = getProductImage(variant?.imagen);
               return variant ? (
                 <div class="related-card">
                   <a href={`/productos/${variant.id}/`}>
                     <div class="related-image">
-                      <img src={`/productos/${variant.imagen}.png`} alt={variant.nombre} />
+                      {variantImageData ? (
+                        <Image
+                          src={variantImageData}
+                          alt={variant.nombre}
+                          width={350}
+                          height={260}
+                          sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 250px"
+                        />
+                      ) : (
+                        <img src={`/productos/${variant.imagen}.png`} alt={variant.nombre} />
+                      )}
                     </div>
                     <h3>{variant.nombre}</h3>
                   </a>
