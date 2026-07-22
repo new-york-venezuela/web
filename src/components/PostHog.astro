@@ -68,6 +68,7 @@ const enabled = Boolean(apiKey);
       posthog.init(apiKey, {
         api_host: apiHost,
         ui_host: uiHost,
+        person_profiles: 'always',
         defaults: '2026-05-30',
         capture_pageview: true,
       });
