@@ -11,7 +11,7 @@ setup:
 	@echo "Creating .venv with Python 3.12.3 using uv..."
 	uv venv --python 3.12.3
 	@echo "Installing dependencies via uv..."
-	.venv/bin/uv pip install -r requirements.txt
+	uv pip install -r requirements.txt
 	@echo "✓ Setup complete. Run 'source .venv/bin/activate' to activate."
 
 run:
