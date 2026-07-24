@@ -4,43 +4,28 @@
  * Generate JSON-LD schemas and SEO metadata for products
  */
 
-export interface Producto {
-  id: string;
-  nombre: string;
-  descripcion: string;
-  descripcion_seo?: string;
-  categoria_primaria: 'supermarket' | 'foodservice';
-  categoria_secundaria: 'panes' | 'reposteria' | 'especialidades' | 'pizza';
-  imagen: string;
-  imagenAlt?: string;
-  palabras_clave?: string[];
-  destacado?: boolean;
-  precioRef?: number;
-  certificaciones?: string[];
-  specs?: {
-    peso?: string;
-    codigo_barras?: string;
-    cpe?: string;
-    mpps?: string;
-    tiempoVida?: string;
-    temperatura?: string;
-  };
-  variantes_relacionadas?: string[];
-  distribuida_en?: string[];
-  proveedores?: string[];
-  preguntas_frecuentes?: Array<{
-    pregunta: string;
-    respuesta: string;
-  }>;
-}
+// Canonical Producto type lives in loadProductos.ts. Re-export it so existing
+// imports from this module keep working without duplicating the definition.
+import type { Producto } from './loadProductos';
+import { COMPANY } from '../data/company';
+export type { Producto };
 
-export function generateProductSchema(producto: Producto, baseUrl: string, company?: any): string {
+export function generateProductSchema(
+  producto: Producto,
+  baseUrl: string,
+  company?: typeof COMPANY,
+  imageUrl?: string
+): string {
+  const resolvedImage = imageUrl
+    ? (/^https?:\/\//.test(imageUrl) ? imageUrl : `${baseUrl}${imageUrl}`)
+    : `${baseUrl}/productos/${producto.imagen}.png`;
+
   const schema: any = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: producto.nombre,
     description: producto.descripcion_seo || producto.descripcion,
-    image: `${baseUrl}/public/productos/${producto.imagen}.png`,
+    image: resolvedImage,
     offers: {
       '@type': 'Offer',
       priceCurrency: 'USD',
@@ -108,7 +93,7 @@ export function generateBreadcrumbSchema(breadcrumbs: Array<{ name: string; url:
   return JSON.stringify(schema);
 }
 
-export function generateLocalBusinessSchema(baseUrl: string, company?: any): string {
+export function generateLocalBusinessSchema(baseUrl: string, company?: typeof COMPANY): string {
   const companyData = company || {
     name: 'New York Alimentos Premium',
     description: 'Panadería y pastelería premium en Caracas, Venezuela',
