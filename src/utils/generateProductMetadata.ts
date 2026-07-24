@@ -26,10 +26,16 @@ export interface Producto {
     temperatura?: string;
   };
   variantes_relacionadas?: string[];
+  distribuida_en?: string[];
+  proveedores?: string[];
+  preguntas_frecuentes?: Array<{
+    pregunta: string;
+    respuesta: string;
+  }>;
 }
 
-export function generateProductSchema(producto: Producto, baseUrl: string): string {
-  const schema = {
+export function generateProductSchema(producto: Producto, baseUrl: string, company?: any): string {
+  const schema: any = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: producto.nombre,
@@ -41,6 +47,49 @@ export function generateProductSchema(producto: Producto, baseUrl: string): stri
       price: producto.precioRef?.toString() || '0',
       availability: 'https://schema.org/InStock'
     }
+  };
+
+  // E-E-A-T: Add manufacturer/brand info
+  if (company) {
+    schema.brand = {
+      '@type': 'Brand',
+      name: company.name
+    };
+    schema.manufacturer = {
+      '@type': 'Organization',
+      name: company.name,
+      image: `${baseUrl}${company.logo}`
+    };
+  }
+
+  // E-E-A-T: Add certifications as claims
+  if (producto.certificaciones && producto.certificaciones.length > 0) {
+    schema.certifications = producto.certificaciones;
+  }
+
+  // Add distributors (where to buy)
+  if (producto.distribuida_en && producto.distribuida_en.length > 0) {
+    schema.distributor = producto.distribuida_en.map(distributor => ({
+      '@type': 'LocalBusiness',
+      name: distributor
+    }));
+  }
+
+  return JSON.stringify(schema);
+}
+
+export function generateFaqSchema(faqs: Array<{ pregunta: string; respuesta: string }>, baseUrl: string): string {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(faq => ({
+      '@type': 'Question',
+      name: faq.pregunta,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.respuesta
+      }
+    }))
   };
   return JSON.stringify(schema);
 }
@@ -59,20 +108,36 @@ export function generateBreadcrumbSchema(breadcrumbs: Array<{ name: string; url:
   return JSON.stringify(schema);
 }
 
-export function generateLocalBusinessSchema(baseUrl: string): string {
-  const schema = {
+export function generateLocalBusinessSchema(baseUrl: string, company?: any): string {
+  const companyData = company || {
+    name: 'New York Alimentos Premium',
+    description: 'Panadería y pastelería premium en Caracas, Venezuela',
+    logo: '/logo.png',
+    location: { city: 'Caracas', region: 'DF', country: 'VE' },
+    founded: 1980
+  };
+
+  const currentYear = new Date().getFullYear();
+  const yearsInBusiness = currentYear - companyData.founded;
+
+  const schema: any = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
-    name: 'New York Cheesecake',
+    name: companyData.name,
     url: baseUrl,
-    image: `${baseUrl}/logo.png`,
-    description: 'Panadería y pastelería premium en Caracas, Venezuela',
+    image: `${baseUrl}${companyData.logo}`,
+    description: companyData.description,
     address: {
       '@type': 'PostalAddress',
-      addressLocality: 'Caracas',
-      addressRegion: 'DF',
-      addressCountry: 'VE'
+      addressLocality: companyData.location.city,
+      addressRegion: companyData.location.region,
+      addressCountry: companyData.location.country
     }
   };
+
+  // E-E-A-T: Add founding date and years in business
+  schema.foundingDate = `${companyData.founded}-01-01`;
+  schema.description += ` Experiencia de ${yearsInBusiness} años en el mercado.`;
+
   return JSON.stringify(schema);
 }
