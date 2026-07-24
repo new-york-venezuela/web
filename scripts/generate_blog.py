@@ -286,10 +286,13 @@ def export_outputs(issue_number: int, issue_title: str, slug: str) -> None:
     """Export outputs for GitHub Actions."""
     output_file = os.getenv("GITHUB_OUTPUT")
     if output_file:
+        # Escape values for GitHub Actions output format
+        safe_title = issue_title.replace("\n", " ").replace("=", "-")
+        safe_slug = slug.replace("\n", " ")
         with open(output_file, "a") as f:
             f.write(f"issue_number={issue_number}\n")
-            f.write(f"issue_title={issue_title}\n")
-            f.write(f"slug={slug}\n")
+            f.write(f"issue_title={safe_title}\n")
+            f.write(f"slug={safe_slug}\n")
     else:
         # Fallback for local testing
         print(f"\nGenerated blog post:")
@@ -314,7 +317,6 @@ def main():
 
     # Find scheduled issues
     today = datetime.now().strftime("%Y-%m-%d")
-    query = f"repo:{GITHUB_REPO} label:{ISSUE_LABEL} is:open"
     issues = repo.get_issues(state="open", labels=[ISSUE_LABEL])
 
     scheduled_issues = []
@@ -329,6 +331,11 @@ def main():
 
     # Process the first scheduled issue (only one per day)
     issue, metadata = scheduled_issues[0]
+
+    # Skip if already published (idempotency guard)
+    if issue.number in existing_slugs:
+        print(f"Issue #{issue.number} already published as '{existing_slugs[issue.number]}'")
+        return
 
     if DEBUG:
         print(f"Processing issue #{issue.number}: {issue.title}")
@@ -351,7 +358,7 @@ def main():
     slug = generate_slug(issue.title)
     description = issue.body.split("\n")[0][:160] if issue.body else issue.title
     pub_date = metadata.scheduled_date or today
-    tags = metadata.tags + (["series"] if metadata.series else [])
+    tags = metadata.tags + ([metadata.series] if metadata.series else [])  # Use series name, not "series"
 
     file_path = write_blog_post(
         slug=slug,
