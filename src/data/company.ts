@@ -4,7 +4,7 @@
 
 export const COMPANY = {
   name: 'New York Alimentos Premium',
-  founded: 1980,
+  founded: 1982,
   location: {
     city: 'Caracas',
     region: 'DF',
