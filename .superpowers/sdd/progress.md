@@ -1,24 +1,19 @@
-# Dev-Mode Conditional Rendering — Progress Ledger
+# Automated Daily Blog Post Generator — Progress Ledger
 
-**Baseline:** d389ac9 (style: reduce HubSpot form input padding and set textarea min-height)
-**Plan:** docs/superpowers/plans/2026-07-20-dev-mode-implementation.md
+**Baseline:** 73b0fce (Remove link to png favicon)
+**Plan:** docs/superpowers/plans/2026-07-24-daily-blog-generator.md
 
 ## Tasks
 
-- [x] Task 1: Create Dev-Mode Utility Module — complete (0cc8b32, review approved)
-- [x] Task 2: Integrate Dev-Mode into sobre-nosotros.astro — complete (d98499b, review approved)
-- [x] Task 3: Manual Testing — complete (754064b, testing ready)
+- [x] Task 1: Create Python Version Pin and Makefile — complete (74c8098, spec ✅, quality approved)
+- [x] Task 2: Create Requirements and Environment Config — complete (6f934eb, spec ✅, quality approved)
+- [x] Task 3: Create Main Blog Generator Script — complete (664630a, spec ✅, quality approved)
+- [x] Task 4: Create GitHub Actions Workflow — complete (b640938, spec ✅, quality approved)
+- [x] Task 5: Verify/Create Astro Content Schema — complete (3f08712, spec ✅, quality approved)
+- [x] Task 6: Test the Pipeline Locally — complete, setup verified
 
-## Final Review
+## Summary
 
-**Status:** REQUEST CHANGES
+All 6 tasks complete. Python environment (venv + uv), blog generator script with GitHub/LLM integration, CI/CD workflow, Astro schema validation all in place. Local setup verified. Ready for final review and merge.
 
-**Critical Issues:**
-1. Spec violation: Placeholders in DOM (hidden with CSS), not removed
-2. Dead code: `src/utils/devMode.ts` created but abandoned in Commit 3
-3. Untested: Manual testing never executed
-4. Regression: Commit 3 reverts spec-compliant Commit 2
-
-**Required fixes before merge:**
-- Revert to Commit 2 approach OR update spec to accept CSS hiding
-- Execute manual testing and document results
+**Commits Range:** 74c8098..664630a (5 feature commits)
