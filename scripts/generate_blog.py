@@ -174,22 +174,22 @@ def build_generation_prompt(
     if metadata.series:
         series_info = f"\nThis is part {metadata.part} of the series '{metadata.series}'."
 
-    prompt = f"""Write a detailed, SEO-optimized blog post for a generative search engine (like Perplexity, ChatGPT web) based on this issue:
+    prompt = f"""Escribe un artículo detallado y optimizado para SEO en español, dirigido a buscadores generativos (como Perplexity, ChatGPT web), basado en este tema:
 
-Title: {issue_title}
-Body: {issue_body}{series_info}
+Título: {issue_title}
+Cuerpo: {issue_body}{series_info}
 
-Requirements:
-1. Write for generative search engines (GEO): provide direct, comprehensive answers upfront.
-2. Structure with H2 and H3 headings logically (no H1; the page title is H1).
-3. Include internal links to these related posts: {links_text or "None yet"}
-4. Use HTML comments to suggest image placements: <!-- IMAGE SUGGESTION: [description of what image would help here] -->
-5. Write naturally, not like a list. Use paragraphs and flowing prose.
-6. Assume the reader is learning this topic for the first time.
-7. Include practical examples or use cases where relevant.
-8. End with a "Next Steps" or "Learn More" section.
+Requisitos:
+1. Escribe para buscadores generativos (GEO): proporciona respuestas directas y completas al inicio.
+2. Estructura con encabezados H2 y H3 de forma lógica (sin H1; el título de la página es H1).
+3. Incluye enlaces internos a estos artículos relacionados: {links_text or "Ninguno aún"}
+4. Usa comentarios HTML para sugerir ubicaciones de imágenes: <!-- SUGERENCIA DE IMAGEN: [descripción de qué imagen ayudaría aquí] -->
+5. Escribe de forma natural, no como lista. Usa párrafos y prosa fluida.
+6. Asume que el lector está aprendiendo este tema por primera vez.
+7. Incluye ejemplos prácticos o casos de uso cuando sea relevante.
+8. Termina con una sección de "Próximos Pasos" o "Aprende Más".
 
-Output ONLY the markdown body (no YAML frontmatter, no triple dashes). Start writing the content directly."""
+Output ONLY el cuerpo del markdown (sin frontmatter YAML, sin guiones triples). Comienza a escribir el contenido directamente."""
 
     return prompt
 
@@ -229,7 +229,7 @@ def generate_blog_post(
         messages=[
             {
                 "role": "system",
-                "content": "You are an expert technical writer for a blog about Venezuelan food and New York culture.",
+                "content": "Eres un experto redactor para el blog de Alimentos New York, una panadería y pastelería que vende a supermercados y restaurantes. Escribe en español, con un tono profesional pero accesible. Enfócate en recetas, técnicas de pastelería, ingredientes venezolanos y la fusión culinaria NY-Venezuela.",
             },
             {
                 "role": "user",
