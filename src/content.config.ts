@@ -17,6 +17,20 @@ const productosCollection = defineCollection({
   })
 });
 
+const blogCollection = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDate: z.coerce.date(),
+    author: z.string().default('eugenio'),
+    draft: z.boolean().default(false),
+    tags: z.array(z.string()).default([]),
+    relatedIssue: z.number().optional()
+  })
+});
+
 export const collections = {
-  productos: productosCollection
+  productos: productosCollection,
+  blog: blogCollection
 };

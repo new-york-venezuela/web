@@ -101,17 +101,24 @@ def get_existing_blog_slugs() -> dict:
         return slug_map
 
     for md_file in BLOG_OUTPUT_DIR.glob("*.md"):
-        with open(md_file, "r", encoding="utf-8") as f:
-            content = f.read()
-            # Extract frontmatter
-            if content.startswith("---"):
-                _, frontmatter, _ = content.split("---", 2)
-                # Look for issue reference in frontmatter (e.g., relatedIssue: 123)
-                issue_match = re.search(r"relatedIssue:\s*(\d+)", frontmatter)
-                if issue_match:
-                    issue_num = int(issue_match.group(1))
-                    slug = md_file.stem
-                    slug_map[issue_num] = slug
+        try:
+            with open(md_file, "r", encoding="utf-8") as f:
+                content = f.read()
+                # Extract frontmatter
+                if content.startswith("---"):
+                    parts = content.split("---", 2)
+                    if len(parts) == 3:  # Must have opening and closing ---
+                        _, frontmatter, _ = parts
+                        # Look for issue reference in frontmatter (e.g., relatedIssue: 123)
+                        issue_match = re.search(r"relatedIssue:\s*(\d+)", frontmatter)
+                        if issue_match:
+                            issue_num = int(issue_match.group(1))
+                            slug = md_file.stem
+                            slug_map[issue_num] = slug
+        except (ValueError, OSError) as e:
+            if DEBUG:
+                print(f"Warning: Could not parse {md_file}: {e}")
+            continue
     return slug_map
 
 
@@ -138,7 +145,9 @@ def resolve_cross_links(
                     "title": issue.title,
                     "url": None,  # Not yet published
                 }
-            except:
+            except Exception as e:  # Catch API errors but not SystemExit/KeyboardInterrupt
+                if DEBUG:
+                    print(f"Warning: Could not fetch issue #{issue_num}: {e}")
                 links[issue_num] = {
                     "title": f"Issue #{issue_num}",
                     "url": None,
@@ -207,6 +216,7 @@ def generate_blog_post(
             client = AzureOpenAI(
                 api_key=AI_PROVIDER_API_KEY,
                 azure_endpoint=AI_BASE_URL,
+                api_version="2024-02-15-preview",  # Required for Azure
             )
         else:
             client = OpenAI(
@@ -252,9 +262,10 @@ def write_blog_post(
     """Write the blog post to markdown file."""
     BLOG_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
+    # Use json.dumps to escape title and description safely
     frontmatter = f"""---
-title: "{title}"
-description: "{description}"
+title: {json.dumps(title)}
+description: {json.dumps(description)}
 pubDate: {pub_date}
 author: "eugenio"
 draft: false
