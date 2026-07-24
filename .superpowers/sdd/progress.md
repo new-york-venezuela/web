@@ -1,24 +1,23 @@
-# Dev-Mode Conditional Rendering — Progress Ledger
-
-**Baseline:** d389ac9 (style: reduce HubSpot form input padding and set textarea min-height)
-**Plan:** docs/superpowers/plans/2026-07-20-dev-mode-implementation.md
+# Progress Ledger: SEO/GEO Metadata Setup
 
 ## Tasks
 
-- [x] Task 1: Create Dev-Mode Utility Module — complete (0cc8b32, review approved)
-- [x] Task 2: Integrate Dev-Mode into sobre-nosotros.astro — complete (d98499b, review approved)
-- [x] Task 3: Manual Testing — complete (754064b, testing ready)
+- [x] Task 1: Create Company Constants
+- [x] Task 2: Extend Product TypeScript Interfaces
+- [x] Task 3: Extend Schema Generators
+- [ ] Task 4: Create SeoHead Component
+- [ ] Task 5: Update BaseLayout to Use SeoHead
+- [ ] Task 6: Update Product Detail Page with FAQ & Enhanced Metadata
+- [ ] Task 7: Update StructuredData Component to Support FAQ
+- [ ] Task 8: Add Sample Product Data with New Fields
 
-## Final Review
+## Completed
 
-**Status:** REQUEST CHANGES
+- Task 1: `ce49c2d` — feat: add company constants for E-E-A-T and metadata
+- Task 2: `93e940a` — feat: extend Producto interface with distribuida_en, proveedores, FAQ
+- Task 3: `93e940a` — feat: extend schema generators with FAQ, E-E-A-T, and distributor info (included in Task 2 commit)
 
-**Critical Issues:**
-1. Spec violation: Placeholders in DOM (hidden with CSS), not removed
-2. Dead code: `src/utils/devMode.ts` created but abandoned in Commit 3
-3. Untested: Manual testing never executed
-4. Regression: Commit 3 reverts spec-compliant Commit 2
+## Notes
 
-**Required fixes before merge:**
-- Revert to Commit 2 approach OR update spec to accept CSS hiding
-- Execute manual testing and document results
+- BASE_COMMIT: 73b0fce
+- Minor findings tracked here (not blocking)

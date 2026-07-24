@@ -23,6 +23,12 @@ export interface Producto {
     temperatura?: string;
   };
   variantes_relacionadas?: string[]; // product IDs of siblings
+  distribuida_en?: string[]; // where the product is distributed/sold
+  proveedores?: string[]; // suppliers
+  preguntas_frecuentes?: Array<{
+    pregunta: string;
+    respuesta: string;
+  }>;
 }
 
 const VALID_CATEGORIAS_PRIMARIAS = ['supermarket', 'foodservice'];

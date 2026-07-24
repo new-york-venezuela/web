@@ -1,24 +1,36 @@
 ---
-import { generateProductSchema, generateBreadcrumbSchema, generateLocalBusinessSchema } from '../utils/generateProductMetadata';
+import {
+  generateProductSchema,
+  generateBreadcrumbSchema,
+  generateLocalBusinessSchema,
+  generateFaqSchema
+} from '../utils/generateProductMetadata';
 import type { Producto } from '../utils/generateProductMetadata';
+import { COMPANY } from '../data/company';
 
 interface Props {
   producto?: Producto;
   breadcrumbs?: Array<{ name: string; url: string }>;
-  type?: 'product' | 'breadcrumb' | 'organization';
+  faqs?: Array<{ pregunta: string; respuesta: string }>;
+  type?: 'product' | 'breadcrumb' | 'organization' | 'faq';
+  company?: typeof COMPANY;
+  /** Resolved (Astro asset) image URL for product schema. */
+  imageUrl?: string;
 }
 
-const { producto, breadcrumbs, type = 'product' } = Astro.props;
+const { producto, breadcrumbs, faqs, type = 'product', company = COMPANY, imageUrl } = Astro.props;
 const baseUrl = Astro.url.origin;
 
 let schema = '';
 
 if (type === 'product' && producto) {
-  schema = generateProductSchema(producto, baseUrl);
+  schema = generateProductSchema(producto, baseUrl, company, imageUrl);
 } else if (type === 'breadcrumb' && breadcrumbs) {
   schema = generateBreadcrumbSchema(breadcrumbs, baseUrl);
 } else if (type === 'organization') {
-  schema = generateLocalBusinessSchema(baseUrl);
+  schema = generateLocalBusinessSchema(baseUrl, company);
+} else if (type === 'faq' && faqs) {
+  schema = generateFaqSchema(faqs, baseUrl);
 }
 ---
 

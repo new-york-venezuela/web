@@ -29,7 +29,32 @@
         "mpps": "A-67.733",
         "tiempoVida": "15 días",
         "temperatura": "ambiente"
-      }
+      },
+      "distribuida_en": [
+        "Supermercado Carrefour Caracas",
+        "Distribuidora Alimentaria Venezolana",
+        "Hipermercado Éxito",
+        "Supermercado Makro"
+      ],
+      "proveedores": [
+        "Molienda Integral Venezuela",
+        "Proveedora de Granos Andina",
+        "Comercializadora Agrícola Local"
+      ],
+      "preguntas_frecuentes": [
+        {
+          "pregunta": "¿Es apto para celíacos?",
+          "respuesta": "No. Aunque no contiene gluten añadido, este pan se elabora en instalaciones que procesan trigo y puede contener trazas de gluten."
+        },
+        {
+          "pregunta": "¿Cuánto tiempo se conserva después de abierto?",
+          "respuesta": "Una vez abierto, se recomienda consumir dentro de 3-4 días en un ambiente seco o congelarlo en porciones."
+        },
+        {
+          "pregunta": "¿Es sin azúcar realmente?",
+          "respuesta": "Sí, 100% libre de azúcares y grasas añadidas. Solo contiene los carbohidratos naturales de los granos y la harina."
+        }
+      ]
     },
     {
       "id": "pan-7-cereales",
@@ -62,6 +87,31 @@
       },
       "variantes_relacionadas": [
         "pan-4-granos"
+      ],
+      "distribuida_en": [
+        "Distribuidora Alimentaria Venezolana",
+        "Supermercado Carrefour Caracas",
+        "Mercados Disponibles S.A.",
+        "Cadena de Distribución Centro"
+      ],
+      "proveedores": [
+        "Productora de Cereales Integrales",
+        "Proveedor Andino de Quinoa",
+        "Acopiadora de Granos Caribeña"
+      ],
+      "preguntas_frecuentes": [
+        {
+          "pregunta": "¿Contiene quinoa genuina?",
+          "respuesta": "Sí, este pan incluye quinoa de alta calidad como uno de los siete cereales. Es una excelente fuente de proteína y aminoácidos esenciales."
+        },
+        {
+          "pregunta": "¿Es apto para diabéticos?",
+          "respuesta": "Su bajo índice glucémico lo hace más adecuado para dietas controladas en carbohidratos, pero siempre consulta con tu médico o nutricionista."
+        },
+        {
+          "pregunta": "¿Por qué tiene un precio un poco más alto?",
+          "respuesta": "La mezcla de 7 cereales, incluyendo quinoa, requiere ingredientes premium seleccionados y un proceso artesanal más complejo."
+        }
       ]
     },
     {
@@ -151,7 +201,32 @@
         "mpps": "A-55.587",
         "tiempoVida": "3 meses",
         "temperatura": "ambiente"
-      }
+      },
+      "distribuida_en": [
+        "Supermercados Éxito Nacional",
+        "Cadena de Distribución Centro",
+        "Supermercado Carrefour Caracas",
+        "Distribuidora Caracas Express"
+      ],
+      "proveedores": [
+        "Proveedor de Huevos Campesinos",
+        "Distribuidora de Esencias y Sabores",
+        "Empresa Láctea Venezolana"
+      ],
+      "preguntas_frecuentes": [
+        {
+          "pregunta": "¿Qué tipo de limón se utiliza?",
+          "respuesta": "Utilizamos esencia natural de limón de alta calidad que proporciona el aroma y sabor auténtico sin afectar la textura de la miga."
+        },
+        {
+          "pregunta": "¿Duran 3 meses si las mantengo abiertas?",
+          "respuesta": "Una vez abierto el paquete, consume dentro de 5-7 días en un ambiente seco. Los 3 meses se refieren al empaque original sin abrir en temperatura ambiente."
+        },
+        {
+          "pregunta": "¿Son seguros para niños en la lonchera?",
+          "respuesta": "Sí, perfectamente seguros. Empacadas individualmente en 45g cada una, son el tamaño ideal para lonchera escolar. Verificar alergias con ingredientes."
+        }
+      ]
     },
     {
       "id": "pan-pumpernickel",

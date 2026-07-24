@@ -1,0 +1,74 @@
+---
+/**
+ * SeoHead.astro - Centralized metadata management component
+ *
+ * Handles all meta, Open Graph, Twitter Card, and canonical tags
+ * for consistent SEO and social sharing across the site.
+ */
+
+import { COMPANY } from '../data/company';
+
+interface Props {
+  /** Page title (required) */
+  title: string;
+  /** Page description (required) */
+  description: string;
+  /** Social sharing image (optional, defaults to COMPANY.logo) */
+  image?: string;
+  /** Page canonical URL (optional, defaults to current URL) */
+  url?: string;
+  /** Open Graph type (optional, defaults to 'website') */
+  type?: 'website' | 'product' | 'article';
+  /** Prevent search engines from indexing (optional, defaults to false) */
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  image = COMPANY.logo,
+  url = Astro.url.href,
+  type = 'website',
+  noindex = false
+} = Astro.props;
+
+/**
+ * Convert relative URLs to absolute URLs
+ * If URL starts with '/', prepend the site origin
+ */
+function toAbsoluteUrl(path: string): string {
+  if (!path) return '';
+  if (path.startsWith('http://') || path.startsWith('https://')) {
+    return path;
+  }
+  const origin = Astro.site?.origin ?? 'https://example.com';
+  return path.startsWith('/') ? `${origin}${path}` : `${origin}/${path}`;
+}
+
+const absoluteImage = toAbsoluteUrl(image);
+const absoluteUrl = toAbsoluteUrl(url);
+---
+
+<!-- Description meta tag -->
+<meta name="description" content={description} />
+
+<!-- Canonical URL -->
+<link rel="canonical" href={absoluteUrl} />
+
+<!-- Robots meta tag (noindex if needed) -->
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<!-- Open Graph meta tags -->
+<meta property="og:type" content={type} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={absoluteImage} />
+<meta property="og:url" content={absoluteUrl} />
+<meta property="og:locale" content="es_VE" />
+<meta property="og:site_name" content={COMPANY.name} />
+
+<!-- Twitter Card meta tags -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={absoluteImage} />
