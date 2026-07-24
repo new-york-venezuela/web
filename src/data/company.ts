@@ -11,5 +11,5 @@ export const COMPANY = {
     country: 'VE'
   },
   logo: '/logo.png',
-  description: 'Panadería y pastelería premium en Caracas, Venezuela. 45 años de experiencia en alimentos de calidad superior.'
+  description: 'Panadería y pastelería premium en Caracas, Venezuela.'
 };
