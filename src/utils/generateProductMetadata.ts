@@ -26,10 +26,16 @@ export interface Producto {
     temperatura?: string;
   };
   variantes_relacionadas?: string[];
+  distribuida_en?: string[];
+  proveedores?: string[];
+  preguntas_frecuentes?: Array<{
+    pregunta: string;
+    respuesta: string;
+  }>;
 }
 
-export function generateProductSchema(producto: Producto, baseUrl: string): string {
-  const schema = {
+export function generateProductSchema(producto: Producto, baseUrl: string, company?: any): string {
+  const schema: any = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: producto.nombre,
@@ -41,6 +47,49 @@ export function generateProductSchema(producto: Producto, baseUrl: string): stri
       price: producto.precioRef?.toString() || '0',
       availability: 'https://schema.org/InStock'
     }
+  };
+
+  // E-E-A-T: Add manufacturer/brand info
+  if (company) {
+    schema.brand = {
+      '@type': 'Brand',
+      name: company.name
+    };
+    schema.manufacturer = {
+      '@type': 'Organization',
+      name: company.name,
+      image: `${baseUrl}${company.logo}`
+    };
+  }
+
+  // E-E-A-T: Add certifications as claims
+  if (producto.certificaciones && producto.certificaciones.length > 0) {
+    schema.certifications = producto.certificaciones;
+  }
+
+  // Add distributors (where to buy)
+  if (producto.distribuida_en && producto.distribuida_en.length > 0) {
+    schema.distributor = producto.distribuida_en.map(distributor => ({
+      '@type': 'LocalBusiness',
+      name: distributor
+    }));
+  }
+
+  return JSON.stringify(schema);
+}
+
+export function generateFaqSchema(faqs: Array<{ pregunta: string; respuesta: string }>, baseUrl: string): string {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(faq => ({
+      '@type': 'Question',
+      name: faq.pregunta,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.respuesta
+      }
+    }))
   };
   return JSON.stringify(schema);
 }
@@ -63,7 +112,7 @@ export function generateLocalBusinessSchema(
   baseUrl: string,
   contact?: { phone?: string; email?: string }
 ): string {
-  const schema = {
+  const schema: any = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     name: 'Alimentos New York',
@@ -87,13 +136,19 @@ export function generateLocalBusinessSchema(
       '@type': 'City',
       name: 'Caracas'
     },
-    ...(contact?.phone && { telephone: contact.phone }),
-    ...(contact?.email && { email: contact.email }),
     priceRange: '$$',
     sameAs: [
       'https://www.instagram.com/alimentosnewyork',
       'https://www.facebook.com/alimentosnewyork'
     ]
   };
+
+  if (contact?.phone) {
+    schema.telephone = contact.phone;
+  }
+  if (contact?.email) {
+    schema.email = contact.email;
+  }
+
   return JSON.stringify(schema);
 }
