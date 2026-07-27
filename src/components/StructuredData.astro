@@ -18,7 +18,11 @@ if (type === 'product' && producto) {
 } else if (type === 'breadcrumb' && breadcrumbs) {
   schema = generateBreadcrumbSchema(breadcrumbs, baseUrl);
 } else if (type === 'organization') {
-  schema = generateLocalBusinessSchema(baseUrl);
+  const contact = {
+    phone: import.meta.env.PUBLIC_WHATSAPP_NUMBER,
+    email: import.meta.env.PUBLIC_CONTACT_EMAIL
+  };
+  schema = generateLocalBusinessSchema(baseUrl, contact);
 }
 ---
 
