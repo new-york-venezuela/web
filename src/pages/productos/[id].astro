@@ -5,6 +5,7 @@ import StructuredData from '../../components/StructuredData.astro';
 import ImageCarousel from '../../components/ImageCarousel.astro';
 import { productos } from '../../data/catalogo';
 import { getProductImage } from '../../utils/getProductImage';
+import { COMPANY } from '../../data/company';
 
 export async function getStaticPaths() {
   return productos.map(producto => ({
@@ -30,11 +31,16 @@ const mainImageData = getProductImage(producto.imagen);
 ---
 
 <BaseLayout
-  title={`${producto.nombre} | New York Alimentos Premium`}
+  title={`${producto.nombre} | ${COMPANY.name}`}
   description={producto.descripcion_seo}
+  image={mainImageData?.src}
+  type="product"
 >
   <StructuredData breadcrumbs={breadcrumbs} type="breadcrumb" />
-  <StructuredData {producto} type="product" />
+  <StructuredData {producto} type="product" imageUrl={mainImageData?.src} />
+  {producto.preguntas_frecuentes && producto.preguntas_frecuentes.length > 0 && (
+    <StructuredData faqs={producto.preguntas_frecuentes} type="faq" />
+  )}
 
   <article class="producto-detail">
     <div class="container">
@@ -162,6 +168,21 @@ const mainImageData = getProductImage(producto.imagen);
           </div>
         </div>
       )}
+
+      {producto.preguntas_frecuentes && producto.preguntas_frecuentes.length > 0 && (
+        <section class="faq-section">
+          <h2>Preguntas Frecuentes</h2>
+          <div class="faq-list">
+            {producto.preguntas_frecuentes.map((faq, idx) => (
+              <details class="faq-item" key={idx}>
+                <summary class="faq-question">{faq.pregunta}</summary>
+                <div class="faq-answer">{faq.respuesta}</div>
+              </details>
+            ))}
+          </div>
+        </section>
+      )}
+
     </div>
   </article>
 </BaseLayout>
@@ -423,6 +444,52 @@ const mainImageData = getProductImage(producto.imagen);
     margin: 0;
     font-size: 1rem;
   }
+
+  .faq-section {
+    margin-top: 4rem;
+  }
+
+  .faq-section h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .faq-item {
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  .faq-question {
+    display: block;
+    padding: 1rem;
+    background-color: var(--color-cream);
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--color-charcoal);
+    user-select: none;
+  }
+
+  .faq-question:hover {
+    background-color: var(--color-milk);
+  }
+
+  .faq-item[open] .faq-question {
+    background-color: var(--color-milk);
+  }
+
+  .faq-answer {
+    padding: 1rem;
+    color: var(--color-charcoal-soft);
+    line-height: 1.6;
+  }
+
 
   @media (max-width: 48rem) {
     .detail-grid {

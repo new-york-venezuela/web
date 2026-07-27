@@ -3,19 +3,30 @@ import PostHog from '../components/PostHog.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import StructuredData from '../components/StructuredData.astro';
+import SeoHead from '../components/SeoHead.astro';
 import '../styles/global.css';
 
 interface Props {
   title: string;
   description: string;
+  image?: string;
+  url?: string;
+  type?: 'website' | 'product' | 'article';
   /** Oculta la página a los buscadores (p. ej. landings de campaña). */
   noindex?: boolean;
   /** Oculta cabecera y pie para layouts de alta conversión. */
   bare?: boolean;
 }
 
-const { title, description, noindex = false, bare = false } = Astro.props;
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const {
+  title,
+  description,
+  image,
+  url = Astro.url.href,
+  type = 'website',
+  noindex = false,
+  bare = false
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -24,15 +35,15 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
-    <meta name="description" content={description} />
     <meta name="keywords" content="panadería Nueva York, panadería premium, cheesecake, productos congelados, pastelería, New York Bakery, Alimentos New York" />
-    <link rel="canonical" href={canonicalURL} />
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:locale" content="es_VE" />
-    <meta property="og:image" content={`${Astro.url.origin}/og-image.png`} />
+    <SeoHead
+      {title}
+      {description}
+      {image}
+      {url}
+      {type}
+      {noindex}
+    />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

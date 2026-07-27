@@ -4,43 +4,69 @@
  * Generate JSON-LD schemas and SEO metadata for products
  */
 
-export interface Producto {
-  id: string;
-  nombre: string;
-  descripcion: string;
-  descripcion_seo?: string;
-  categoria_primaria: 'supermarket' | 'foodservice';
-  categoria_secundaria: 'panes' | 'reposteria' | 'especialidades' | 'pizza';
-  imagen: string;
-  imagenAlt?: string;
-  palabras_clave?: string[];
-  destacado?: boolean;
-  precioRef?: number;
-  certificaciones?: string[];
-  specs?: {
-    peso?: string;
-    codigo_barras?: string;
-    cpe?: string;
-    mpps?: string;
-    tiempoVida?: string;
-    temperatura?: string;
-  };
-  variantes_relacionadas?: string[];
-}
+// Canonical Producto type lives in loadProductos.ts. Re-export it so existing
+// imports from this module keep working without duplicating the definition.
+import type { Producto } from './loadProductos';
+import { COMPANY } from '../data/company';
+export type { Producto };
 
-export function generateProductSchema(producto: Producto, baseUrl: string): string {
-  const schema = {
+export function generateProductSchema(
+  producto: Producto,
+  baseUrl: string,
+  company?: typeof COMPANY,
+  imageUrl?: string
+): string {
+  const resolvedImage = imageUrl
+    ? (/^https?:\/\//.test(imageUrl) ? imageUrl : `${baseUrl}${imageUrl}`)
+    : `${baseUrl}/productos/${producto.imagen}.png`;
+
+  const schema: any = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: producto.nombre,
     description: producto.descripcion_seo || producto.descripcion,
-    image: `${baseUrl}/public/productos/${producto.imagen}.png`,
+    image: resolvedImage,
     offers: {
       '@type': 'Offer',
       priceCurrency: 'USD',
       price: producto.precioRef?.toString() || '0',
       availability: 'https://schema.org/InStock'
     }
+  };
+
+  // E-E-A-T: Add manufacturer/brand info
+  if (company) {
+    schema.brand = {
+      '@type': 'Brand',
+      name: company.name
+    };
+    schema.manufacturer = {
+      '@type': 'Organization',
+      name: company.name,
+      image: `${baseUrl}${company.logo}`
+    };
+  }
+
+  // E-E-A-T: Add certifications as claims
+  if (producto.certificaciones && producto.certificaciones.length > 0) {
+    schema.certifications = producto.certificaciones;
+  }
+
+  return JSON.stringify(schema);
+}
+
+export function generateFaqSchema(faqs: Array<{ pregunta: string; respuesta: string }>, baseUrl: string): string {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map(faq => ({
+      '@type': 'Question',
+      name: faq.pregunta,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.respuesta
+      }
+    }))
   };
   return JSON.stringify(schema);
 }
@@ -63,7 +89,7 @@ export function generateLocalBusinessSchema(
   baseUrl: string,
   contact?: { phone?: string; email?: string }
 ): string {
-  const schema = {
+  const schema: any = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     name: 'Alimentos New York',
@@ -87,13 +113,19 @@ export function generateLocalBusinessSchema(
       '@type': 'City',
       name: 'Caracas'
     },
-    ...(contact?.phone && { telephone: contact.phone }),
-    ...(contact?.email && { email: contact.email }),
     priceRange: '$$',
     sameAs: [
       'https://www.instagram.com/alimentosnewyork',
       'https://www.facebook.com/alimentosnewyork'
     ]
   };
+
+  if (contact?.phone) {
+    schema.telephone = contact.phone;
+  }
+  if (contact?.email) {
+    schema.email = contact.email;
+  }
+
   return JSON.stringify(schema);
 }
