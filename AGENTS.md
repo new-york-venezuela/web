@@ -24,6 +24,13 @@ content, Bun as the only package manager.
    existing style (Spanish comments in content-facing files is the norm).
 5. **Prices in `$ Ref`.** USD reference pricing, formatted exclusively via
    `formatPrecio()` in `src/data/catalogo.ts`. Never format prices inline.
+6. **SEO on every edit.** Always consider SEO impact:
+   - Page titles must include primary keyword + brand variant (e.g., "Alimentos New York | Panadería Premium").
+   - Meta descriptions ≤160 chars, include B2B/B2C context and Kosher certification where relevant.
+   - H1 must reinforce main keyword; use H2/H3 to structure content and include secondary keywords naturally.
+   - Integrate brand variants organically into copy: "Panadería Nueva York", "New York Bakery", "Alimentos New York".
+   - Schema JSON-LD (Organization) includes `alternateName` array with all commercial variants.
+   - Never keyword-stuff; prioritize readability and user value.
 
 ## Codebase map
 

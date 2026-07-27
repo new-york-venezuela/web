@@ -59,20 +59,41 @@ export function generateBreadcrumbSchema(breadcrumbs: Array<{ name: string; url:
   return JSON.stringify(schema);
 }
 
-export function generateLocalBusinessSchema(baseUrl: string): string {
+export function generateLocalBusinessSchema(
+  baseUrl: string,
+  contact?: { phone?: string; email?: string }
+): string {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
-    name: 'New York Cheesecake',
+    name: 'Alimentos New York',
+    alternateName: [
+      'Panadería Nueva York',
+      'New York Bakery',
+      'Pastelería New York',
+      'New York'
+    ],
     url: baseUrl,
-    image: `${baseUrl}/logo.png`,
-    description: 'Panadería y pastelería premium en Caracas, Venezuela',
+    logo: `${baseUrl}/logo.png`,
+    image: `${baseUrl}/og-image.png`,
+    description: 'Panadería y pastelería industrial premium con más de 40 años. Panes artesanales, cheesecake estilo Nueva York, pizzas congeladas y especialidades. Distribución B2B/B2C en Caracas. Certificado Kosher Parve.',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'Caracas',
       addressRegion: 'DF',
       addressCountry: 'VE'
-    }
+    },
+    areaServed: {
+      '@type': 'City',
+      name: 'Caracas'
+    },
+    ...(contact?.phone && { telephone: contact.phone }),
+    ...(contact?.email && { email: contact.email }),
+    priceRange: '$$',
+    sameAs: [
+      'https://www.instagram.com/alimentosnewyork',
+      'https://www.facebook.com/alimentosnewyork'
+    ]
   };
   return JSON.stringify(schema);
 }
