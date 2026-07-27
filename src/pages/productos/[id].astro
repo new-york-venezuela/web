@@ -183,27 +183,6 @@ const mainImageData = getProductImage(producto.imagen);
         </section>
       )}
 
-      {producto.proveedores && producto.proveedores.length > 0 && (
-        <section class="suppliers-section">
-          <h2>Proveedores</h2>
-          <ul class="supplier-list">
-            {producto.proveedores.map(proveedor => (
-              <li>{proveedor}</li>
-            ))}
-          </ul>
-        </section>
-      )}
-
-      {producto.distribuida_en && producto.distribuida_en.length > 0 && (
-        <section class="distribution-section">
-          <h2>¿Dónde Encontrarlo?</h2>
-          <ul class="distribution-list">
-            {producto.distribuida_en.map(distribuidor => (
-              <li>{distribuidor}</li>
-            ))}
-          </ul>
-        </section>
-      )}
     </div>
   </article>
 </BaseLayout>
@@ -466,15 +445,11 @@ const mainImageData = getProductImage(producto.imagen);
     font-size: 1rem;
   }
 
-  .faq-section,
-  .suppliers-section,
-  .distribution-section {
+  .faq-section {
     margin-top: 4rem;
   }
 
-  .faq-section h2,
-  .suppliers-section h2,
-  .distribution-section h2 {
+  .faq-section h2 {
     margin-bottom: 1.5rem;
     font-size: 1.5rem;
   }
@@ -515,30 +490,6 @@ const mainImageData = getProductImage(producto.imagen);
     line-height: 1.6;
   }
 
-  .supplier-list,
-  .distribution-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-    gap: 1rem;
-  }
-
-  .supplier-list li,
-  .distribution-list li {
-    padding: 1rem;
-    background-color: var(--color-cream);
-    border: 1px solid var(--color-border);
-    border-radius: 0.5rem;
-    color: var(--color-charcoal);
-  }
-
-  .supplier-list li::before,
-  .distribution-list li::before {
-    content: "📍 ";
-    margin-right: 0.5rem;
-  }
 
   @media (max-width: 48rem) {
     .detail-grid {
@@ -556,11 +507,6 @@ const mainImageData = getProductImage(producto.imagen);
 
     .related-grid {
       grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
-    }
-
-    .supplier-list,
-    .distribution-list {
-      grid-template-columns: 1fr;
     }
   }
 </style>

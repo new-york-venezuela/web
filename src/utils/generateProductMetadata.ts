@@ -52,14 +52,6 @@ export function generateProductSchema(
     schema.certifications = producto.certificaciones;
   }
 
-  // Add distributors (where to buy)
-  if (producto.distribuida_en && producto.distribuida_en.length > 0) {
-    schema.distributor = producto.distribuida_en.map(distributor => ({
-      '@type': 'LocalBusiness',
-      name: distributor
-    }));
-  }
-
   return JSON.stringify(schema);
 }
 
