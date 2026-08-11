@@ -7,18 +7,35 @@ from .gsc_client import fetch_top_queries, filter_queries_for_topic, detect_traf
 def run(ctx: PipelineContext, cross_links: dict) -> dict:
     output_path = ctx.checkpoint_dir / "01_brief.json"
     if output_path.exists() and (ctx.force_step is None or ctx.force_step > 1):
-        return json.loads(output_path.read_text(encoding="utf-8"))
+        try:
+            return json.loads(output_path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            pass  # fall through to recompute
 
     topic_words = extract_topic_words(ctx.issue_title, ctx.issue_body)
 
-    productos = load_productos(ctx.content_dir)
-    matched_products = match_by_keywords(productos, topic_words)
+    try:
+        productos = load_productos(ctx.content_dir)
+    except Exception:
+        productos = []
 
-    kb_sections = load_empresa_kb(ctx.content_dir)
-    matched_kb = match_by_keywords(kb_sections, topic_words)
+    try:
+        matched_products = match_by_keywords(productos, topic_words)
+    except Exception:
+        matched_products = []
 
-    gsc_queries = fetch_top_queries(ctx.gsc_site_url, ctx.gsc_credentials_file)
-    topic_gsc = filter_queries_for_topic(gsc_queries, topic_words)
+    try:
+        kb_sections = load_empresa_kb(ctx.content_dir)
+        matched_kb = match_by_keywords(kb_sections, topic_words)
+    except Exception:
+        kb_sections = []
+        matched_kb = []
+
+    try:
+        gsc_queries = fetch_top_queries(ctx.gsc_site_url, ctx.gsc_credentials_file)
+        topic_gsc = filter_queries_for_topic(gsc_queries, topic_words)
+    except Exception:
+        topic_gsc = []
 
     traffic_arbitrage = detect_traffic_arbitrage(topic_words)
 
