@@ -47,4 +47,4 @@ def test_run_retries_on_failure_then_warns(ctx):
     with patch("scripts.blog_pipeline.step_05_review._call_reviewer", return_value=fail_result), \
          patch("scripts.blog_pipeline.step_05_review._retry_sections", return_value=GOOD_DRAFT):
         polished, warnings = run(ctx, GOOD_DRAFT, SAMPLE_BRIEF, SAMPLE_KEYWORDS, SAMPLE_OUTLINE)
-    assert len(warnings) >= 0  # warnings only if retry also fails
+    assert len(warnings) == 1  # second review also fails, so one warning is collected
