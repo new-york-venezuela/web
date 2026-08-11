@@ -74,3 +74,6 @@ def _validate_outline(data: dict) -> None:
         raise ValueError("Outline must have at least one section")
     if not data.get("slug"):
         raise ValueError("Outline must have a slug")
+    cta = data.get("closing_cta", {})
+    if not cta.get("consumer") or not cta.get("b2b"):
+        raise ValueError("Outline closing_cta must have non-empty 'consumer' and 'b2b' keys")

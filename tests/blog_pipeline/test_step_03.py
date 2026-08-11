@@ -68,3 +68,8 @@ def test_run_writes_outline_json(ctx):
 def test_validate_outline_raises_on_missing_sections():
     with pytest.raises(ValueError):
         _validate_outline({"slug": "x", "closing_cta": {}})
+
+
+def test_validate_outline_raises_on_missing_closing_cta():
+    with pytest.raises(ValueError):
+        _validate_outline({"slug": "x", "sections": [{"h2": "H2"}], "closing_cta": {}})
