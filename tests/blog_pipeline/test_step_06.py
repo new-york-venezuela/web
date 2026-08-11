@@ -62,3 +62,7 @@ def test_run_creates_meta_json_with_image_briefs(ctx):
     meta = json.loads((ctx.checkpoint_dir / "06_meta.json").read_text(encoding="utf-8"))
     assert len(meta["image_briefs"]) == 1  # only lifestyle slots
     assert len(meta["review_warnings"]) == 1
+    pr = (ctx.checkpoint_dir / "pr_body.md").read_text(encoding="utf-8")
+    assert "Sección X: sin keyword" in pr  # warning forwarded
+    assert "Foto de repartidor" in pr       # lifestyle brief
+    assert "draft: true" in pr             # checklist item

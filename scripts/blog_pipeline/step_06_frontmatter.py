@@ -1,3 +1,4 @@
+import datetime
 import json
 import re
 from pathlib import Path
@@ -27,7 +28,7 @@ def run(
 
     meta = _call_llm(ctx, outline, keywords, brief)
 
-    pub_date = brief.get("metadata", {}).get("scheduled_date") or str(__import__("datetime").date.today())
+    pub_date = brief.get("metadata", {}).get("scheduled_date") or str(datetime.date.today())
     tags = brief.get("metadata", {}).get("tags", [])
 
     og_image = _pick_og_image(outline, brief)
@@ -98,7 +99,12 @@ def _call_llm(ctx: PipelineContext, outline: dict, keywords: dict, brief: dict) 
         temperature=0.3,
         response_format={"type": "json_object"},
     )
-    return json.loads(response.choices[0].message.content)
+    result = json.loads(response.choices[0].message.content)
+    if len(result.get("title", "")) > 60:
+        print(f"WARNING: Generated title exceeds 60 chars: {result['title'][:80]}")
+    if len(result.get("description", "")) > 160:
+        print(f"WARNING: Generated description exceeds 160 chars")
+    return result
 
 
 def _pick_og_image(outline: dict, brief: dict) -> str | None:
