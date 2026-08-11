@@ -39,8 +39,10 @@ def test_fetch_top_queries_returns_empty_when_no_credentials(tmp_path):
     assert result == []
 
 
+@patch("scripts.blog_pipeline.gsc_client.Path")
 @patch("scripts.blog_pipeline.gsc_client._build_gsc_service")
-def test_fetch_top_queries_filters_by_impressions(mock_build):
+def test_fetch_top_queries_filters_by_impressions(mock_build, mock_path):
+    mock_path.return_value.exists.return_value = True
     mock_service = MagicMock()
     mock_build.return_value = mock_service
     mock_service.searchanalytics().query().execute.return_value = {

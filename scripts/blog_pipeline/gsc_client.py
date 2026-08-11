@@ -25,6 +25,8 @@ def fetch_top_queries(
     min_impressions: int = 10,
     limit: int = 50,
 ) -> list[dict]:
+    if not Path(credentials_file).exists():
+        return []
     try:
         service = _build_gsc_service(credentials_file)
     except Exception:
