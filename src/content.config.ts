@@ -30,7 +30,16 @@ const blogCollection = defineCollection({
   })
 });
 
+const empresaCollection = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/empresa' }),
+  schema: z.object({
+    title: z.string(),
+    keywords: z.array(z.string()).default([]),
+  })
+});
+
 export const collections = {
   productos: productosCollection,
-  blog: blogCollection
+  blog: blogCollection,
+  empresa: empresaCollection,
 };
