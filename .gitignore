@@ -43,3 +43,6 @@ Thumbs.db
 
 .superpowers
 
+
+__pycache__
+*.pyc
