@@ -39,6 +39,7 @@ Thumbs.db
 .temp/
 .vercel/
 .netlify/
+.pipeline/
 
 .superpowers
 
