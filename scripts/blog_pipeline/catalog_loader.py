@@ -56,10 +56,11 @@ def load_empresa_kb(content_dir: Path) -> list[dict]:
 
 
 def match_by_keywords(items: list[dict], topic_words: set[str]) -> list[dict]:
+    topic_words_lower = {w.lower() for w in topic_words}
     matched = []
     for item in items:
         item_kws = {k.lower() for k in item.get("keywords", [])}
-        if item_kws & topic_words:
+        if item_kws & topic_words_lower:
             matched.append(item)
     return matched
 

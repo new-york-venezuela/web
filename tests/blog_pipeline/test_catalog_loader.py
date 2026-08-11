@@ -56,3 +56,9 @@ def test_extract_topic_words_removes_stopwords():
     assert "restaurantes" in words
     assert "para" not in words
     assert "los" not in words
+
+
+def test_match_by_keywords_case_insensitive(tmp_content):
+    productos = load_productos(tmp_content)
+    matched = match_by_keywords(productos, {"CHEESECAKE"})
+    assert len(matched) == 1
