@@ -1,0 +1,75 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CTASection from '../../components/CTASection.astro';
+
+const paginas = await getCollection('empresa');
+---
+
+<BaseLayout
+  title="Empresa — Alimentos New York | Panadería y Pastelería Premium"
+  description="Conoce Alimentos New York: nuestra historia, líneas de negocio, procesos de producción, certificaciones y distribución en Caracas."
+>
+  <section class="section intro">
+    <div class="container">
+      <span class="eyebrow">Empresa</span>
+      <h1>Conoce Alimentos New York</h1>
+      <p class="lead">
+        Historia, procesos, certificaciones y distribución de nuestra empresa.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid">
+        {
+          paginas.map((pagina) => (
+            <a href={`/empresa/${pagina.id}/`} class="empresa-card">
+              <h2>{pagina.data.title}</h2>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CTASection
+    title="¿Interesado en nuestros productos?"
+    description="Ya sea para tu supermercado, restaurante, hotel o servicio de catering, nuestro equipo está listo para ofrecerte soluciones premium."
+    ctaText="Solicitar Información"
+    variant="secondary"
+  />
+</BaseLayout>
+
+<style>
+  .intro {
+    padding-bottom: var(--space-l);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: var(--space-m);
+  }
+
+  .empresa-card {
+    display: block;
+    padding: var(--space-m);
+    background-color: var(--color-cream);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 0.2s;
+  }
+
+  .empresa-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .empresa-card h2 {
+    margin: 0;
+    font-size: 1.125rem;
+  }
+</style>
