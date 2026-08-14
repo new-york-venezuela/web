@@ -5,11 +5,13 @@ from typing import Optional
 
 @dataclass
 class IssueMetadata:
+    post_id: Optional[str] = None
+    week: Optional[int] = None
     scheduled_date: Optional[str] = None
-    series: Optional[str] = None
-    part: Optional[int] = None
+    pilar: Optional[str] = None
+    audience: Optional[str] = None
+    primary_keyword: Optional[str] = None
     prerequisites: list = field(default_factory=list)
-    parent_topic: Optional[str] = None
     tags: list = field(default_factory=list)
 
 

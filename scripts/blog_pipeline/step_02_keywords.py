@@ -21,6 +21,9 @@ def run(ctx: PipelineContext, brief: dict) -> dict:
         return json.loads(output_path.read_text(encoding="utf-8"))
 
     result = _call_llm(ctx, brief)
+    forced_keyword = brief.get("metadata", {}).get("primary_keyword")
+    if forced_keyword:
+        result["primary_keyword"] = forced_keyword
     _validate_keywords(result)
     output_path.write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
     return result
@@ -42,10 +45,20 @@ def _call_llm(ctx: PipelineContext, brief: dict) -> dict:
         if brief.get("traffic_arbitrage") else ""
     )
 
+    meta = brief.get("metadata", {})
+    forced_keyword = meta.get("primary_keyword")
+    keyword_line = (
+        f"\nKeyword principal (ya definida, úsala tal cual): {forced_keyword}\n"
+        if forced_keyword else ""
+    )
+    audience_line = f"Audiencia objetivo: {meta['audience']}\n" if meta.get("audience") else ""
+    pilar_line = f"Pilar de contenido: {meta['pilar']}\n" if meta.get("pilar") else ""
+
     prompt = (
         f"Analiza y devuelve una estrategia de palabras clave en JSON.\n\n"
         f"Tema: {brief['issue_title']}\n"
-        f"Descripción: {brief.get('issue_body', '')[:400]}\n\n"
+        f"Descripción: {brief.get('issue_body', '')[:400]}\n"
+        f"{pilar_line}{audience_line}{keyword_line}\n"
         f"Consultas reales de Google Search Console:\n{gsc_lines or 'Sin datos'}\n\n"
         f"Productos relevantes:\n{products_lines or 'Sin productos específicos'}"
         f"{arbitrage}\n\n"

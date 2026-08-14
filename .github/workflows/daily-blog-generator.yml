@@ -18,6 +18,7 @@ permissions:
 jobs:
   generate-blog:
     runs-on: ubuntu-latest
+    environment: blog-generation
 
     steps:
       - name: Checkout repository
@@ -36,6 +37,11 @@ jobs:
 
       - name: Install dependencies
         run: uv pip install --system -r requirements.txt
+
+      - name: Write GSC credentials
+        env:
+          GSC_CREDENTIALS_JSON: ${{ secrets.GSC_CREDENTIALS_JSON }}
+        run: printf '%s' "$GSC_CREDENTIALS_JSON" > .gsc-credentials.json
 
       - name: Run blog pipeline
         id: generate

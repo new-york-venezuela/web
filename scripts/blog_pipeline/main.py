@@ -16,18 +16,27 @@ from datetime import datetime
 
 def _parse_issue_metadata(body: str) -> IssueMetadata:
     meta = IssueMetadata()
-    m = re.search(r"scheduled:\s*(\d{4}-\d{2}-\d{2})", body)
+    m = re.search(r"\*\*ID:\*\*\s*`?([\w-]+)`?", body)
+    if m:
+        meta.post_id = m.group(1)
+    m = re.search(r"\*\*Semana:\*\*\s*(\d+)", body)
+    if m:
+        meta.week = int(m.group(1))
+    m = re.search(r"\*\*Fecha sugerida:\*\*\s*(\d{4}-\d{2}-\d{2})", body)
     if m:
         meta.scheduled_date = m.group(1)
-    m = re.search(r'series:\s*["\']([^"\']+)["\']', body)
+    m = re.search(r"\*\*Pilar:\*\*\s*(.+)", body)
     if m:
-        meta.series = m.group(1)
-    m = re.search(r"part:\s*(\d+)", body)
+        meta.pilar = m.group(1).strip()
+    m = re.search(r"\*\*Audiencia:\*\*\s*(.+)", body)
     if m:
-        meta.part = int(m.group(1))
-    m = re.search(r"tags:\s*\[(.*?)\]", body)
+        meta.audience = m.group(1).strip()
+    m = re.search(r"\*\*Keyword Principal:\*\*\s*`?([^`\n]+)`?", body)
     if m:
-        meta.tags = [t.strip().strip("\"'") for t in m.group(1).split(",")]
+        meta.primary_keyword = m.group(1).strip()
+    section = re.search(r"Enlazado Interno Sugerido\s*\n(.+?)(?:\n---|\n###|\Z)", body, re.S)
+    if section:
+        meta.prerequisites = re.findall(r"post-\d+", section.group(1))
     return meta
 
 
@@ -46,18 +55,29 @@ def _get_existing_slugs(blog_dir: Path) -> dict[int, str]:
     return slugs
 
 
-def _resolve_cross_links(gh: "Github", prerequisites: list[int], existing_slugs: dict[int, str], github_repo: str) -> dict:
+def _get_existing_post_slugs(blog_dir: Path) -> dict[str, str]:
+    slugs: dict[str, str] = {}
+    if not blog_dir.exists():
+        return slugs
+    for md in blog_dir.glob("*.md"):
+        text = md.read_text(encoding="utf-8")
+        if text.startswith("---"):
+            parts = text.split("---", 2)
+            if len(parts) == 3:
+                m = re.search(r"postId:\s*['\"]?(post-\d+)['\"]?", parts[1])
+                if m:
+                    slugs[m.group(1)] = md.stem
+    return slugs
+
+
+def _resolve_cross_links(prerequisites: list[str], existing_post_slugs: dict[str, str]) -> dict:
     links: dict = {}
-    repo = gh.get_repo(github_repo)
-    for num in prerequisites:
-        if num in existing_slugs:
-            links[str(num)] = {"title": f"Issue #{num}", "url": f"/blog/{existing_slugs[num]}"}
+    for post_id in prerequisites:
+        if post_id in existing_post_slugs:
+            slug = existing_post_slugs[post_id]
+            links[post_id] = {"title": slug, "url": f"/blog/{slug}"}
         else:
-            try:
-                issue = repo.get_issue(num)
-                links[str(num)] = {"title": issue.title, "url": None}
-            except Exception:
-                links[str(num)] = {"title": f"Issue #{num}", "url": None}
+            links[post_id] = {"title": post_id, "url": None}
     return links
 
 
@@ -125,7 +145,8 @@ def main() -> None:
         return
 
     ctx = _build_context(issue, metadata, force_step=args.force_step)
-    cross_links = _resolve_cross_links(gh, metadata.prerequisites, existing_slugs, github_repo)
+    existing_post_slugs = _get_existing_post_slugs(blog_output_dir)
+    cross_links = _resolve_cross_links(metadata.prerequisites, existing_post_slugs)
 
     print(f"[1/6] Brief enrichment for issue #{issue.number}...")
     brief = step_01_enrich.run(ctx, cross_links)

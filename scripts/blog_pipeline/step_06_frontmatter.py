@@ -30,6 +30,7 @@ def run(
 
     pub_date = brief.get("metadata", {}).get("scheduled_date") or str(datetime.date.today())
     tags = brief.get("metadata", {}).get("tags", [])
+    post_id = brief.get("metadata", {}).get("post_id")
 
     og_image = _pick_og_image(outline, brief)
 
@@ -43,6 +44,8 @@ def run(
         f"tags: {json.dumps(tags)}\n"
         f"relatedIssue: {ctx.issue_number}\n"
     )
+    if post_id:
+        frontmatter += f'postId: {json.dumps(post_id)}\n'
     if og_image:
         frontmatter += f'ogImage: {json.dumps(og_image)}\n'
     frontmatter += "---\n\n"
@@ -90,7 +93,7 @@ def _call_llm(ctx: PipelineContext, outline: dict, keywords: dict, brief: dict) 
         "REGLAS:\n"
         "- title: ≤60 caracteres, incluye la keyword principal, termina con '| Alimentos New York', en español\n"
         "- description: ≤160 caracteres, la keyword principal en los primeros 20 caracteres, responde la pregunta del usuario, en español\n\n"
-        'Devuelve ÚNICAMENTE: {"title": "...", "description": "..."}'
+        'Devuelve ÚNICAMENTE un objeto JSON: {"title": "...", "description": "..."}'
     )
     client = OpenAI(api_key=ctx.ai_api_key, base_url=ctx.ai_base_url or "https://api.openai.com/v1")
     response = client.chat.completions.create(

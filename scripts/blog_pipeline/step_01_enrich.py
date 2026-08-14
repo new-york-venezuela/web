@@ -44,8 +44,12 @@ def run(ctx: PipelineContext, cross_links: dict) -> dict:
         "issue_title": ctx.issue_title,
         "issue_body": ctx.issue_body,
         "metadata": {
+            "post_id": ctx.metadata.post_id,
+            "week": ctx.metadata.week,
             "scheduled_date": ctx.metadata.scheduled_date,
-            "series": ctx.metadata.series,
+            "pilar": ctx.metadata.pilar,
+            "audience": ctx.metadata.audience,
+            "primary_keyword": ctx.metadata.primary_keyword,
             "tags": ctx.metadata.tags,
         },
         "matched_products": [
