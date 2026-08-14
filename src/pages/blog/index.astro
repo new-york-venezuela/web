@@ -1,0 +1,108 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import CTASection from '../../components/CTASection.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const dateFormatter = new Intl.DateTimeFormat('es-VE', { dateStyle: 'long' });
+---
+
+<BaseLayout
+  title="Blog — Alimentos New York | Panadería y Pastelería Premium"
+  description="Artículos sobre panadería, pastelería y repostería industrial de Alimentos New York: recetas, procesos, tendencias y novedades para el sector HORECA y retail en Caracas."
+>
+  <section class="section intro">
+    <div class="container">
+      <span class="eyebrow">Blog</span>
+      <h1>Novedades de Alimentos New York</h1>
+      <p class="lead">
+        Artículos sobre panadería, pastelería y buenas prácticas para supermercados y foodservice.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      {
+        posts.length > 0 ? (
+          <div class="grid">
+            {posts.map((post) => (
+              <a href={`/blog/${post.id}/`} class="post-card">
+                <span class="post-date">{dateFormatter.format(post.data.pubDate)}</span>
+                <h2>{post.data.title}</h2>
+                <p>{post.data.description}</p>
+              </a>
+            ))}
+          </div>
+        ) : (
+          <p class="empty-state">Próximamente publicaremos artículos aquí. ¡Vuelve pronto!</p>
+        )
+      }
+    </div>
+  </section>
+
+  <CTASection
+    title="¿Tienes preguntas sobre nuestros productos?"
+    description="Completa nuestro formulario y recibirás una llamada en las próximas 24 horas."
+    ctaText="Solicitar Información"
+    variant="secondary"
+  />
+</BaseLayout>
+
+<style>
+  .intro {
+    padding-bottom: var(--space-l);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+    gap: var(--space-m);
+  }
+
+  .post-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: var(--space-m);
+    background-color: var(--color-cream);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 0.2s;
+  }
+
+  .post-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .post-date {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .post-card h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    line-height: 1.3;
+  }
+
+  .post-card p {
+    margin: 0;
+    color: var(--color-charcoal-soft);
+    line-height: 1.5;
+  }
+
+  .empty-state {
+    text-align: center;
+    color: var(--color-charcoal-soft);
+    padding: var(--space-l) 0;
+  }
+</style>
