@@ -13,7 +13,7 @@ export async function GET() {
   ];
 
   // Dynamic product routes from JSON
-  const productRoutes = productosData.productos.map(producto => ({
+  const productRoutes = productosData.map(producto => ({
     url: `/productos/${producto.id}/`,
     priority: '0.8',
     changefreq: 'monthly'

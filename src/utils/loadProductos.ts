@@ -117,7 +117,7 @@ export function validateProducto(producto: any): producto is Producto {
 }
 
 export function loadProductos(): Producto[] {
-  const allProductos = (productosData.productos || []).map((p: any) => {
+  const allProductos = (productosData || []).map((p: any) => {
     validateProducto(p);
     return p as Producto;
   });
