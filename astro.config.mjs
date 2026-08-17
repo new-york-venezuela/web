@@ -29,4 +29,8 @@ export default defineConfig({
     // Genera múltiples resoluciones (1x, 2x) automáticamente
     remotePatterns: [],
   },
+
+  redirects: {
+      '/cocinando-con-amor': '/documentacion/guia-tecnica'
+  }
 });
