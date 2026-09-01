@@ -43,20 +43,22 @@ def _call_reviewer(ctx: PipelineContext, draft: str, keywords: dict) -> dict:
         f"Respuesta GEO que debe aparecer al inicio: '{geo_answer}'\n"
         f"Audiencias requeridas: {audiences}\n\n"
         f"ARTÍCULO:\n{draft}\n\n"
-        "Verifica:\n"
+        "Verifica (devuelve problemas sólo si están presentes):\n"
         "1. La keyword principal aparece en los primeros 100 caracteres Y en al menos 2 encabezados H2.\n"
         "2. La respuesta GEO (o paráfrasis cercana) aparece en el primer párrafo.\n"
-        "3. No hay datos de producto inventados (el artículo no debe afirmar precios ni especificaciones no proporcionadas).\n"
-        "4. El español es fluido y natural, sin anglicismos innecesarios.\n"
-        "5. Si se requieren dos audiencias, ambas están representadas.\n"
-        "6. Hay un CTA al final con secciones separadas para consumidor y B2B.\n\n"
+        "3. No hay datos de producto inventados (precios, especificaciones no proporcionadas).\n"
+        "4. No hay testimonios inventados, citas de clientes o frases como 'según nuestros clientes'.\n"
+        "5. El español es fluido y natural, sin anglicismos innecesarios.\n"
+        "6. Si se requieren dos audiencias, ambas están representadas.\n"
+        "7. No hay repetición de ideas entre secciones H2 — cada sección aporta información nueva.\n"
+        "8. Hay un CTA al final con secciones separadas para consumidor y B2B.\n\n"
         "Devuelve ÚNICAMENTE este JSON:\n"
         "{\n"
         '  "pass": true|false,\n'
         '  "issues": [\n'
-        '    {"section": "nombre del H2 afectado", "problem": "descripción concisa", "suggestion": "cómo corregirlo"}\n'
+        '    {"section": "nombre del H2 afectado o \\"global\\"", "problem": "descripción concisa", "suggestion": "cómo corregirlo"}\n'
         "  ],\n"
-        '  "polished": "artículo completo corregido si hay problemas menores de redacción"\n'
+        '  "polished": "artículo completo corregido si hay problemas menores de redacción (null si pass=true)"\n'
         "}"
     )
 

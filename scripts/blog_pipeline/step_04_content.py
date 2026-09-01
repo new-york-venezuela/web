@@ -21,6 +21,7 @@ def run(ctx: PipelineContext, brief: dict, outline: dict) -> str:
 
     products_by_id = {p["id"]: p for p in brief.get("matched_products", [])}
     parts = []
+    image_briefs: list[dict] = []
 
     for section in outline["sections"]:
         section_products = [
@@ -39,8 +40,10 @@ def run(ctx: PipelineContext, brief: dict, outline: dict) -> str:
                 img_alt = product.get("title", product_id)
                 section_md += f"\n\n![{img_alt}]({img_path})"
         elif image_slot and image_slot.get("type") == "lifestyle":
-            brief_text = image_slot.get("brief", "")
-            section_md += f"\n\n<!-- IMAGE_BRIEF: {brief_text} -->"
+            image_briefs.append({
+                "section": section["h2"],
+                "brief": image_slot["brief"],
+            })
 
         parts.append(section_md)
 
@@ -51,6 +54,29 @@ def run(ctx: PipelineContext, brief: dict, outline: dict) -> str:
         f"**Para negocios:** {cta.get('b2b', '')}"
     )
     parts.append(closing)
+
+    # Append image from issue metadata if no product image was embedded and no lifestyle slots
+    issue_image_brief = brief.get("metadata", {}).get("image_brief")
+    issue_image_url = brief.get("metadata", {}).get("image_url")
+    if issue_image_url:
+        # A real asset exists: embed it in the first section
+        post_title = outline["sections"][0]["h2"] if outline["sections"] else "Post"
+        parts[0] += f"\n\n![{post_title}]({issue_image_url})"
+    elif issue_image_brief and not image_briefs:
+        # No asset, but issue has an image description: use it as a lifestyle brief
+        image_briefs.append({
+            "section": outline["sections"][0]["h2"] if outline["sections"] else "Post",
+            "brief": issue_image_brief,
+        })
+
+    # Trailing comment block with all lifestyle image briefs
+    if image_briefs:
+        brief_lines = ["<!-- IMAGE BRIEFS"]
+        for ib in image_briefs:
+            brief_lines.append(f"  Section: {ib['section']}")
+            brief_lines.append(f"  Brief:   {ib['brief']}")
+        brief_lines.append("-->")
+        parts.append("\n".join(brief_lines))
 
     draft = "\n\n".join(parts)
     output_path.write_text(draft, encoding="utf-8")
@@ -65,19 +91,30 @@ def _generate_section(ctx: PipelineContext, section: dict, products: list[dict],
     kb_text = "\n".join(
         f"[{s['title']}]: {s['excerpt']}" for s in kb_sections[:3]
     ) or ""
-    audience_map = {"consumidor": "tono cálido y cercano", "b2b": "tono profesional y directo", "ambos": "equilibra ambos tonos"}
+    audience_map = {
+        "consumidor": "tono cálido y cercano",
+        "b2b": "tono profesional y directo",
+        "ambos": "equilibra ambos tonos",
+    }
     tone = audience_map.get(section.get("audience", "ambos"), "equilibra ambos tonos")
+    word_budget = section.get("word_budget", 180)
 
     prompt = (
         f"Escribe la sección del artículo con este encabezado H2: {section['h2']}\n\n"
         f"Subtítulos H3 a desarrollar:\n{h3s_text or '(sin subtítulos, desarrolla en párrafos)'}\n\n"
         f"Keyword a incluir naturalmente: {section.get('keyword_to_hit', '')}\n"
-        f"Tono: {tone}\n\n"
+        f"Tono: {tone}\n"
+        f"Límite de palabras: {word_budget} palabras para esta sección completa. "
+        f"Sé conciso y directo. No rellenes con frases genéricas.\n\n"
         f"Datos de productos (cita SÓLO estos):\n{products_text}\n\n"
         f"Contexto de empresa:\n{kb_text}\n\n"
-        "IMPORTANTE: Empieza directamente con el encabezado ## (no con H1). "
-        "No añadas frontmatter. Escribe en prosa fluida en español. "
-        "No inventes datos que no estén en los datos de producto arriba."
+        "REGLAS:\n"
+        "- Empieza directamente con el encabezado ## (no con H1).\n"
+        "- No añadas frontmatter.\n"
+        "- Escribe en prosa fluida en español. Evita listas largas.\n"
+        "- No inventes datos, precios, ni testimonios que no estén en los datos de producto.\n"
+        "- No repitas información que ya aparece en el título del artículo.\n"
+        "- No uses frases de relleno como 'En conclusión', 'En resumen', 'Sin duda alguna'."
     )
 
     client = OpenAI(api_key=ctx.ai_api_key, base_url=ctx.ai_base_url or "https://api.openai.com/v1")

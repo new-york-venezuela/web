@@ -53,3 +53,60 @@ def test_run_embeds_product_image_when_available(ctx):
     with patch("scripts.blog_pipeline.step_04_content._generate_section", return_value="## H2\n\nTexto."):
         draft = run(ctx, SAMPLE_BRIEF, SAMPLE_OUTLINE)
     assert "/productos/cheesecake-clasico" in draft
+
+
+def test_lifestyle_image_brief_goes_to_trailing_block(ctx):
+    outline_with_lifestyle = {
+        "slug": "test-slug",
+        "sections": [
+            {
+                "h2": "Sección principal",
+                "audience": "ambos",
+                "keyword_to_hit": "test kw",
+                "products_to_mention": [],
+                "h3s": [],
+                "image_slot": {"type": "lifestyle", "brief": "Foto de una panadería artesanal"},
+                "internal_links": [],
+                "word_budget": 180,
+            }
+        ],
+        "closing_cta": {"consumer": "Visítanos", "b2b": "Contáctanos"},
+    }
+    with patch("scripts.blog_pipeline.step_04_content._generate_section", return_value="## Sección principal\n\nTexto."):
+        draft = run(ctx, SAMPLE_BRIEF, outline_with_lifestyle)
+
+    # Old inline format must not appear anywhere
+    assert "<!-- IMAGE_BRIEF:" not in draft
+    # New trailing comment block must appear
+    assert "<!-- IMAGE BRIEFS" in draft
+    assert "Foto de una panadería artesanal" in draft
+
+
+def test_issue_image_brief_used_as_lifestyle_slot(ctx):
+    """When brief has image_brief from issue, step_04 must use it as the lifestyle brief."""
+    brief_with_issue_image = dict(SAMPLE_BRIEF)
+    brief_with_issue_image["metadata"] = {
+        **SAMPLE_BRIEF.get("metadata", {}),
+        "image_url": None,
+        "image_brief": "Brioche dorado recién horneado sobre tabla de madera",
+    }
+    outline_no_slot = {
+        "slug": "test",
+        "sections": [
+            {
+                "h2": "Sección",
+                "audience": "b2b",
+                "keyword_to_hit": "kw",
+                "products_to_mention": [],
+                "h3s": [],
+                "image_slot": None,
+                "internal_links": [],
+                "word_budget": 180,
+            }
+        ],
+        "closing_cta": {"consumer": "A", "b2b": "B"},
+    }
+    with patch("scripts.blog_pipeline.step_04_content._generate_section", return_value="## Sección\n\nTexto."):
+        draft = run(ctx, brief_with_issue_image, outline_no_slot)
+    assert "Brioche dorado recién horneado sobre tabla de madera" in draft
+    assert "<!-- IMAGE BRIEFS" in draft

@@ -48,3 +48,28 @@ def test_run_retries_on_failure_then_warns(ctx):
          patch("scripts.blog_pipeline.step_05_review._retry_sections", return_value=GOOD_DRAFT):
         polished, warnings = run(ctx, GOOD_DRAFT, SAMPLE_BRIEF, SAMPLE_KEYWORDS, SAMPLE_OUTLINE)
     assert len(warnings) == 1  # second review also fails, so one warning is collected
+
+
+def test_reviewer_prompt_includes_testimonial_and_repetition_checks(ctx):
+    """The reviewer prompt must include checks for fabricated testimonials and section repetition."""
+    from scripts.blog_pipeline.step_05_review import _call_reviewer
+    captured_prompt = []
+
+    def fake_create(**kwargs):
+        captured_prompt.append(kwargs["messages"][-1]["content"])
+        mock_resp = MagicMock()
+        mock_resp.choices[0].message.content = '{"pass": true, "issues": [], "polished": null}'
+        return mock_resp
+
+    mock_client = MagicMock()
+    mock_client.chat.completions.create.side_effect = fake_create
+
+    with patch("scripts.blog_pipeline.step_05_review.OpenAI", return_value=mock_client):
+        _call_reviewer(ctx, GOOD_DRAFT, SAMPLE_KEYWORDS)
+
+    assert len(captured_prompt) == 1
+    prompt_text = captured_prompt[0]
+    # Check 4: no fabricated testimonials
+    assert "testimonios" in prompt_text
+    # Check 7: no repetition between sections
+    assert "repetición" in prompt_text or "repeticion" in prompt_text

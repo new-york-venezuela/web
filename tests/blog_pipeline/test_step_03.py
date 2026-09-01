@@ -73,3 +73,37 @@ def test_validate_outline_raises_on_missing_sections():
 def test_validate_outline_raises_on_missing_closing_cta():
     with pytest.raises(ValueError):
         _validate_outline({"slug": "x", "sections": [{"h2": "H2"}], "closing_cta": {}})
+
+
+def test_outline_sections_have_word_budget(ctx):
+    # Each section returned by the outline must have a word_budget integer
+    import json
+    outline_json = {
+        "slug": "test-slug",
+        "sections": [
+            {
+                "h2": "Sección 1",
+                "audience": "b2b",
+                "keyword_to_hit": "test",
+                "products_to_mention": [],
+                "h3s": [],
+                "image_slot": None,
+                "internal_links": [],
+                "word_budget": 180
+            }
+        ],
+        "closing_cta": {"consumer": "Cta consumer", "b2b": "Cta b2b"}
+    }
+    with patch("scripts.blog_pipeline.step_03_outline._call_llm", return_value=outline_json):
+        result = run(ctx, brief={
+            "issue_title": "Test",
+            "matched_products": [],
+            "matched_kb_sections": [],
+        }, keywords={
+            "primary_keyword": "test",
+            "secondary_keywords": [],
+            "audience_segments": ["b2b"],
+            "geo_answer": "Test answer.",
+        })
+    assert all("word_budget" in s for s in result["sections"])
+    assert result["sections"][0]["word_budget"] == 180

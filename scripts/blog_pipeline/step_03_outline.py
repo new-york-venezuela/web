@@ -40,7 +40,14 @@ def _call_llm(ctx: PipelineContext, brief: dict, keywords: dict) -> dict:
         "- Si el artículo tiene dos audiencias, alterna secciones o crea un bloque B2B explícito.\n"
         "- El cierre (closing_cta) siempre tiene 'consumer' y 'b2b' separados.\n"
         "- image_slot: {'type': 'product', 'product_id': '...'} si el producto tiene imagen, "
-        "{'type': 'lifestyle', 'brief': 'descripción en español de la foto ideal'} si no, o null.\n\n"
+        "{'type': 'lifestyle', 'brief': 'descripción en español de la foto ideal'} si no, o null.\n"
+        "- word_budget: número de palabras objetivo para esa sección H2 (incluyendo sus H3). "
+        "Máximo 180 palabras por sección. Primer H2 (GEO intro): 80 palabras. "
+        "Si solo hay 1 sección de contenido, 250 palabras.\n"
+        "- PROHIBIDO: Incluir secciones de 'testimonios', 'opiniones de clientes', o 'reseñas'. "
+        "No cites ni inventes testimonios. No uses frases como 'según nuestros clientes' o similares.\n"
+        "- PROHIBIDO: Más de 4 secciones H2 en total (incluyendo intro GEO). "
+        "Artículos de 3 secciones son preferidos.\n\n"
         "Devuelve ÚNICAMENTE este JSON:\n"
         "{\n"
         '  "slug": "slug-en-minusculas-con-guiones",\n'
@@ -52,7 +59,8 @@ def _call_llm(ctx: PipelineContext, brief: dict, keywords: dict) -> dict:
         '      "products_to_mention": ["product-id"],\n'
         '      "h3s": ["Subtítulo 1", "Subtítulo 2"],\n'
         '      "image_slot": null,\n'
-        '      "internal_links": ["/ruta/"]\n'
+        '      "internal_links": ["/ruta/"],\n'
+        '      "word_budget": 180\n'
         "    }\n"
         "  ],\n"
         '  "closing_cta": {"consumer": "texto CTA consumidor", "b2b": "texto CTA B2B"}\n'
@@ -77,3 +85,6 @@ def _validate_outline(data: dict) -> None:
     cta = data.get("closing_cta", {})
     if not cta.get("consumer") or not cta.get("b2b"):
         raise ValueError("Outline closing_cta must have non-empty 'consumer' and 'b2b' keys")
+    for section in data["sections"]:
+        if "word_budget" not in section:
+            section["word_budget"] = 180  # default if LLM omits it
