@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import StructuredData from '../../components/StructuredData.astro';
+import type { ArticleSchemaInput } from '../../utils/generateProductMetadata';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -21,10 +22,25 @@ const breadcrumbs = [
   { name: 'Blog', url: '/blog/' },
   { name: post.data.title, url: `/blog/${post.id}/` },
 ];
+
+const articleSchema: ArticleSchemaInput = {
+  title: post.data.title,
+  description: post.data.description,
+  pubDate: post.data.pubDate,
+  author: post.data.author ?? 'eugenio',
+  url: `/blog/${post.id}/`,
+  imageUrl: (post.data as any).ogImage,
+};
 ---
 
-<BaseLayout title={`${post.data.title}`} description={post.data.description}>
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  image={(post.data as any).ogImage}
+  type="article"
+>
   <StructuredData breadcrumbs={breadcrumbs} type="breadcrumb" />
+  <StructuredData article={articleSchema} type="article" />
 
   <article class="post-detail">
     <div class="container">

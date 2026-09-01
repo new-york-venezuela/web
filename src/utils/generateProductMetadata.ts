@@ -85,6 +85,47 @@ export function generateBreadcrumbSchema(breadcrumbs: Array<{ name: string; url:
   return JSON.stringify(schema);
 }
 
+export interface ArticleSchemaInput {
+  title: string;
+  description: string;
+  pubDate: Date;
+  author: string;
+  url: string;
+  imageUrl?: string;
+}
+
+export function generateArticleSchema(
+  article: ArticleSchemaInput,
+  baseUrl: string
+): string {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: article.title,
+    description: article.description,
+    datePublished: article.pubDate.toISOString(),
+    author: {
+      '@type': 'Person',
+      name: article.author,
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: COMPANY.name,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${baseUrl}${COMPANY.logo}`,
+      },
+    },
+    url: article.url,
+    ...(article.imageUrl && {
+      image: article.imageUrl.startsWith('http')
+        ? article.imageUrl
+        : `${baseUrl}${article.imageUrl}`,
+    }),
+  };
+  return JSON.stringify(schema);
+}
+
 export function generateLocalBusinessSchema(
   baseUrl: string,
   contact?: { phone?: string; email?: string }

@@ -3,21 +3,23 @@ import {
   generateProductSchema,
   generateBreadcrumbSchema,
   generateLocalBusinessSchema,
-  generateFaqSchema
+  generateFaqSchema,
+  generateArticleSchema,
 } from '../utils/generateProductMetadata';
-import type { Producto } from '../utils/generateProductMetadata';
+import type { Producto, ArticleSchemaInput } from '../utils/generateProductMetadata';
 import { COMPANY } from '../data/company';
 
 interface Props {
   producto?: Producto;
   breadcrumbs?: Array<{ name: string; url: string }>;
   faqs?: Array<{ pregunta: string; respuesta: string }>;
-  type?: 'product' | 'breadcrumb' | 'organization' | 'faq';
+  article?: ArticleSchemaInput;
+  type?: 'product' | 'breadcrumb' | 'organization' | 'faq' | 'article';
   /** Resolved (Astro asset) image URL for product schema. */
   imageUrl?: string;
 }
 
-const { producto, breadcrumbs, faqs, type = 'product', imageUrl } = Astro.props;
+const { producto, breadcrumbs, faqs, article, type = 'product', imageUrl } = Astro.props;
 const baseUrl = Astro.url.origin;
 
 let schema = '';
@@ -34,6 +36,8 @@ if (type === 'product' && producto) {
   schema = generateLocalBusinessSchema(baseUrl, contact);
 } else if (type === 'faq' && faqs) {
   schema = generateFaqSchema(faqs, baseUrl);
+} else if (type === 'article' && article) {
+  schema = generateArticleSchema(article, baseUrl);
 }
 ---
 
