@@ -106,3 +106,16 @@ def test_outline_sections_have_word_budget(ctx):
         })
     assert all("word_budget" in s for s in result["sections"])
     assert result["sections"][0]["word_budget"] == 180
+
+
+def test_validate_outline_defaults_word_budget_when_missing():
+    from scripts.blog_pipeline.step_03_outline import _validate_outline
+    data = {
+        "slug": "test",
+        "sections": [{"h2": "Sec", "audience": "b2b", "keyword_to_hit": "kw",
+                      "products_to_mention": [], "h3s": [], "image_slot": None,
+                      "internal_links": []}],  # no word_budget key
+        "closing_cta": {"consumer": "A", "b2b": "B"},
+    }
+    _validate_outline(data)
+    assert data["sections"][0]["word_budget"] == 180

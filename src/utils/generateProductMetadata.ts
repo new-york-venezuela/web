@@ -116,7 +116,7 @@ export function generateArticleSchema(
         url: `${baseUrl}${COMPANY.logo}`,
       },
     },
-    url: article.url,
+    url: article.url.startsWith('http') ? article.url : `${baseUrl}${article.url}`,
     ...(article.imageUrl && {
       image: article.imageUrl.startsWith('http')
         ? article.imageUrl

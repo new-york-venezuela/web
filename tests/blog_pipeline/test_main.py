@@ -60,7 +60,7 @@ Explicacion pedagogica sobre como el respeto al tiempo de reposo de las masas me
 """
 
 
-def test_parse_issue_metadata_new_format():
+def test_parse_issue_metadata_legacy_format():
     meta = _parse_issue_metadata(_SAMPLE_ISSUE_BODY)
     assert meta.post_id == "post-030"
     assert meta.week == 26
