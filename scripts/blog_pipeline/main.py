@@ -11,10 +11,35 @@ from .context import PipelineContext, IssueMetadata
 from . import step_01_enrich, step_02_keywords, step_03_outline, step_04_content, step_05_review, step_06_frontmatter
 
 import re
+import yaml
 from datetime import datetime
 
 
 def _parse_issue_metadata(body: str) -> IssueMetadata:
+    yaml_match = re.search(r"```yaml\s*\n(.*?)\n```", body, re.S)
+    if yaml_match:
+        try:
+            data = yaml.safe_load(yaml_match.group(1)) or {}
+            return IssueMetadata(
+                post_id=str(data["post_id"]) if data.get("post_id") else None,
+                week=int(data["week"]) if data.get("week") else None,
+                scheduled_date=str(data["scheduled_date"]) if data.get("scheduled_date") else None,
+                pilar=str(data.get("pilar", "")),
+                audience=str(data.get("audience", "")),
+                primary_keyword=str(data.get("primary_keyword", "")),
+                tags=list(data.get("tags") or []),
+                image_url=str(data["image_url"]) if data.get("image_url") else None,
+                image_brief=str(data["image_brief"]) if data.get("image_brief") else None,
+                related_posts=[int(n) for n in (data.get("related_posts") or [])],
+            )
+        except (yaml.YAMLError, ValueError, KeyError):
+            pass  # fall through to legacy parser
+
+    return _parse_issue_metadata_legacy(body)
+
+
+def _parse_issue_metadata_legacy(body: str) -> IssueMetadata:
+    """Regex-based parser for issues written before the YAML template."""
     meta = IssueMetadata()
     m = re.search(r"\*\*ID:\*\*\s*`?([\w-]+)`?", body)
     if m:
@@ -78,6 +103,19 @@ def _resolve_cross_links(prerequisites: list[str], existing_post_slugs: dict[str
             links[post_id] = {"title": slug, "url": f"/blog/{slug}"}
         else:
             links[post_id] = {"title": post_id, "url": None}
+    return links
+
+
+def _resolve_cross_links_by_issue(
+    related_posts: list[int], existing_slugs: dict[int, str]
+) -> dict:
+    links: dict = {}
+    for issue_num in related_posts:
+        slug = existing_slugs.get(issue_num)
+        if slug:
+            links[issue_num] = {"title": slug, "url": f"/blog/{slug}"}
+        else:
+            links[issue_num] = {"title": str(issue_num), "url": None}
     return links
 
 
@@ -146,7 +184,12 @@ def main() -> None:
 
     ctx = _build_context(issue, metadata, force_step=args.force_step)
     existing_post_slugs = _get_existing_post_slugs(blog_output_dir)
-    cross_links = _resolve_cross_links(metadata.prerequisites, existing_post_slugs)
+
+    if metadata.related_posts:
+        cross_links = _resolve_cross_links_by_issue(metadata.related_posts, existing_slugs)
+    else:
+        # Legacy fallback: resolve by post-XXX id
+        cross_links = _resolve_cross_links(metadata.prerequisites, existing_post_slugs)
 
     print(f"[1/6] Brief enrichment for issue #{issue.number}...")
     brief = step_01_enrich.run(ctx, cross_links)

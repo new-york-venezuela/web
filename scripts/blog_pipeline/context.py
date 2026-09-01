@@ -11,8 +11,11 @@ class IssueMetadata:
     pilar: Optional[str] = None
     audience: Optional[str] = None
     primary_keyword: Optional[str] = None
-    prerequisites: list = field(default_factory=list)
+    prerequisites: list = field(default_factory=list)   # legacy: post-XXX ids
+    related_posts: list = field(default_factory=list)   # new: GH issue numbers (int)
     tags: list = field(default_factory=list)
+    image_url: Optional[str] = None
+    image_brief: Optional[str] = None
 
 
 @dataclass

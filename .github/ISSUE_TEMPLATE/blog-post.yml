@@ -1,0 +1,41 @@
+name: Blog Post
+description: Proponer un artículo de blog para Alimentos New York
+labels: ["blog-post-idea"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Completa todos los campos. El bloque `Metadata` debe ser YAML válido — no cambies los nombres de los campos.
+  - type: textarea
+    id: metadata
+    attributes:
+      label: Metadata
+      render: yaml
+      description: Metadatos estructurados del artículo.
+      value: |
+        post_id: post-XXX           # Reemplaza XXX con el número secuencial
+        week: 1                     # Semana de publicación (1-52)
+        scheduled_date: "YYYY-MM-DD"
+        pilar: "Panadería & Tendencias Gastronómicas"
+        audience: "b2b"             # b2b | b2c | ambos
+        primary_keyword: "keyword principal en español"
+        tags: []                    # ["etiqueta1", "etiqueta2"]
+        image_url: null             # /productos/imagen.jpg si el asset ya existe; null si no
+        image_brief: "Descripción de la foto ideal para este artículo"
+        related_posts: []           # Números de issue relacionados: [17, 28]
+    validations:
+      required: true
+  - type: textarea
+    id: resumen
+    attributes:
+      label: Resumen Ejecutivo
+      description: Ángulo editorial, objetivo del artículo y contexto comercial (1-3 párrafos).
+    validations:
+      required: true
+  - type: textarea
+    id: contexto
+    attributes:
+      label: Contexto Adicional
+      description: Restricciones, ideas adicionales, o notas para el generador. Opcional.
+    validations:
+      required: false
