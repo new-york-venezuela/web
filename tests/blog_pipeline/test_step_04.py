@@ -82,6 +82,35 @@ def test_lifestyle_image_brief_goes_to_trailing_block(ctx):
     assert "Foto de una panadería artesanal" in draft
 
 
+def test_issue_image_url_embed(ctx):
+    """When brief has a real image_url, it must be embedded as a Markdown image in parts[0]."""
+    brief_with_url = {
+        "issue_title": "Test post",
+        "matched_products": [],
+        "matched_kb_sections": [],
+        "metadata": {"image_url": "/assets/test.jpg", "image_brief": None},
+    }
+    outline_no_slot = {
+        "slug": "test",
+        "sections": [
+            {
+                "h2": "Sección",
+                "audience": "b2b",
+                "keyword_to_hit": "kw",
+                "products_to_mention": [],
+                "h3s": [],
+                "image_slot": None,
+                "internal_links": [],
+                "word_budget": 180,
+            }
+        ],
+        "closing_cta": {"consumer": "A", "b2b": "B"},
+    }
+    with patch("scripts.blog_pipeline.step_04_content._generate_section", return_value="## Sección\n\nTexto."):
+        draft = run(ctx, brief_with_url, outline_no_slot)
+    assert "/assets/test.jpg" in draft
+
+
 def test_issue_image_brief_used_as_lifestyle_slot(ctx):
     """When brief has image_brief from issue, step_04 must use it as the lifestyle brief."""
     brief_with_issue_image = dict(SAMPLE_BRIEF)

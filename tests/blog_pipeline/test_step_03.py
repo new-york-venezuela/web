@@ -77,7 +77,6 @@ def test_validate_outline_raises_on_missing_closing_cta():
 
 def test_outline_sections_have_word_budget(ctx):
     # Each section returned by the outline must have a word_budget integer
-    import json
     outline_json = {
         "slug": "test-slug",
         "sections": [
