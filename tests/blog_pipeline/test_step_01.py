@@ -50,3 +50,19 @@ def test_run_uses_checkpoint_if_exists(ctx):
     (ctx.checkpoint_dir / "01_brief.json").write_text(json.dumps(existing), encoding="utf-8")
     brief = run(ctx, cross_links={})
     assert brief["issue_title"] == "cached"
+
+
+def test_run_includes_image_metadata_in_brief(ctx):
+    ctx.metadata.image_url = "/productos/pan-brioche.jpg"
+    ctx.metadata.image_brief = "Pan brioche cortado mostrando la miga"
+    with patch("scripts.blog_pipeline.step_01_enrich.fetch_top_queries", return_value=[]):
+        brief = run(ctx, cross_links={})
+    assert brief["metadata"]["image_url"] == "/productos/pan-brioche.jpg"
+    assert brief["metadata"]["image_brief"] == "Pan brioche cortado mostrando la miga"
+
+
+def test_run_image_metadata_none_when_not_set(ctx):
+    with patch("scripts.blog_pipeline.step_01_enrich.fetch_top_queries", return_value=[]):
+        brief = run(ctx, cross_links={})
+    assert brief["metadata"]["image_url"] is None
+    assert brief["metadata"]["image_brief"] is None

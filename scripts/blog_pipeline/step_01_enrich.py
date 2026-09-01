@@ -51,6 +51,8 @@ def run(ctx: PipelineContext, cross_links: dict) -> dict:
             "audience": ctx.metadata.audience,
             "primary_keyword": ctx.metadata.primary_keyword,
             "tags": ctx.metadata.tags,
+            "image_url": ctx.metadata.image_url,
+            "image_brief": ctx.metadata.image_brief,
         },
         "matched_products": [
             {
