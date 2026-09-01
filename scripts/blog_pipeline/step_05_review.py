@@ -23,10 +23,10 @@ def run(ctx: PipelineContext, draft: str, brief: dict, keywords: dict, outline: 
         if review2.get("pass"):
             draft = retried
         else:
-            draft = review2.get("polished", retried)
+            draft = review2.get("polished") or retried
             warnings = [f"{i['section']}: {i['problem']}" for i in review2.get("issues", [])]
     else:
-        draft = review.get("polished", draft)
+        draft = review.get("polished") or draft
 
     output_path.write_text(draft, encoding="utf-8")
     return draft, warnings

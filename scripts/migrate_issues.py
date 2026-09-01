@@ -103,7 +103,7 @@ def main():
 
     gh = Github(token)
     repo = gh.get_repo(repo_name)
-    issues = list(repo.get_issues(state="open", labels=["blog-post-idea"]))
+    issues = list(repo.get_issues(state="open"))
     print(f"Found {len(issues)} issues to migrate.")
 
     for issue in issues:
