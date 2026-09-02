@@ -1,8 +1,9 @@
-import productosData from '../data/productos.json';
+import productosRaw from '../data/productos.json';
 import { getCollection } from 'astro:content';
 
 export async function GET() {
   const baseUrl = 'https://www.alimentosnewyork.com';
+  const productosData = productosRaw.productos;
 
   const staticRoutes = [
     { url: '/', priority: '1.0', changefreq: 'weekly' },

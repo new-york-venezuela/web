@@ -1,4 +1,6 @@
-import productosData from '../data/productos.json';
+import productosRaw from '../data/productos.json';
+
+const productosData = productosRaw.productos;
 
 export interface Producto {
   id: string;
