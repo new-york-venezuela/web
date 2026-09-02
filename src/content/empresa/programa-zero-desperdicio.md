@@ -16,8 +16,8 @@ Proyecto piloto diseñado para supermercados que busca rotar mercancía próxima
 
 ## Supermercados Participantes
 
-[Completar: cadenas o formatos piloto actuales.]
+Actualmente estamos poniendo en marcha el programa piloto en **Supermercados Río Vida**.
 
 ## Contacto
 
-Para incorporarse al programa: [Completar con contacto comercial.]
+Para incorporarse al programa: [ventas@alimentosnewyork.com](mailto:ventas@alimentosnewyork.com)
