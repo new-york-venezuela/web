@@ -4,7 +4,7 @@ id: "pizza-new-york"
 descripcion_seo: "Pizza New York congelada artesanal. Masa estilo New York, amplia y crujiente. Disponible en supermercados de Caracas."
 palabras_clave: ["pizza new york congelada caracas", "pizza estilo new york venezuela", "pizza congelada supermercado caracas", "pizza artesanal congelada"]
 categoria_primaria: "supermarket"
-categoria_secundaria: "congelados"
+categoria_secundaria: "pizza"
 imagen: "pizza-new-york"
 imagen_alt: "Pizza New York Congelada - Alimentos New York, Caracas"
 destacado: false
