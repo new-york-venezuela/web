@@ -2,6 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import StructuredData from '../../components/StructuredData.astro';
+import CTASection from '../../components/CTASection.astro';
 
 export async function getStaticPaths() {
   const paginas = await getCollection('empresa');
@@ -46,6 +47,12 @@ const breadcrumbs = [
       </div>
     </div>
   </article>
+
+  <CTASection
+    title="¿Listo para trabajar con nosotros?"
+    description="Solicita una llamada de nuestro equipo comercial. Te contactaremos con condiciones personalizadas y disponibilidad de productos."
+    ctaText="Solicitar Llamada"
+  />
 </BaseLayout>
 
 <style>

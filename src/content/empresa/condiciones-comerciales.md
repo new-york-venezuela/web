@@ -27,8 +27,3 @@ El reconocimiento de mermas aplica únicamente a productos de panadería de anaq
 ## Logística
 
 Despacho y entrega directa en tienda o punto de venta en Caracas y alrededores. No se requiere retiro en fábrica (salvo para obtener el descuento del 10% por retiro directo).
-
-## CTAs Oficiales para Clientes B2B
-
-- **HORECA:** "Solicita tu catálogo y lista de precios B2B, o pide una muestra para tu establecimiento."
-- **Retail / Supermercados:** "Contáctanos para evaluar las condiciones comerciales ideales para tu punto de venta."
