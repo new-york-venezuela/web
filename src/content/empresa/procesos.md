@@ -1,20 +1,22 @@
 ---
-title: "Procesos de Producción"
-keywords: ["panadería industrial venezuela", "repostería industrial caracas", "producción congelados venezuela", "proceso panificación industrial"]
+title: "Procesos de Producción y Control de Calidad"
+keywords: ["panadería industrial venezuela", "repostería industrial caracas", "producción congelados venezuela", "proceso panificación industrial", "control calidad alimentos venezuela", "inocuidad alimentaria panadería"]
 ---
 
-## Proceso Industrial
+## Planta de Producción
 
-[Completar: descripción del proceso de producción — mezcla, fermentación, horneado, congelado, empaque.]
+La producción opera desde la planta en La Urbina, Caracas, con capacidad para abastecer supermercados, bodegones y clientes HORECA de forma continua. El proceso cubre panadería artesanal-industrial, repostería y líneas de congelados.
 
-## Control de Calidad
+## Pan Molido: Calidad sin Compromiso
 
-[Completar: controles de temperatura, trazabilidad, fechas de vencimiento, manejo de merma.]
+El pan molido de Alimentos New York se elabora **exclusivamente a partir de pan producido específicamente para este fin**, nunca a partir de merma o producto no vendido. Esto garantiza homogeneidad organoléptica, higiene y calidad constante en cada lote.
 
-## Capacidad de Producción
+## Línea de Congelados
 
-[Completar: capacidad en unidades por turno o por semana, si es información pública.]
+Los productos congelados —baguettes precocidas, pizzas y cheesecakes— atraviesan un proceso de congelación industrial que preserva las características de textura y sabor originales. Esta línea permite a los clientes (tanto retail como HORECA) ofrecer producto fresco horneado en el punto con mínimo desperdicio y sin necesidad de producción in-situ.
 
-## Ingredientes
+## Control de Calidad y Frescura
 
-[Completar: política de ingredientes — locales vs. importados, estándares de frescura.]
+- **Retail:** Los productos de panadería están sujetos a política de retiro preventivo antes del vencimiento, garantizando 100% de frescura en anaquel.
+- **Kosher:** La certificación Kosher Parve y Pat Israel requiere supervisión continua del proceso productivo, desde ingredientes hasta empaque.
+- **Ingredientes:** Selección de insumos de calidad para las líneas premium (mantequilla real en croissants, masa lenta fermentada en panes de especialidad).

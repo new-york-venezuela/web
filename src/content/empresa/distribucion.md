@@ -1,24 +1,28 @@
 ---
-title: "Distribución y Logística"
-keywords: ["distribución panadería caracas", "reparto punto a punto caracas", "logística alimentos venezuela", "cobertura distribución caracas"]
+title: "Distribución, Logística y Condiciones Comerciales"
+keywords: ["distribución panadería caracas", "reparto punto a punto caracas", "logística alimentos venezuela", "proveedor panadería condiciones comerciales", "crédito proveedor alimentos venezuela", "consignación panadería caracas"]
 ---
 
 ## Modelo de Distribución
 
-Operamos bajo un modelo de distribución directa punto a punto: nuestros vehículos realizan entregas tienda por tienda en rutas de Caracas y [completar: zonas cubiertas].
+Operamos bajo un modelo de **distribución directa punto a punto**: nuestros vehículos realizan entregas en tienda en rutas regulares de Caracas y sus alrededores. Los clientes retail y HORECA reciben el producto en su establecimiento sin necesidad de retiro en fábrica.
 
-## Zonas de Cobertura
+## Condiciones de Facturación y Pago
 
-[Completar: municipios, parroquias o sectores de Caracas con cobertura regular.]
+- **Moneda de facturación:** USD, pagadera en Bolívares (Bs.) según la tasa oficial del Banco Central de Venezuela (BCV) vigente al día exacto de pago.
+- **Plazos de crédito disponibles:** 7, 15 o 21 días continuos (sujeto a evaluación comercial).
+- **Esquema de consignación:** Disponible previa evaluación. Facturación por período de corte con retiro directo de productos no vendidos por el equipo comercial.
 
-## Frecuencia de Entregas
+## Descuentos e Incentivos
 
-[Completar: días de despacho, ventana horaria de entrega, condiciones de pedido mínimo.]
+- **10% de descuento** por retiro directo en fábrica + pago de contado.
+- **5% de descuento por pronto pago** en esquema de consignación.
+- Políticas de bonificación por volumen y por ampliación de catálogo codificado.
 
-## Condiciones Comerciales
+## Política de Mermas
 
-[Completar: forma de pago, crédito disponible, proceso para nuevos clientes.]
+El reconocimiento de mermas en productos de panadería de retail está sujeto al cumplimiento del PVP recomendado (margen del 30% sobre costo). **Los productos congelados no aplican para reconocimiento de mermas.**
 
 ## Cómo Convertirse en Cliente
 
-Para solicitar distribución como nuevo punto de venta o foodservice: [Completar con proceso de onboarding.]
+Para supermercados, bodegones, restaurantes, hoteles o cafeterías interesados en iniciar relación comercial: contacte al equipo comercial de Alimentos New York directamente. Se realiza una evaluación inicial para determinar el esquema de crédito o consignación más adecuado para el punto de venta.
