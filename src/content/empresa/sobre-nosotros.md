@@ -15,7 +15,7 @@ New York Cheese Cake C.A., conocida comercialmente como **Alimentos New York**, 
 
 Operamos bajo un modelo B2B y B2C integrado:
 
-- **Supermercados y Retail:** Abastecemos cadenas reconocidas como Unicasa, Rio Market, 2Doce Market y Automercado Luz, así como bodegones independientes.
+- **Supermercados y Retail:** Abastecemos cadenas reconocidas como Excelsior Gama, Luvebras, Páramo, La Muralla, Río Vida, Plan Suárez, Plaza's y Unicasa, entre otras, así como bodegones independientes.
 - **HORECA:** Proveemos hoteles, restaurantes y cafeterías con líneas especializadas de panadería y repostería industrial, incluyendo formatos y presentaciones diseñadas para cocina profesional.
 
 ## Diferenciadores

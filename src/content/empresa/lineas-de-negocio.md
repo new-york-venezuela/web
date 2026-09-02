@@ -5,7 +5,7 @@ keywords: ["proveedor supermercados venezuela", "proveedor restaurantes caracas"
 
 ## Supermercados y Retail
 
-Abastecemos cadenas de supermercados en Caracas incluyendo **Unicasa, Rio Market, 2Doce Market y Automercado Luz**, así como bodegones independientes. Nuestra línea retail incluye:
+Abastecemos cadenas de supermercados en Caracas incluyendo **Excelsior Gama, Luvebras, Páramo, La Muralla, Río Vida, Plan Suárez, Plaza's y Unicasa**, entre otros, así como bodegones independientes. Nuestra línea retail incluye:
 
 - Pan de Sándwich Integral 4 Granos y 7 Cereales (línea estrella)
 - Pan Blanco de Sándwich, Pan Integral de Miel y Pasas, Pan Pumpernickel
