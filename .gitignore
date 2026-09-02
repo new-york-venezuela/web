@@ -39,6 +39,12 @@ Thumbs.db
 .temp/
 .vercel/
 .netlify/
+.pipeline/
 
 .superpowers
 
+
+__pycache__
+*.pyc
+
+.venv

@@ -1,0 +1,111 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import StructuredData from '../../components/StructuredData.astro';
+import CTASection from '../../components/CTASection.astro';
+
+export async function getStaticPaths() {
+  const paginas = await getCollection('empresa');
+  return paginas.map((pagina) => ({
+    params: { slug: pagina.id },
+    props: { pagina },
+  }));
+}
+
+const { pagina } = Astro.props;
+const { Content } = await render(pagina);
+
+const breadcrumbs = [
+  { name: 'Inicio', url: '/' },
+  { name: 'Empresa', url: '/empresa/' },
+  { name: pagina.data.title, url: `/empresa/${pagina.id}/` },
+];
+---
+
+<BaseLayout title={`${pagina.data.title} | Alimentos New York`} description={pagina.data.title}>
+  <StructuredData breadcrumbs={breadcrumbs} type="breadcrumb" />
+
+  <article class="section editorial">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Migas de pan">
+        {breadcrumbs.map((item, idx) => (
+          <>
+            {idx > 0 && <span class="breadcrumb-sep">/</span>}
+            {idx === breadcrumbs.length - 1 ? (
+              <span class="breadcrumb-current">{item.name}</span>
+            ) : (
+              <a href={item.url}>{item.name}</a>
+            )}
+          </>
+        ))}
+      </nav>
+
+      <h1>{pagina.data.title}</h1>
+
+      <div class="editorial-content">
+        <Content />
+      </div>
+    </div>
+  </article>
+
+  <CTASection
+    title="¿Listo para trabajar con nosotros?"
+    description="Solicita una llamada de nuestro equipo comercial. Te contactaremos con condiciones personalizadas y disponibilidad de productos."
+    ctaText="Solicitar Llamada"
+  />
+</BaseLayout>
+
+<style>
+  .breadcrumb {
+    margin-bottom: 2rem;
+    font-size: 0.875rem;
+    color: var(--color-charcoal-soft);
+  }
+
+  .breadcrumb a {
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+
+  .breadcrumb a:hover {
+    text-decoration: underline;
+  }
+
+  .breadcrumb-sep {
+    margin: 0 0.5rem;
+  }
+
+  .breadcrumb-current {
+    color: var(--color-charcoal);
+    font-weight: 500;
+  }
+
+  .editorial-content {
+    max-width: 45rem;
+  }
+
+  .editorial-content :global(h2) {
+    margin-top: var(--space-xl);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+
+  .editorial-content :global(p) {
+    line-height: 1.7;
+    color: var(--color-charcoal);
+    margin-bottom: 1rem;
+  }
+
+  .editorial-content :global(ul),
+  .editorial-content :global(ol) {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 48rem) {
+    .editorial h1 {
+      font-size: 1.5rem;
+    }
+  }
+</style>
