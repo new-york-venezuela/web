@@ -4,6 +4,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import StructuredData from '../components/StructuredData.astro';
 import SeoHead from '../components/SeoHead.astro';
+import FloatingContactButton from '../components/FloatingContactButton.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -60,6 +61,16 @@ const {
       <slot />
     </main>
     {!bare && <Footer />}
+    <FloatingContactButton />
+    <script>
+      if (window.posthog && window.posthog.isFeatureEnabled('whatsapp-contact-modal')) {
+        // Feature flag is true - floating button will render via conditional
+      } else {
+        // Feature flag is false - don't show floating button
+        const wrapper = document.getElementById('floating-contact-wrapper');
+        if (wrapper) wrapper.style.display = 'none';
+      }
+    </script>
   </body>
 </html>
 
