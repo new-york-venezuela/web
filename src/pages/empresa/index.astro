@@ -1,32 +1,39 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import CTASection from '../../components/CTASection.astro';
 
 const paginas = await getCollection('empresa');
+const sobreNosotros = paginas.find(p => p.id === 'sobre-nosotros');
+const { Content } = sobreNosotros ? await render(sobreNosotros) : { Content: null };
+const otrosPaginas = paginas.filter(p => p.id !== 'sobre-nosotros');
 ---
 
 <BaseLayout
   title="Empresa — Alimentos New York | Panadería y Pastelería Premium"
   description="Conoce Alimentos New York: nuestra historia, líneas de negocio, procesos de producción, certificaciones y distribución en Caracas."
 >
-  <section class="section intro">
+  <article class="section editorial">
     <div class="container">
       <span class="eyebrow">Empresa</span>
-      <h1>Conoce Alimentos New York</h1>
-      <p class="lead">
-        Historia, procesos, certificaciones y distribución de nuestra empresa.
-      </p>
+      <h1>Tradición, Sabor y Compromiso Premium</h1>
+
+      {Content && (
+        <div class="editorial-content">
+          <Content />
+        </div>
+      )}
     </div>
-  </section>
+  </article>
 
   <section class="section">
     <div class="container">
+      <h2 class="section-title">Más sobre nosotros</h2>
       <div class="grid">
         {
-          paginas.map((pagina) => (
+          otrosPaginas.map((pagina) => (
             <a href={`/empresa/${pagina.id}/`} class="empresa-card">
-              <h2>{pagina.data.title}</h2>
+              <h3>{pagina.data.title}</h3>
             </a>
           ))
         }
@@ -43,8 +50,38 @@ const paginas = await getCollection('empresa');
 </BaseLayout>
 
 <style>
-  .intro {
+  .editorial {
     padding-bottom: var(--space-l);
+  }
+
+  .editorial-content {
+    max-width: 45rem;
+  }
+
+  .editorial-content :global(h2) {
+    margin-top: var(--space-xl);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: #1a2e40;
+  }
+
+  .editorial-content :global(p) {
+    line-height: 1.7;
+    color: var(--color-charcoal);
+    margin-bottom: 1rem;
+  }
+
+  .editorial-content :global(ul),
+  .editorial-content :global(ol) {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+    line-height: 1.7;
+  }
+
+  .section-title {
+    margin-bottom: var(--space-l);
+    font-size: 1.5rem;
+    color: #1a2e40;
   }
 
   .grid {
@@ -68,7 +105,7 @@ const paginas = await getCollection('empresa');
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 
-  .empresa-card h2 {
+  .empresa-card h3 {
     margin: 0;
     font-size: 1.125rem;
   }
