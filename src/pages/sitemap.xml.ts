@@ -23,7 +23,7 @@ export async function GET() {
 
   const blogPosts = await getCollection('blog', ({ data }) => !data.draft);
   const blogRoutes = blogPosts.map((post) => ({
-    url: `/blog/${post.id}/`,
+    url: `/blog/${post.data.slug || post.id}/`,
     priority: '0.7',
     changefreq: 'monthly',
     lastmod: post.data.pubDate.toISOString().split('T')[0],

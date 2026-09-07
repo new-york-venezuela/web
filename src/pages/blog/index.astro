@@ -29,13 +29,16 @@ const dateFormatter = new Intl.DateTimeFormat('es-VE', { dateStyle: 'long' });
       {
         posts.length > 0 ? (
           <div class="grid">
-            {posts.map((post) => (
-              <a href={`/blog/${post.id}/`} class="post-card">
+            {posts.map((post) => {
+              const postSlug = post.data.slug || post.id;
+              return (
+              <a href={`/blog/${postSlug}/`} class="post-card">
                 <span class="post-date">{dateFormatter.format(post.data.pubDate)}</span>
                 <h2>{post.data.title}</h2>
                 <p>{post.data.description}</p>
               </a>
-            ))}
+            );
+            })}
           </div>
         ) : (
           <p class="empty-state">Próximamente publicaremos artículos aquí. ¡Vuelve pronto!</p>
