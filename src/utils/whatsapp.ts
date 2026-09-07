@@ -16,3 +16,12 @@ Nombre: ${name}
 Negocio: ${businessType}
 Correo: ${email}`;
 }
+
+export function generateLeadPrompt(): string {
+  return `Hola! Quisiera información sobre vuestros productos.
+
+Por favor, comparte lo siguiente:
+1. Tu nombre
+2. Tipo de negocio (Supermercado, Restaurante, Hotel, Catering, etc.)
+3. Tu correo electrónico`;
+}
