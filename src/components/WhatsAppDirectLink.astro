@@ -1,0 +1,21 @@
+---
+import { generateWhatsAppLink, generateLeadPrompt } from '../utils/whatsapp';
+
+const whatsappLink = generateWhatsAppLink(generateLeadPrompt());
+---
+
+<a href={whatsappLink} target="_blank" rel="noopener noreferrer" class="btn btn--solid btn--whatsapp">
+  💬 Contacto por WhatsApp
+</a>
+
+<style>
+  .btn--whatsapp {
+    background-color: #25d366;
+    border-color: #25d366;
+  }
+
+  .btn--whatsapp:hover {
+    background-color: #20ba5a;
+    border-color: #20ba5a;
+  }
+</style>
