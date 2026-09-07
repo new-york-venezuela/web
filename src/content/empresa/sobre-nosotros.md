@@ -1,7 +1,40 @@
 ---
-title: "Sobre Nosotros — Alimentos New York"
+title: "Nuestra Historia"
 keywords: ["alimentos new york", "new york cheese cake", "fábrica panadería venezuela", "pastelería industrial caracas", "historia empresa", "panadería caracas 44 años", "proveedores alimentos la urbina"]
 ---
+
+Más de 40 años de tradición artesanal, técnica y un compromiso inquebrantable con la excelencia culinaria.
+Si llegaste buscando Panadería Nueva York o New York Bakery: somos nosotros, somos **Alimentos New York**.
+
+## El Origen: La Cheesecake que Conquistó Caracas (1980s)
+
+En los años 80, los hermanos Sergio y Héctor Doñaque —oriundos de Pamplona, criados en Bilbao
+y trotamundos desde los 20 años— decidieron traer a Caracas algo completamente desconocido:
+la auténtica _cheesecake_ estilo Nueva York. Con una pequeña cocina, su paladar y profunda curiosidad,
+fundaron **Alimentos New York**, que revolucionaría el mercado de repostería en la capital.
+
+El secreto de esta receta perfecta nació mucho antes, entre 1969 y 1970, cuando Sergio aprendió los
+secretos de esta tarta en Estados Unidos. Más tarde, viviendo en Nueva Orleans, convirtió ese arte en su sustento,
+llegando a conquistar con sus postres a los restaurantes más exclusivos de la zona. Al regresar a Venezuela,
+impulsado por sus hermanos, replicó la fórmula en Caracas. En cuestión de meses, aquellas tartas de queso preparadas
+con obsesivo detalle ya habían copado casi la totalidad del mercado de restaurantes de la capital.
+
+## La Evolución: Panadería Industrial Premium (1990s-Presente)
+
+Con la confianza de los caraqueños ganada, **Alimentos New York** escaló hacia la panadería industrial premium.
+Introdujimos técnicas avanzadas con prefermentos y fermentaciones controladas, transformando
+nuestro modelo en distribución B2B/B2C integral para supermercados, hoteles y restaurantes.
+
+Hoy ofrecemos una cartera completa: panes integrales de sándwich, _pumpernickel_ alemán, baguettes,
+magdalenas, pizzas congeladas y nuestras legendarias tartas de queso.
+Alianzas con Pollos Arturo's y otros socios HORECA certifican nuestra calidad en el sector profesional.
+
+## Hoy: Certificación Kosher Parve y Excelencia Premium
+
+Lo que define a **Alimentos New York** es un compromiso inquebrantable con la calidad
+y el bienestar del consumidor final.
+Toda nuestra producción de panes, repostería y pastelería congelada cuenta con certificación **Kosher Parve**,
+que garantiza máxima pureza, higiene alimentaria y ausencia de ingredientes prohibidos en cada proceso.
 
 ## Quiénes Somos
 

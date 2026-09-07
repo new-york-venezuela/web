@@ -31,6 +31,7 @@ export default defineConfig({
   },
 
   redirects: {
-      '/cocinando-con-amor': '/documentacion/guia-tecnica'
+      '/cocinando-con-amor': '/documentacion/guia-tecnica',
+      '/sobre-nosotros': '/empresa/'
   }
 });

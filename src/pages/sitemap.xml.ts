@@ -8,8 +8,8 @@ export async function GET() {
   const staticRoutes = [
     { url: '/', priority: '1.0', changefreq: 'weekly' },
     { url: '/catalogo/', priority: '0.9', changefreq: 'weekly' },
+    { url: '/empresa/', priority: '0.8', changefreq: 'monthly' },
     { url: '/blog/', priority: '0.8', changefreq: 'daily' },
-    { url: '/sobre-nosotros/', priority: '0.7', changefreq: 'monthly' },
     { url: '/contacto/', priority: '0.8', changefreq: 'monthly' },
     { url: '/solicitar-llamada/', priority: '0.7', changefreq: 'monthly' },
   ];
