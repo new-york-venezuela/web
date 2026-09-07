@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ProductCard from '../components/ProductCard.astro';
 import CTASection from '../components/CTASection.astro';
 import WhatsAppCTA from '../components/WhatsAppCTA.astro';
+import WhatsAppDirectLink from '../components/WhatsAppDirectLink.astro';
 import { productos } from '../data/catalogo';
 
 const destacados = productos.filter((p) => p.destacado);
@@ -25,6 +26,9 @@ const destacados = productos.filter((p) => p.destacado);
         <div class="hero__actions">
           <a href="/catalogo/" class="btn btn--solid">Ver catálogo</a>
           <a href="/solicitar-llamada/" class="btn btn--solid">Solicitar llamada</a>
+          <div id="whatsapp-direct-link-container">
+            <WhatsAppDirectLink />
+          </div>
         </div>
       </div>
       <div class="hero-cta">
@@ -82,6 +86,15 @@ const destacados = productos.filter((p) => p.destacado);
     ctaText="Solicitar una Llamada"
   />
 </BaseLayout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.posthog && window.posthog.isFeatureEnabled('whatsapp-contact-modal')) {
+      const container = document.getElementById('whatsapp-direct-link-container');
+      if (container) container.style.display = 'none';
+    }
+  });
+</script>
 
 <style>
   .hero {
