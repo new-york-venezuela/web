@@ -32,6 +32,9 @@ export default defineConfig({
 
   redirects: {
       '/cocinando-con-amor': '/documentacion/guia-tecnica',
-      '/sobre-nosotros': '/empresa/'
+      '/sobre-nosotros': '/empresa/',
+      // Blog post slug migrations: old filenames → SEO-optimized slugs
+      '/blog/miga-de-memoria-pan-brioche-hamburguesa-gourmet-caracas/': '/blog/pan-brioche-hamburguesas-caracas/',
+      '/blog/por-que-la-miga-de-memoria-en-el-pan-brioche-es-el-secreto-de-una-hamburguesa-gourmet-perfecta/': '/blog/pan-brioche-hamburguesas-caracas/',
   }
 });

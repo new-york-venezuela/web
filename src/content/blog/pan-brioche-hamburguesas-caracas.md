@@ -4,6 +4,7 @@ description: "Pan brioche para hamburguesas Caracas: descubre c\u00f3mo su miga 
 pubDate: 2026-08-14
 author: "eugenio"
 draft: false
+slug: "pan-brioche-hamburguesas-caracas"
 tags: []
 relatedIssue: 17
 postId: "post-001"

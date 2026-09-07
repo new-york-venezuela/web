@@ -7,7 +7,7 @@ import type { ArticleSchemaInput } from '../../utils/generateProductMetadata';
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
   return posts.map((post) => ({
-    params: { slug: post.id },
+    params: { slug: post.data.slug || post.id },
     props: { post },
   }));
 }
@@ -17,10 +17,11 @@ const { Content } = await render(post);
 
 const dateFormatter = new Intl.DateTimeFormat('es-VE', { dateStyle: 'long' });
 
+const postSlug = post.data.slug || post.id;
 const breadcrumbs = [
   { name: 'Inicio', url: '/' },
   { name: 'Blog', url: '/blog/' },
-  { name: post.data.title, url: `/blog/${post.id}/` },
+  { name: post.data.title, url: `/blog/${postSlug}/` },
 ];
 
 const articleSchema: ArticleSchemaInput = {
@@ -28,7 +29,7 @@ const articleSchema: ArticleSchemaInput = {
   description: post.data.description,
   pubDate: post.data.pubDate,
   author: post.data.author ?? 'eugenio',
-  url: `/blog/${post.id}/`,
+  url: `/blog/${postSlug}/`,
   imageUrl: (post.data as any).ogImage,
 };
 ---

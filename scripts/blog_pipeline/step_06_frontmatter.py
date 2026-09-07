@@ -41,6 +41,7 @@ def run(
         f"pubDate: {pub_date}\n"
         f'author: "eugenio"\n'
         f"draft: true\n"
+        f'slug: {json.dumps(slug)}\n'
         f"tags: {json.dumps(tags)}\n"
         f"relatedIssue: {ctx.issue_number}\n"
     )
