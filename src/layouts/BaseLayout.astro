@@ -63,12 +63,13 @@ const {
     {!bare && <Footer />}
     <FloatingContactButton />
     <script>
-      if (window.posthog && window.posthog.isFeatureEnabled('whatsapp-contact-modal')) {
-        // Feature flag is true - floating button will render via conditional
-      } else {
-        // Feature flag is false - don't show floating button
-        const wrapper = document.getElementById('floating-contact-wrapper');
-        if (wrapper) wrapper.style.display = 'none';
+      if (window.posthog?.onFeatureFlags) {
+        window.posthog.onFeatureFlags(() => {
+          if (!window.posthog?.isFeatureEnabled?.('whatsapp-contact-modal')) {
+            const wrapper = document.getElementById('floating-contact-wrapper');
+            if (wrapper) wrapper.style.display = 'none';
+          }
+        });
       }
     </script>
   </body>

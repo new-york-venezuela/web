@@ -88,12 +88,14 @@ const destacados = productos.filter((p) => p.destacado);
 </BaseLayout>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    if (window.posthog && window.posthog.isFeatureEnabled('whatsapp-contact-modal')) {
-      const container = document.getElementById('whatsapp-direct-link-container');
-      if (container) container.style.display = 'none';
-    }
-  });
+  if (window.posthog?.onFeatureFlags) {
+    window.posthog.onFeatureFlags(() => {
+      if (window.posthog?.isFeatureEnabled?.('whatsapp-contact-modal')) {
+        const container = document.getElementById('whatsapp-direct-link-container');
+        if (container) container.style.display = 'none';
+      }
+    });
+  }
 </script>
 
 <style>
