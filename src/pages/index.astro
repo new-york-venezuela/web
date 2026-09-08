@@ -2,7 +2,6 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProductCard from '../components/ProductCard.astro';
 import CTASection from '../components/CTASection.astro';
-import WhatsAppCTA from '../components/WhatsAppCTA.astro';
 import WhatsAppDirectLink from '../components/WhatsAppDirectLink.astro';
 import { productos } from '../data/catalogo';
 
@@ -30,9 +29,6 @@ const destacados = productos.filter((p) => p.destacado);
             <WhatsAppDirectLink />
           </div>
         </div>
-      </div>
-      <div class="hero-cta">
-        <WhatsAppCTA />
       </div>
     </div>
   </section>
