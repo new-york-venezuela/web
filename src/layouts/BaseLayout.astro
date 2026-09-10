@@ -65,9 +65,9 @@ const {
     <script>
       if (window.posthog?.onFeatureFlags) {
         window.posthog.onFeatureFlags(() => {
-          if (!window.posthog?.isFeatureEnabled?.('whatsapp-contact-modal')) {
+          if (window.posthog?.isFeatureEnabled?.('whatsapp-contact-modal')) {
             const wrapper = document.getElementById('floating-contact-wrapper');
-            if (wrapper) wrapper.style.display = 'none';
+            if (wrapper) wrapper.style.display = '';
           }
         });
       }
@@ -80,5 +80,9 @@ const {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+  }
+
+  #floating-contact-wrapper {
+    display: none;
   }
 </style>

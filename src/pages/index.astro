@@ -88,7 +88,7 @@ const destacados = productos.filter((p) => p.destacado);
     window.posthog.onFeatureFlags(() => {
       if (!window.posthog?.isFeatureEnabled?.('whatsapp-contact-modal')) {
         const container = document.getElementById('whatsapp-direct-link-container');
-        if (container) container.style.display = '';
+        if (container) container.style.display = 'block';
       }
     });
   }
