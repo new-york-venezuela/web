@@ -47,7 +47,7 @@ jobs:
         id: generate
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          AI_MODEL: gpt-4
+          AI_MODEL: gpt-4o
           AI_PROVIDER_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           AI_BASE_URL: ''
           GITHUB_REPO: ${{ github.repository }}
