@@ -86,9 +86,9 @@ const destacados = productos.filter((p) => p.destacado);
 <script>
   if (window.posthog?.onFeatureFlags) {
     window.posthog.onFeatureFlags(() => {
-      if (window.posthog?.isFeatureEnabled?.('whatsapp-contact-modal')) {
+      if (!window.posthog?.isFeatureEnabled?.('whatsapp-contact-modal')) {
         const container = document.getElementById('whatsapp-direct-link-container');
-        if (container) container.style.display = 'none';
+        if (container) container.style.display = '';
       }
     });
   }
@@ -116,6 +116,10 @@ const destacados = productos.filter((p) => p.destacado);
     flex-wrap: wrap;
     gap: var(--space-s);
     margin-top: var(--space-m);
+  }
+
+  #whatsapp-direct-link-container {
+    display: none;
   }
 
   @media (max-width: 48rem) {
