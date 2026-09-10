@@ -4,6 +4,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import StructuredData from '../components/StructuredData.astro';
 import SeoHead from '../components/SeoHead.astro';
+import FloatingContactButton from '../components/FloatingContactButton.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -60,6 +61,31 @@ const {
       <slot />
     </main>
     {!bare && <Footer />}
+    <FloatingContactButton />
+    <script>
+      const showButton = () => {
+        const wrapper = document.getElementById('floating-contact-wrapper');
+        if (wrapper) wrapper.style.display = 'block';
+      };
+
+      const hideButton = () => {
+        const wrapper = document.getElementById('floating-contact-wrapper');
+        if (wrapper) wrapper.style.display = 'none';
+      };
+
+      if (window.posthog?.onFeatureFlags) {
+        window.posthog.onFeatureFlags(() => {
+          if (window.posthog?.isFeatureEnabled?.('whatsapp-contact-modal')) {
+            showButton();
+          } else {
+            hideButton();
+          }
+        });
+      } else {
+        // Fallback: show button if PostHog hasn't loaded yet
+        showButton();
+      }
+    </script>
   </body>
 </html>
 
@@ -68,5 +94,9 @@ const {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+  }
+
+  #floating-contact-wrapper {
+    display: none;
   }
 </style>

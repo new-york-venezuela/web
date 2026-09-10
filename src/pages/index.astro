@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProductCard from '../components/ProductCard.astro';
 import CTASection from '../components/CTASection.astro';
-import WhatsAppCTA from '../components/WhatsAppCTA.astro';
+import WhatsAppDirectLink from '../components/WhatsAppDirectLink.astro';
 import { productos } from '../data/catalogo';
 
 const destacados = productos.filter((p) => p.destacado);
@@ -25,10 +25,10 @@ const destacados = productos.filter((p) => p.destacado);
         <div class="hero__actions">
           <a href="/catalogo/" class="btn btn--solid">Ver catálogo</a>
           <a href="/solicitar-llamada/" class="btn btn--solid">Solicitar llamada</a>
+          <div id="whatsapp-direct-link-container">
+            <WhatsAppDirectLink />
+          </div>
         </div>
-      </div>
-      <div class="hero-cta">
-        <WhatsAppCTA />
       </div>
     </div>
   </section>
@@ -83,6 +83,31 @@ const destacados = productos.filter((p) => p.destacado);
   />
 </BaseLayout>
 
+<script>
+  const showButton = () => {
+    const container = document.getElementById('whatsapp-direct-link-container');
+    if (container) container.style.display = 'block';
+  };
+
+  const hideButton = () => {
+    const container = document.getElementById('whatsapp-direct-link-container');
+    if (container) container.style.display = 'none';
+  };
+
+  if (window.posthog?.onFeatureFlags) {
+    window.posthog.onFeatureFlags(() => {
+      if (!window.posthog?.isFeatureEnabled?.('whatsapp-contact-modal')) {
+        showButton();
+      } else {
+        hideButton();
+      }
+    });
+  } else {
+    // Fallback: show button if PostHog hasn't loaded yet
+    showButton();
+  }
+</script>
+
 <style>
   .hero {
     padding-block: var(--space-xl);
@@ -91,7 +116,7 @@ const destacados = productos.filter((p) => p.destacado);
 
   .hero-content {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: var(--space-l);
     align-items: start;
   }
@@ -100,15 +125,15 @@ const destacados = productos.filter((p) => p.destacado);
     /* content flows naturally */
   }
 
-  .hero-cta {
-    /* sticky or fixed height */
-  }
-
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-s);
     margin-top: var(--space-m);
+  }
+
+  #whatsapp-direct-link-container {
+    display: none;
   }
 
   @media (max-width: 48rem) {
