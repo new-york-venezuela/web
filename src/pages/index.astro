@@ -84,13 +84,27 @@ const destacados = productos.filter((p) => p.destacado);
 </BaseLayout>
 
 <script>
+  const showButton = () => {
+    const container = document.getElementById('whatsapp-direct-link-container');
+    if (container) container.style.display = 'block';
+  };
+
+  const hideButton = () => {
+    const container = document.getElementById('whatsapp-direct-link-container');
+    if (container) container.style.display = 'none';
+  };
+
   if (window.posthog?.onFeatureFlags) {
     window.posthog.onFeatureFlags(() => {
       if (!window.posthog?.isFeatureEnabled?.('whatsapp-contact-modal')) {
-        const container = document.getElementById('whatsapp-direct-link-container');
-        if (container) container.style.display = 'block';
+        showButton();
+      } else {
+        hideButton();
       }
     });
+  } else {
+    // Fallback: show button if PostHog hasn't loaded yet
+    showButton();
   }
 </script>
 

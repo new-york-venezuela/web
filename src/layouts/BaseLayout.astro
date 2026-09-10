@@ -63,13 +63,27 @@ const {
     {!bare && <Footer />}
     <FloatingContactButton />
     <script>
+      const showButton = () => {
+        const wrapper = document.getElementById('floating-contact-wrapper');
+        if (wrapper) wrapper.style.display = '';
+      };
+
+      const hideButton = () => {
+        const wrapper = document.getElementById('floating-contact-wrapper');
+        if (wrapper) wrapper.style.display = 'none';
+      };
+
       if (window.posthog?.onFeatureFlags) {
         window.posthog.onFeatureFlags(() => {
           if (window.posthog?.isFeatureEnabled?.('whatsapp-contact-modal')) {
-            const wrapper = document.getElementById('floating-contact-wrapper');
-            if (wrapper) wrapper.style.display = '';
+            showButton();
+          } else {
+            hideButton();
           }
         });
+      } else {
+        // Fallback: show button if PostHog hasn't loaded yet
+        showButton();
       }
     </script>
   </body>
