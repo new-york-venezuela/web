@@ -3,7 +3,7 @@ title: "Gesti\u00f3n de Mermas Panader\u00eda Supermercados | Alimentos New York
 description: "Gesti\u00f3n de mermas panader\u00eda supermercados: descubre c\u00f3mo optimizar anaqueles y reducir desperdicios en Caracas con Alimentos New York."
 pubDate: 2026-09-04
 author: "eugenio"
-draft: true
+draft: false
 slug: "guia-optimizacion-anaquel-reducir-mermas-panaderia"
 tags: []
 relatedIssue: 18
