@@ -3,7 +3,7 @@ title: "Pan de Jam\u00f3n Navide\u00f1o Caracas: Tradici\u00f3n Artesanal | Alim
 description: "Pan de jam\u00f3n navide\u00f1o Caracas: descubre su elaboraci\u00f3n artesanal y d\u00f3nde comprar el mejor en la ciudad."
 pubDate: 2026-09-19
 author: "eugenio"
-draft: true
+draft: false
 slug: "pan-de-jamon-navideno-new-york-artesanal"
 tags: ["pan de jamon", "navidad", "temporada"]
 relatedIssue: 57
