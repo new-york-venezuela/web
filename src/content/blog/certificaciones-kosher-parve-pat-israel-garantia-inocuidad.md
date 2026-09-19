@@ -3,7 +3,7 @@ title: "Panader\u00eda Kosher Caracas Pat Israel | Alimentos New York"
 description: "Panader\u00eda kosher Caracas pat Israel ofrece calidad y seguridad. Descubre certificaciones y ventajas de elegir proveedores kosher en Venezuela."
 pubDate: 2026-09-18
 author: "eugenio"
-draft: true
+draft: false
 slug: "certificaciones-kosher-parve-pat-israel-garantia-inocuidad"
 tags: []
 relatedIssue: 22
