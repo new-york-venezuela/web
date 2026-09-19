@@ -66,3 +66,4 @@ def test_run_creates_meta_json_with_image_briefs(ctx):
     assert "Sección X: sin keyword" in pr  # warning forwarded
     assert "Foto de repartidor" in pr       # lifestyle brief
     assert "draft: true" in pr             # checklist item
+    assert "Closes #42" in pr              # auto-links and closes the source issue on merge

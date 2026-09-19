@@ -79,7 +79,7 @@ def run(
         json.dumps(meta_doc, indent=2, ensure_ascii=False), encoding="utf-8"
     )
 
-    _write_pr_body(ctx.checkpoint_dir, meta_doc)
+    _write_pr_body(ctx.checkpoint_dir, meta_doc, ctx.issue_number)
 
     return blog_path
 
@@ -123,9 +123,11 @@ def _pick_og_image(outline: dict, brief: dict) -> str | None:
     return None
 
 
-def _write_pr_body(checkpoint_dir: Path, meta: dict) -> None:
+def _write_pr_body(checkpoint_dir: Path, meta: dict, issue_number: int) -> None:
     lines = [
         f"## {meta['title']}",
+        "",
+        f"Closes #{issue_number}",
         "",
         f"**Keyword principal:** {meta['primary_keyword']}",
         f"**Audiencias:** {', '.join(meta['audience_segments'])}",
