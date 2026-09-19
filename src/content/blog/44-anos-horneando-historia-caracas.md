@@ -3,7 +3,7 @@ title: "F\u00e1brica de Panader\u00eda y Pasteler\u00eda Caracas | Alimentos New
 description: "F\u00e1brica de panader\u00eda y pasteler\u00eda Caracas: 44 a\u00f1os de historia y tradici\u00f3n en la producci\u00f3n industrial y artesanal en Venezuela."
 pubDate: 2026-09-15
 author: "eugenio"
-draft: true
+draft: false
 slug: "44-anos-horneando-historia-caracas"
 tags: []
 relatedIssue: 21
