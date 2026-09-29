@@ -3,12 +3,11 @@ title: "Baguettes Precocidas Congeladas Venezuela | Alimentos New York"
 description: "Baguettes precocidas congeladas Venezuela: reduce tiempos y disfruta del aroma a horno de casa. Ideal para panader\u00edas y HORECA."
 pubDate: 2026-09-25
 author: "eugenio"
-draft: true
+draft: false
 slug: "pan-precocido-congelado-reducir-tiempos-aroma-horno-casa"
 tags: []
 relatedIssue: 24
 postId: "post-008"
-ogImage: "/productos/baguettes-precocida-comercial"
 ---
 
 ## Baguettes Precocidas Congeladas en Caracas: Solución para el Sector HORECA
