@@ -3,7 +3,7 @@ title: "Pan 7 cereales molde Caracas Pumpernickel | Alimentos New York"
 description: "Pan 7 cereales molde Caracas Pumpernickel: descubre sus beneficios y d\u00f3nde comprarlo en Caracas. \u00a1Elige salud con Alimentos New York!"
 pubDate: 2026-09-29
 author: "eugenio"
-draft: true
+draft: false
 slug: "guia-panes-integrales-funcionales-caracas"
 tags: []
 relatedIssue: 25
