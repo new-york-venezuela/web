@@ -7,7 +7,7 @@ export default defineConfig({
   output: 'static',
 
   // URL canónica de producción (parametrizable vía variable de entorno en CI).
-  site: process.env.SITE_URL ?? 'https://example.com',
+  site: process.env.SITE_URL ?? 'https://www.alimentosnewyork.com',
 
   // Español como idioma único y por defecto de esta iteración.
   i18n: {

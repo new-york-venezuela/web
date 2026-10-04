@@ -1,5 +1,6 @@
 ---
 title: "Líneas de Negocio"
+description: "Líneas de negocio de Alimentos New York: retail para supermercados y foodservice para hoteles, restaurantes y cafeterías en Caracas."
 keywords: ["proveedor supermercados venezuela", "proveedor restaurantes caracas", "foodservice venezuela", "distribuidor panadería", "horeca venezuela", "bodegón proveedor", "unicasa proveedor", "rio market proveedor"]
 ---
 

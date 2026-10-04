@@ -1,9 +1,11 @@
 ---
 title: "Nuestra Historia"
-keywords: ["alimentos new york", "new york cheese cake", "fábrica panadería venezuela", "pastelería industrial caracas", "historia empresa", "panadería caracas 44 años", "proveedores alimentos la urbina"]
+seoTitle: "Nuestra Historia | Panadería Nueva York desde 1980"
+description: "Historia de Alimentos New York: desde 1980, panadería y cheesecake estilo Nueva York en Caracas. Kosher Parve, B2B y B2C."
+keywords: ["alimentos new york", "new york cheese cake", "fábrica panadería venezuela", "pastelería industrial caracas", "historia empresa", "panadería caracas desde 1980", "proveedores alimentos la urbina"]
 ---
 
-Más de 40 años de tradición artesanal, técnica y un compromiso inquebrantable con la excelencia culinaria.
+Desde 1980, tradición artesanal, técnica y un compromiso inquebrantable con la excelencia culinaria.
 Si llegaste buscando Panadería Nueva York o New York Bakery: somos nosotros, somos **Alimentos New York**.
 
 ## El Origen: La Cheesecake que Conquistó Caracas (1980s)
@@ -38,11 +40,15 @@ que garantiza máxima pureza, higiene alimentaria y ausencia de ingredientes pro
 
 ## Quiénes Somos
 
-New York Cheese Cake C.A., conocida comercialmente como **Alimentos New York**, es una empresa venezolana con más de 44 años de trayectoria dedicada a la fabricación, distribución y comercialización de productos de panadería, repostería y congelados para el mercado nacional.
+New York Cheese Cake C.A., conocida comercialmente como **Alimentos New York**, es una empresa venezolana con trayectoria desde 1980 dedicada a la fabricación, distribución y comercialización de productos de panadería, repostería y congelados para el mercado nacional.
 
 - **Razón Social:** New York Cheese Cake C.A.
 - **RIF:** J-00184590-9
 - **Planta de Producción:** Calle 10, Edif. J. M., Piso 2, La Urbina, Caracas, Venezuela.
+
+## Equipo editorial
+
+Los artículos del [blog](/blog/) son elaborados por **Eugenio D.**, del equipo de Alimentos New York, con datos de producto verificados contra nuestro catálogo vigente.
 
 ## Modelo de Negocio
 

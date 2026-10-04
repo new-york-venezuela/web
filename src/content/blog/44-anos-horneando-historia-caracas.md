@@ -1,8 +1,8 @@
 ---
-title: "F\u00e1brica de Panader\u00eda y Pasteler\u00eda Caracas | Alimentos New York"
-description: "F\u00e1brica de panader\u00eda y pasteler\u00eda Caracas: 44 a\u00f1os de historia y tradici\u00f3n en la producci\u00f3n industrial y artesanal en Venezuela."
+title: "Panader\u00eda y Pasteler\u00eda Caracas | Alimentos New York"
+description: "F\u00e1brica de panader\u00eda y pasteler\u00eda Caracas: desde 1980, historia y tradici\u00f3n en la producci\u00f3n industrial y artesanal en Venezuela."
 pubDate: 2026-09-15
-author: "eugenio"
+author: "Eugenio D."
 draft: false
 slug: "44-anos-horneando-historia-caracas"
 tags: []
@@ -10,7 +10,7 @@ relatedIssue: 21
 postId: "post-005"
 ---
 
-## Alimentos New York: 44 Años de Excelencia en Panadería en Caracas
+## Alimentos New York: Desde 1980, Excelencia en Panadería en Caracas
 
 Desde hace más de cuatro décadas, en Alimentos New York nos hemos dedicado a establecer un estándar de calidad y confianza en la industria de la panadería y pastelería en Caracas. Nuestra trayectoria se ha forjado sobre la base de un compromiso inquebrantable con la innovación y la excelencia, consolidándonos como una fábrica de panadería y pastelería de referencia en la región. Seguimos evolucionando para satisfacer las necesidades del mercado local y expandir nuestro impacto.
 
@@ -36,14 +36,20 @@ Las recetas tradicionales son el corazón de la panadería en Venezuela. Estas f
 
 
 
+## Sigue leyendo
+
+- [Cómo se prepara un auténtico New York Cheesecake](/blog/anatomia-autentico-new-york-cheesecake-tradicion-cobertura-artesanal/): la receta que nos dio origen.
+- [Panadería Kosher en Caracas: Parve y Pat Israel](/blog/certificaciones-kosher-parve-pat-israel-garantia-inocuidad/): qué certifica cada sello.
+- [Dónde encontrar nuestros productos en Caracas](/donde-encontrarnos/): supermercados y comercios aliados.
+
 ---
 
-**Para consumidores:** Encuentra nuestros panes, magdalenas y congelados en tu supermercado de confianza.
+**Para consumidores:** Encuentra nuestros panes, magdalenas y congelados en [tu supermercado de confianza](/donde-encontrarnos/).
 
 **Para negocios:** Solicita tu catálogo y lista de precios B2B, o pide una muestra para tu establecimiento.
 
 <!-- IMAGE BRIEFS
-  Section: Alimentos New York: 44 Años de Excelencia en Panadería en Caracas
+  Section: Alimentos New York: Desde 1980, Excelencia en Panadería en Caracas
   Brief:   Vista de la planta industrial de Alimentos New York en Caracas
   Section: La Tradición Panadera en Venezuela: Un Legado que Perdura
   Brief:   Panadero trabajando con masa en un entorno tradicional

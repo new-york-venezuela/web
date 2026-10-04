@@ -1,3 +1,42 @@
+# Política de rastreadores de IA de Alimentos New York.
+# Coherente con el comportamiento de Cloudflare en el borde (los bots de entrenamiento
+# reciben 403 allí); se declara aquí para que no dependa de un ajuste de panel.
+# Las reglas de "*" se repiten en cada grupo nombrado porque un grupo específico
+# reemplaza (no hereda) al grupo "*".
+
+# --- Rastreadores de ENTRENAMIENTO de modelos: bloqueados ---
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: CCBot
+User-agent: Bytespider
+User-agent: Amazonbot
+Disallow: /
+
+# --- Búsqueda y citación con IA, navegación a petición del usuario y buscadores: permitidos ---
+User-agent: OAI-SearchBot
+User-agent: Claude-SearchBot
+User-agent: PerplexityBot
+User-agent: ChatGPT-User
+User-agent: Claude-User
+User-agent: Perplexity-User
+User-agent: Googlebot
+User-agent: bingbot
+User-agent: Applebot
+Allow: /
+Disallow: /api/
+Disallow: /solicitar-llamada/
+
+# Google-Extended y Applebot-Extended (entrenamiento de Gemini / Apple Intelligence)
+# se dejan permitidos a propósito: no afectan al ranking en Google Search y mantienen
+# la presencia de la marca en esos productos. Para bloquearlos, añadir un grupo
+# "User-agent: Google-Extended" con "Disallow: /".
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /api/
+Disallow: /solicitar-llamada/
+
+# --- Resto de rastreadores ---
 User-agent: *
 Disallow: /api/
 Disallow: /solicitar-llamada/

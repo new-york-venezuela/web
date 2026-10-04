@@ -1,8 +1,8 @@
 ---
-title: "Pan de Jam\u00f3n Navide\u00f1o Caracas: Tradici\u00f3n Artesanal | Alimentos New York"
+title: "Pan de Jam\u00f3n Navide\u00f1o Caracas | Alimentos New York"
 description: "Pan de jam\u00f3n navide\u00f1o Caracas: descubre su elaboraci\u00f3n artesanal y d\u00f3nde comprar el mejor en la ciudad."
 pubDate: 2026-09-19
-author: "eugenio"
+author: "Eugenio D."
 draft: false
 slug: "pan-de-jamon-navideno-new-york-artesanal"
 tags: ["pan de jamon", "navidad", "temporada"]
@@ -20,7 +20,7 @@ El pan de jamón es un emblema navideño caraqueño nacido en el siglo XX, fusio
 
 La receta tradicional incluye jamón ahumado, aceitunas verdes y pasas, envueltos en una masa suave, creando una mezcla irresistible de dulce y salado que evoca la esencia de la Navidad en Caracas.
 
-![El Pan de Jamón Navideño en Caracas: Una Tradición que Perdura](/blog/pan-de-jamon-consumer-flyer.png)
+<img src="/blog/pan-de-jamon-consumer-flyer.png" alt="El Pan de Jamón Navideño en Caracas: Una Tradición que Perdura" width="775" height="1092" loading="lazy" decoding="async" />
 
 ## Elaboración Artesanal del Pan de Jamón: Un Proceso Cuidado
 
@@ -44,9 +44,15 @@ Al comprar pan de jamón en Caracas, es importante considerar la frescura y la c
 
 
 
+## Sigue leyendo
+
+- [Desde 1980 horneando historia en Caracas](/blog/44-anos-horneando-historia-caracas/): quiénes somos.
+- [Catálogo de panes y repostería](/catalogo/): todos los productos.
+- [Dónde encontrar nuestros panes en Caracas](/donde-encontrarnos/): puntos de venta.
+
 ---
 
-**Para consumidores:** Encuentra nuestros panes, magdalenas y congelados en tu supermercado de confianza.
+**Para consumidores:** Encuentra nuestros panes, magdalenas y congelados en [tu supermercado de confianza](/donde-encontrarnos/).
 
 **Para negocios:** Solicita tu catálogo y lista de precios B2B, o pide una muestra para tu establecimiento.
 

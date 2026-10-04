@@ -1,5 +1,6 @@
 ---
 title: "Certificaciones y Garantías de Calidad"
+description: "Certificaciones Kosher Parve y Pat Israel, y garantías de calidad de la planta de Alimentos New York en La Urbina, Caracas."
 keywords: ["kosher venezuela", "kosher pat israel", "certificación alimentaria venezuela", "panadería kosher caracas", "kosher parve caracas", "pan certificado kosher"]
 ---
 

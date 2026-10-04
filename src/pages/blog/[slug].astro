@@ -28,16 +28,16 @@ const articleSchema: ArticleSchemaInput = {
   title: post.data.title,
   description: post.data.description,
   pubDate: post.data.pubDate,
-  author: post.data.author ?? 'eugenio',
+  author: post.data.author,
   url: `/blog/${postSlug}/`,
-  imageUrl: (post.data as any).ogImage,
+  imageUrl: post.data.ogImage,
 };
 ---
 
 <BaseLayout
   title={post.data.title}
   description={post.data.description}
-  image={(post.data as any).ogImage}
+  image={post.data.ogImage}
   type="article"
 >
   <StructuredData breadcrumbs={breadcrumbs} type="breadcrumb" />
@@ -58,8 +58,11 @@ const articleSchema: ArticleSchemaInput = {
         ))}
       </nav>
 
-      <span class="post-date">{dateFormatter.format(post.data.pubDate)}</span>
       <h1>{post.data.title}</h1>
+      <p class="post-meta">
+        Por <a href="/empresa/sobre-nosotros/">{post.data.author}</a>, Alimentos New York ·
+        <time datetime={post.data.pubDate.toISOString()}>{dateFormatter.format(post.data.pubDate)}</time>
+      </p>
 
       <div class="post-content">
         <Content />
@@ -91,6 +94,16 @@ const articleSchema: ArticleSchemaInput = {
   .breadcrumb-current {
     color: var(--color-charcoal);
     font-weight: 500;
+  }
+
+  .post-meta {
+    margin: 0 0 var(--space-m);
+    font-size: 0.875rem;
+    color: var(--color-charcoal-soft);
+  }
+
+  .post-meta a {
+    color: inherit;
   }
 
   .post-date {

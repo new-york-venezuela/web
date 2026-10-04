@@ -80,6 +80,10 @@ if (!portalId || !formId) {
         portalId: portalId,
         formId: formId,
         target: '#hubspot-form-container',
+        onFormSubmitted: () => {
+          // Sin datos del formulario: solo notifica a analytics.ts
+          document.dispatchEvent(new CustomEvent('ph:call_request_submitted'));
+        },
         onFormReady: () => {
           clearFallback();
           ensureLoaderHidden(false);

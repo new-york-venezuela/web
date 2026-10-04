@@ -25,14 +25,50 @@ const breadcrumbs = [
   { name: producto.nombre, url: `/productos/${producto.id}/` }
 ];
 
+// Título ≤60 caracteres: prefiere "en Caracas" y lo omite si no cabe.
+const titleCandidates = [
+  `${producto.nombre} en Caracas | ${COMPANY.name}`,
+  `${producto.nombre} | ${COMPANY.name}`,
+  producto.nombre,
+];
+const seoTitle = titleCandidates.find((t) => t.length <= 60) ?? titleCandidates[2];
+
 const imagenes = producto.imagenes || [producto.imagen];
 const tieneMultiplesImagenes = imagenes.length > 1;
 const mainImageData = getProductImage(producto.imagen);
+
+// Frase de definición autosuficiente (patrón GEO) construida solo con datos del producto.
+const lineaPorCategoria: Record<string, string> = {
+  panes: 'panadería',
+  reposteria: 'repostería',
+  pizza: 'pizza congelada',
+  especialidades: 'panadería especializada',
+};
+const linea = lineaPorCategoria[producto.categoria_secundaria] ?? 'panadería';
+const canal = producto.categoria_primaria === 'supermarket' ? 'para supermercados' : 'para foodservice';
+const detalles = [
+  producto.specs?.peso && `presentación de ${producto.specs.peso}`,
+  producto.specs?.tiempoVida && `vida útil de ${producto.specs.tiempoVida}`,
+  producto.certificaciones?.length && producto.certificaciones.join(' y '),
+].filter(Boolean) as string[];
+const definicion =
+  `${producto.nombre} es un producto de ${linea} ${canal} elaborado por Alimentos New York ` +
+  `(Panadería Nueva York) en Caracas${detalles.length ? `, con ${detalles.join(', ')}` : ''}.`;
+
+const filasSpecs: Array<[string, string]> = ([
+  ['Peso', producto.specs?.peso],
+  ['Tiempo de vida', producto.specs?.tiempoVida],
+  ['Temperatura de conservación', producto.specs?.temperatura],
+  ['Certificaciones', producto.certificaciones?.join(', ')],
+  ['Código de barras', producto.specs?.codigo_barras],
+  ['CPE', producto.specs?.cpe],
+  ['MPPS', producto.specs?.mpps],
+] as Array<[string, string | undefined]>).filter(([, v]) => !!v) as Array<[string, string]>;
 ---
 
 <BaseLayout
-  title={`${producto.nombre} | ${COMPANY.name}`}
-  description={producto.descripcion_seo}
+  title={seoTitle}
+  description={producto.descripcion_seo ?? producto.descripcion}
   image={mainImageData?.src}
   type="product"
 >
@@ -68,6 +104,8 @@ const mainImageData = getProductImage(producto.imagen);
               width={700}
               height={560}
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 700px"
+              loading="eager"
+              fetchpriority="high"
             />
           ) : (
             <img src={`/productos/${producto.imagen}.png`} alt={producto.imagenAlt || producto.nombre} />
@@ -85,6 +123,8 @@ const mainImageData = getProductImage(producto.imagen);
           </div>
 
           <h1>{producto.nombre}</h1>
+
+          <p class="definicion">{definicion}</p>
 
           <p class="seo-description">{producto.descripcion_seo}</p>
 
@@ -123,17 +163,28 @@ const mainImageData = getProductImage(producto.imagen);
         <p>{producto.descripcion}</p>
       </div>
 
-      {producto.specs && (
+      {filasSpecs.length > 0 && (
         <div class="specifications">
           <h2>Especificaciones Técnicas</h2>
-          <dl>
-            {producto.specs.peso && <><dt>Peso</dt><dd>{producto.specs.peso}</dd></>}
-            {producto.specs.codigo_barras && <><dt>Código de Barras</dt><dd>{producto.specs.codigo_barras}</dd></>}
-            {producto.specs.cpe && <><dt>CPE</dt><dd>{producto.specs.cpe}</dd></>}
-            {producto.specs.mpps && <><dt>MPPS</dt><dd>{producto.specs.mpps}</dd></>}
-            {producto.specs.tiempoVida && <><dt>Tiempo de Vida</dt><dd>{producto.specs.tiempoVida}</dd></>}
-            {producto.specs.temperatura && <><dt>Temperatura</dt><dd>{producto.specs.temperatura}</dd></>}
-          </dl>
+          <div class="table-wrap">
+            <table class="specs-table">
+              <caption>Especificaciones de {producto.nombre}</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Característica</th>
+                  <th scope="col">Detalle</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filasSpecs.map(([etiqueta, valor]) => (
+                  <tr>
+                    <th scope="row">{etiqueta}</th>
+                    <td>{valor}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 
@@ -143,7 +194,7 @@ const mainImageData = getProductImage(producto.imagen);
           <div class="related-grid">
             {producto.variantes_relacionadas.map(variantId => {
               const variant = productos.find(p => p.id === variantId);
-              const variantImageData = getProductImage(variant?.imagen);
+              const variantImageData = variant ? getProductImage(variant.imagen) : null;
               return variant ? (
                 <div class="related-card">
                   <a href={`/productos/${variant.id}/`}>
@@ -174,7 +225,7 @@ const mainImageData = getProductImage(producto.imagen);
           <h2>Preguntas Frecuentes</h2>
           <div class="faq-list">
             {producto.preguntas_frecuentes.map((faq, idx) => (
-              <details class="faq-item" key={idx}>
+              <details class="faq-item">
                 <summary class="faq-question">{faq.pregunta}</summary>
                 <div class="faq-answer">{faq.respuesta}</div>
               </details>
@@ -377,20 +428,48 @@ const mainImageData = getProductImage(producto.imagen);
     margin-top: 0;
   }
 
-  .specifications dl {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 1rem 2rem;
+  .definicion {
+    font-size: 1.125rem;
+    line-height: 1.6;
+    font-weight: 500;
+    color: var(--color-charcoal);
+    margin-bottom: 1rem;
   }
 
-  .specifications dt {
+  .table-wrap {
+    overflow-x: auto;
+  }
+
+  .specs-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+
+  .specs-table caption {
+    text-align: left;
+    padding-bottom: 0.75rem;
+    color: var(--color-charcoal-soft);
+    font-size: 0.875rem;
+  }
+
+  .specs-table th,
+  .specs-table td {
+    border: 1px solid var(--color-border);
+    padding: 0.75rem;
+    vertical-align: top;
+  }
+
+  .specs-table thead th,
+  .specs-table tbody th {
+    background-color: var(--color-milk);
     font-weight: 600;
     color: var(--color-charcoal);
   }
 
-  .specifications dd {
-    margin: 0;
+  .specs-table td {
     color: var(--color-charcoal-soft);
+    overflow-wrap: anywhere;
   }
 
   .related-products {

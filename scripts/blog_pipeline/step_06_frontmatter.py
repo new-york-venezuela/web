@@ -4,6 +4,7 @@ import re
 from pathlib import Path
 from openai import OpenAI
 from .context import PipelineContext
+from .seo_guidelines import lint_post
 
 _SYSTEM = (
     "Eres un especialista en metadatos SEO para el blog de Alimentos New York (español, Venezuela). "
@@ -39,7 +40,7 @@ def run(
         f'title: {json.dumps(meta["title"])}\n'
         f'description: {json.dumps(meta["description"])}\n'
         f"pubDate: {pub_date}\n"
-        f'author: "eugenio"\n'
+        f'author: "Eugenio D."\n'
         f"draft: true\n"
         f'slug: {json.dumps(slug)}\n'
         f"tags: {json.dumps(tags)}\n"
@@ -64,6 +65,9 @@ def run(
         if s.get("image_slot") and s["image_slot"].get("type") == "lifestyle"
     ]
 
+    seo_warnings = lint_post(meta["title"], meta["description"], polished,
+                             keywords.get("primary_keyword", ""))
+
     meta_doc = {
         "title": meta["title"],
         "description": meta["description"],
@@ -72,6 +76,7 @@ def run(
         "search_intent": keywords.get("search_intent", ""),
         "image_briefs": image_briefs,
         "review_warnings": review_warnings,
+        "seo_warnings": seo_warnings,
         "slug": slug,
         "pub_date": pub_date,
     }
@@ -92,7 +97,7 @@ def _call_llm(ctx: PipelineContext, outline: dict, keywords: dict, brief: dict) 
         f"Keywords secundarias: {', '.join(keywords.get('secondary_keywords', []))}\n"
         f"Secciones del artículo: {', '.join(s['h2'] for s in outline['sections'])}\n\n"
         "REGLAS:\n"
-        "- title: ≤60 caracteres, incluye la keyword principal, termina con '| Alimentos New York', en español\n"
+        "- title: ≤60 caracteres EN TOTAL (incluido el sufijo), keyword principal al inicio, termina con '| Alimentos New York' solo si cabe, en español\n"
         "- description: ≤160 caracteres, la keyword principal en los primeros 20 caracteres, responde la pregunta del usuario, en español\n\n"
         'Devuelve ÚNICAMENTE un objeto JSON: {"title": "...", "description": "..."}'
     )
@@ -153,12 +158,20 @@ def _write_pr_body(checkpoint_dir: Path, meta: dict, issue_number: int) -> None:
             lines.append(f"- {w}")
         lines.append("")
 
+    seo_warnings = meta.get("seo_warnings", [])
+    if seo_warnings:
+        lines += ["## Avisos SEO automáticos", ""]
+        lines += [f"- {w}" for w in seo_warnings]
+        lines.append("")
+
     lines += [
         "## Checklist para el revisor",
         "",
         "- [ ] Cambiar `draft: true` a `draft: false` antes de publicar",
         "- [ ] Crear todas las imágenes lifestyle listadas arriba y subirlas a `/public`",
         "- [ ] Verificar que la keyword principal aparece en el primer párrafo",
+        "- [ ] Resolver los avisos SEO automáticos de arriba (título, descripción, enlaces, longitud)",
+        "- [ ] Añadir `ogImage` (1200×630) y alt descriptivo a cada imagen",
         "- [ ] Revisar que todos los enlaces internos (`href`) apuntan a URLs válidas del sitio",
         "- [ ] Confirmar que el CTA de cierre incluye secciones para consumidor y B2B",
     ]

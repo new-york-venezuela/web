@@ -61,3 +61,10 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Notify IndexNow (Bing, Yandex, Naver)
+        continue-on-error: true
+        run: |
+          curl -fsS -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            -d '{"host":"www.alimentosnewyork.com","key":"5c6da333750f2786f2a4165987bedb02","keyLocation":"https://www.alimentosnewyork.com/5c6da333750f2786f2a4165987bedb02.txt","urlList":["https://www.alimentosnewyork.com/","https://www.alimentosnewyork.com/donde-encontrarnos/","https://www.alimentosnewyork.com/catalogo/","https://www.alimentosnewyork.com/blog/"]}'

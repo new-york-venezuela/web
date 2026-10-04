@@ -2,10 +2,11 @@ import json
 from openai import OpenAI
 from .context import PipelineContext
 from . import step_04_content
+from .seo_guidelines import BRAND_BRIEF
 
 _SYSTEM_REVIEWER = (
     "Eres un editor senior de SEO/GEO en español. Revisas artículos del blog de Alimentos New York "
-    "con criterios estrictos. Devuelves un JSON de revisión, nunca texto libre."
+    "con criterios estrictos. Devuelves un JSON de revisión, nunca texto libre.\n\n" + BRAND_BRIEF
 )
 
 
@@ -51,7 +52,9 @@ def _call_reviewer(ctx: PipelineContext, draft: str, keywords: dict) -> dict:
         "5. El español es fluido y natural, sin anglicismos innecesarios.\n"
         "6. Si se requieren dos audiencias, ambas están representadas.\n"
         "7. No hay repetición de ideas entre secciones H2 — cada sección aporta información nueva.\n"
-        "8. Hay un CTA al final con secciones separadas para consumidor y B2B.\n\n"
+        "8. Hay 2-4 enlaces internos Markdown con anchor descriptivo y contexto local (Caracas/Venezuela) en el primer párrafo.\n"
+        "9. No hay keyword stuffing ni afirmaciones (cifras, premios, clientes) ajenas a los datos de marca.\n"
+        "10. Hay un CTA al final con secciones separadas para consumidor y B2B.\n\n"
         "Devuelve ÚNICAMENTE este JSON:\n"
         "{\n"
         '  "pass": true|false,\n'

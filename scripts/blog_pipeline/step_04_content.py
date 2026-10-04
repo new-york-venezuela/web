@@ -1,6 +1,7 @@
 import json
 from openai import OpenAI
 from .context import PipelineContext
+from .seo_guidelines import BRAND_BRIEF, SEO_RULES, image_markup
 
 _SYSTEM = (
     "Eres el redactor oficial del blog de Alimentos New York, fábrica de panadería y repostería "
@@ -10,7 +11,8 @@ _SYSTEM = (
     "precios, ni especificaciones técnicas.\n"
     "3. Escribe en prosa continua. Evita listas largas. Usa párrafos.\n"
     "4. El tono varía: para consumidores es cálido y apetitoso; para B2B es profesional y directo.\n"
-    "5. No menciones a la empresa en tercera persona de forma robótica. Escribe como si fueras parte del equipo."
+    "5. No menciones a la empresa en tercera persona de forma robótica. Escribe como si fueras parte del equipo.\n\n"
+    + BRAND_BRIEF + "\n\n" + SEO_RULES
 )
 
 
@@ -61,7 +63,7 @@ def run(ctx: PipelineContext, brief: dict, outline: dict) -> str:
     if issue_image_url:
         # A real asset exists: embed it in the first section
         post_title = outline["sections"][0]["h2"] if outline["sections"] else "Post"
-        parts[0] += f"\n\n![{post_title}]({issue_image_url})"
+        parts[0] += "\n\n" + image_markup(issue_image_url, post_title)
     elif issue_image_brief and not image_briefs:
         # No asset, but issue has an image description: use it as a lifestyle brief
         image_briefs.append({
@@ -103,6 +105,7 @@ def _generate_section(ctx: PipelineContext, section: dict, products: list[dict],
         f"Escribe la sección del artículo con este encabezado H2: {section['h2']}\n\n"
         f"Subtítulos H3 a desarrollar:\n{h3s_text or '(sin subtítulos, desarrolla en párrafos)'}\n\n"
         f"Keyword a incluir naturalmente: {section.get('keyword_to_hit', '')}\n"
+        f"Enlaces internos a insertar con anchor descriptivo: {', '.join(section.get('internal_links', [])) or 'ninguno'}\n"
         f"Tono: {tone}\n"
         f"Límite de palabras: {word_budget} palabras para esta sección completa. "
         f"Sé conciso y directo. No rellenes con frases genéricas.\n\n"
@@ -113,6 +116,7 @@ def _generate_section(ctx: PipelineContext, section: dict, products: list[dict],
         "- No añadas frontmatter.\n"
         "- Escribe en prosa fluida en español. Evita listas largas.\n"
         "- No inventes datos, precios, ni testimonios que no estén en los datos de producto.\n"
+        "- Si hay enlaces internos indicados, insértalos como [anchor descriptivo](/ruta/).\n"
         "- No repitas información que ya aparece en el título del artículo.\n"
         "- No uses frases de relleno como 'En conclusión', 'En resumen', 'Sin duda alguna'."
     )

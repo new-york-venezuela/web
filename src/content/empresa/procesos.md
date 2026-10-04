@@ -1,5 +1,7 @@
 ---
 title: "Procesos de Producción y Control de Calidad"
+seoTitle: "Producción y Control de Calidad | Alimentos New York"
+description: "Procesos de producción y control de calidad de Alimentos New York: fermentaciones controladas y planta propia en La Urbina, Caracas."
 keywords: ["panadería industrial venezuela", "repostería industrial caracas", "producción congelados venezuela", "proceso panificación industrial", "control calidad alimentos venezuela", "inocuidad alimentaria panadería"]
 ---
 

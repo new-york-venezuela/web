@@ -16,11 +16,14 @@ const secciones = [
     productos: productos.filter(p => p.categoria_primaria === 'foodservice'),
   },
 ];
+
+// Tabla comparativa de la línea de panes, derivada de productos.json (vía catalogo.ts).
+const panes = productos.filter((p) => p.categoria_secundaria === 'panes');
 ---
 
 <BaseLayout
-  title="Catálogo — Alimentos New York | Panadería y Pastelería Premium"
-  description="Catálogo de Alimentos New York: panes artesanales, cheesecake estilo Nueva York, pizzas congeladas y repostería. Los mismos productos que muchos conocen como Panadería Nueva York o New York Bakery."
+  title="Catálogo | Alimentos New York — Panadería Premium"
+  description="Catálogo de Alimentos New York (Panadería Nueva York): panes artesanales, cheesecake estilo Nueva York, pizzas congeladas y repostería. B2B y B2C."
 >
   <section class="section intro">
     <div class="container">
@@ -48,6 +51,37 @@ const secciones = [
       </section>
     ))
   }
+
+  <section class="section" aria-labelledby="comparativa-panes">
+    <div class="container">
+      <h2 id="comparativa-panes">Comparativa de la línea de panes</h2>
+      <div class="table-wrap">
+        <table class="comparativa">
+          <caption>Peso, vida útil y certificación de cada pan de Alimentos New York</caption>
+          <thead>
+            <tr>
+              <th scope="col">Pan</th>
+              <th scope="col">Peso</th>
+              <th scope="col">Vida útil</th>
+              <th scope="col">Certificación</th>
+              <th scope="col">Ficha</th>
+            </tr>
+          </thead>
+          <tbody>
+            {panes.map((p) => (
+              <tr>
+                <th scope="row">{p.nombre}</th>
+                <td>{p.specs?.peso ?? '—'}</td>
+                <td>{p.specs?.tiempoVida ?? '—'}</td>
+                <td>{p.certificaciones?.join(', ') || '—'}</td>
+                <td><a href={`/productos/${p.id}/`}>Ver ficha<span class="visually-hidden"> de {p.nombre}</span></a></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
 
   <CTASection
     title="Consulta precios y disponibilidad"
@@ -81,6 +115,49 @@ const secciones = [
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
     gap: var(--space-m);
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+  }
+
+  .comparativa {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+
+  .comparativa caption {
+    text-align: left;
+    padding-bottom: var(--space-s);
+    color: var(--color-charcoal-soft);
+  }
+
+  .comparativa th,
+  .comparativa td {
+    border: 1px solid var(--color-border);
+    padding: 0.75rem;
+    vertical-align: top;
+  }
+
+  .comparativa thead th,
+  .comparativa tbody th {
+    background-color: var(--color-milk);
+  }
+
+  .comparativa a {
+    display: inline-block;
+    min-height: 2.75rem;
+    line-height: 2.75rem;
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
   }
 
   .pedido {

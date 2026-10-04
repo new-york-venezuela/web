@@ -66,6 +66,15 @@ jobs:
             python scripts/generate_blog.py
           fi
 
+      - name: SEO lint summary
+        if: always()
+        run: |
+          META_FILE=".pipeline/${{ steps.generate.outputs.issue_number }}/06_meta.json"
+          if [ -f "$META_FILE" ]; then
+            echo "### Avisos SEO del post generado" >> "$GITHUB_STEP_SUMMARY"
+            python -c "import json,sys; w=json.load(open('$META_FILE')).get('seo_warnings',[]); print('\n'.join('- '+x for x in w) or 'Sin avisos.')" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
       - name: Upload pipeline artifacts
         if: always()
         uses: actions/upload-artifact@v4

@@ -5,6 +5,13 @@ import Footer from '../components/Footer.astro';
 import StructuredData from '../components/StructuredData.astro';
 import SeoHead from '../components/SeoHead.astro';
 import FloatingContactButton from '../components/FloatingContactButton.astro';
+// Fuentes autoalojadas (sin CSS bloqueante de terceros): solo subconjunto latino.
+import '@fontsource/cormorant-garamond/latin-400.css';
+import '@fontsource/cormorant-garamond/latin-500.css';
+import '@fontsource/cormorant-garamond/latin-600.css';
+import '@fontsource-variable/inter/wght.css';
+import interLatin from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+import cormorant500 from '@fontsource/cormorant-garamond/files/cormorant-garamond-latin-500-normal.woff2?url';
 import '../styles/global.css';
 
 interface Props {
@@ -36,7 +43,6 @@ const {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
-    <meta name="keywords" content="panadería Nueva York, panadería premium, cheesecake, productos congelados, pastelería, New York Bakery, Alimentos New York" />
     <SeoHead
       {title}
       {description}
@@ -46,12 +52,9 @@ const {
       {noindex}
     />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&display=swap"
-    />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link rel="preload" href={interLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={cormorant500} as="font" type="font/woff2" crossorigin />
     <PostHog />
     <StructuredData type="organization" />
   </head>
@@ -62,6 +65,9 @@ const {
     </main>
     {!bare && <Footer />}
     <FloatingContactButton />
+    <script>
+      import '../scripts/analytics';
+    </script>
     <script>
       const showButton = () => {
         const wrapper = document.getElementById('floating-contact-wrapper');

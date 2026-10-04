@@ -1,12 +1,14 @@
 import json
 from openai import OpenAI
 from .context import PipelineContext
+from .seo_guidelines import BRAND_BRIEF, filter_internal_links
 
 _SYSTEM = (
     "Eres un especialista en SEO y GEO (Generative Engine Optimization) para Alimentos New York, "
     "una fábrica de panadería y repostería industrial en Caracas, Venezuela. "
     "Escribes siempre en español natural. Tu objetivo es la estrategia de palabras clave "
-    "que posicione a la empresa como proveedor de referencia en su sector."
+    "que posicione a la empresa como proveedor de referencia en su sector.\n\n"
+    + BRAND_BRIEF
 )
 
 _REQUIRED_FIELDS = {
@@ -25,6 +27,7 @@ def run(ctx: PipelineContext, brief: dict) -> dict:
     if forced_keyword:
         result["primary_keyword"] = forced_keyword
     _validate_keywords(result)
+    result["internal_links"] = filter_internal_links(result.get("internal_links", []))
     output_path.write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8")
     return result
 
@@ -62,6 +65,9 @@ def _call_llm(ctx: PipelineContext, brief: dict) -> dict:
         f"Consultas reales de Google Search Console:\n{gsc_lines or 'Sin datos'}\n\n"
         f"Productos relevantes:\n{products_lines or 'Sin productos específicos'}"
         f"{arbitrage}\n\n"
+        "Prioriza keywords con intención local (Caracas/Venezuela) y variantes de marca "
+        "(Panadería Nueva York, New York Bakery). internal_links solo puede contener rutas reales: "
+        "/catalogo/, /productos/<id>/, /donde-encontrarnos/, /empresa/, /contacto/.\n\n"
         "Devuelve ÚNICAMENTE JSON con esta estructura exacta:\n"
         "{\n"
         '  "primary_keyword": "frase principal en español",\n'

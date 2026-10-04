@@ -23,7 +23,10 @@ const blogCollection = defineCollection({
     title: z.string(),
     description: z.string(),
     pubDate: z.coerce.date(),
-    author: z.string().default('eugenio'),
+    author: z.string().default('Eugenio D.'),
+    slug: z.string().optional(),
+    ogImage: z.string().optional(),
+    postId: z.string().optional(),
     draft: z.boolean().default(false),
     tags: z.array(z.string()).default([]),
     relatedIssue: z.number().optional()
@@ -34,7 +37,12 @@ const empresaCollection = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/empresa' }),
   schema: z.object({
     title: z.string(),
+    seoTitle: z.string().optional(),
+    description: z.string().optional(),
     keywords: z.array(z.string()).default([]),
+    faqs: z
+      .array(z.object({ pregunta: z.string(), respuesta: z.string() }))
+      .default([]),
   })
 });
 

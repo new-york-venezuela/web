@@ -1,0 +1,147 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CTASection from '../components/CTASection.astro';
+import { clientes } from '../data/clientes';
+import StructuredData from '../components/StructuredData.astro';
+
+const breadcrumbs = [
+  { name: 'Inicio', url: '/' },
+  { name: 'Dónde Encontrarnos', url: '/donde-encontrarnos/' },
+];
+const itemList = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Puntos de venta de Alimentos New York en Caracas',
+  numberOfItems: clientes.length,
+  itemListElement: clientes.map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: c.nombre,
+  })),
+});
+
+---
+
+<BaseLayout
+  title="Dónde Comprar Panadería New York en Caracas | Tiendas"
+  description="Encuentra los productos de Alimentos New York (Panadería Nueva York) en supermercados, farmacias y comercios de Caracas. Kosher, para clientes B2B y B2C."
+>
+  <StructuredData breadcrumbs={breadcrumbs} type="breadcrumb" />
+  <script type="application/ld+json" set:html={itemList} />
+
+  <section class="section">
+    <div class="container">
+      <span class="eyebrow">Dónde encontrarnos</span>
+      <h1>Panadería New York en supermercados y comercios de Caracas</h1>
+      <p class="lead">
+        Nuestros productos de panadería y pastelería premium ya están en cadenas
+        de supermercados, farmacias y comercios independientes de Caracas.
+        Estos son algunos de nuestros aliados. Explora el
+        <a href="/catalogo/">catálogo de panes, cheesecake y congelados</a> o conoce
+        <a href="/empresa/">nuestra historia desde 1980</a> en Caracas.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--milk">
+    <div class="container">
+      <h2>Puntos de venta</h2>
+      <ul class="clientes">
+        {
+          clientes.map((c) => {
+            const img = c.logo;
+            return (
+              <li class="cliente">
+                <div class="cliente__logo">
+                  {img && (
+                    <Image
+                      src={img}
+                      alt={`Logo de ${c.nombre}`}
+                      width={320}
+                      height={160}
+                      fit="contain"
+                      sizes="(min-width: 40rem) 15rem, 90vw"
+                    />
+                  )}
+                </div>
+                <h3>{c.nombre}</h3>
+                <p class="cliente__meta">{c.tipo} · {c.ciudad}</p>
+                <p>{c.resumen}</p>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2>Y muchos más puntos de venta en Caracas</h2>
+      <p class="lead">
+        La lista anterior es solo una muestra: nuestros productos también están
+        en muchos otros comercios de Caracas, y estamos en camino a llegar muy
+        pronto a otras ciudades de Venezuela. Si eres supermercado, restaurante u hotel,
+        revisa nuestras <a href="/empresa/condiciones-comerciales/">condiciones comerciales</a>
+        o <a href="/contacto/">escríbenos</a>.
+      </p>
+    </div>
+  </section>
+
+  <CTASection
+    title="¿Quieres tener New York en tu comercio?"
+    description="Súmate a los supermercados y comercios que ya ofrecen nuestros productos."
+    ctaText="Solicitar Información"
+    variant="secondary"
+  />
+</BaseLayout>
+
+<style>
+  .clientes {
+    list-style: none;
+    margin: var(--space-m) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: var(--space-m);
+  }
+
+  .cliente {
+    background-color: var(--color-cream);
+    border: 1px solid var(--color-border);
+    padding: var(--space-s);
+  }
+
+  .cliente__logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10rem;
+    margin-bottom: var(--space-s);
+  }
+
+  /* Logo completo, sin recorte, sea cual sea su proporción. */
+  .cliente__logo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: contain !important;
+  }
+
+  .cliente h3 {
+    margin: 0 0 0.25rem;
+    font-size: 1.125rem;
+  }
+
+  .cliente__meta {
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 var(--space-xs);
+  }
+
+  .cliente p:last-child {
+    margin: 0;
+    font-size: 0.9375rem;
+  }
+</style>

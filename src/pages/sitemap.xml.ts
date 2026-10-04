@@ -9,6 +9,7 @@ export async function GET() {
     { url: '/', priority: '1.0', changefreq: 'weekly' },
     { url: '/catalogo/', priority: '0.9', changefreq: 'weekly' },
     { url: '/empresa/', priority: '0.8', changefreq: 'monthly' },
+    { url: '/donde-encontrarnos/', priority: '0.7', changefreq: 'monthly' },
     { url: '/blog/', priority: '0.8', changefreq: 'daily' },
     { url: '/contacto/', priority: '0.8', changefreq: 'monthly' },
     { url: '/solicitar-llamada/', priority: '0.7', changefreq: 'monthly' },

@@ -1,5 +1,6 @@
 ---
 title: "Programa Zero Desperdicio"
+description: "Programa Zero Desperdicio de Alimentos New York: cómo reducimos mermas en panadería con retiro preventivo y producción planificada."
 keywords: ["zero desperdicio supermercado", "rotación mercancía próxima vencimiento", "nota crédito supermercado venezuela", "reducción desperdicio alimentario"]
 ---
 

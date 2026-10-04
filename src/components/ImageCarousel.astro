@@ -31,6 +31,8 @@ const primeraImagenData = imagenesData[0].data;
         alt={alt}
         width={700}
         height={560}
+        loading="eager"
+        fetchpriority="high"
         sizes="(max-width: 640px) 350px, (max-width: 1024px) 500px, 700px"
         class="carousel__image"
         data-carousel-image
@@ -51,7 +53,7 @@ const primeraImagenData = imagenesData[0].data;
       item.data && (
         <Image
           src={item.data}
-          alt={alt}
+          alt={`${alt} (vista ${idx + 2} de ${imagenesData.length})`}
           width={350}
           height={280}
           sizes="(max-width: 640px) 350px, (max-width: 1024px) 500px, 700px"

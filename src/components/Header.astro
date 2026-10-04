@@ -3,6 +3,7 @@ const navItems = [
   { href: '/', label: 'Inicio' },
   { href: '/catalogo/', label: 'Catálogo' },
   { href: '/empresa/', label: 'Empresa' },
+  { href: '/donde-encontrarnos/', label: 'Dónde Encontrarnos' },
   { href: '/blog/', label: 'Blog' },
   { href: '/contacto/', label: 'Contacto' },
 ];
@@ -12,8 +13,8 @@ const currentPath = Astro.url.pathname;
 
 <header class="site-header">
   <div class="container site-header__inner">
-    <a href="/" class="site-header__brand" aria-label="New York — Alimentos Premium — Inicio">
-      <img src="/logo.png" alt="New York Alimentos Premium" class="site-header__logo" />
+    <a href="/" class="site-header__brand" aria-label="Alimentos New York — Inicio">
+      <img src="/logo.png" alt="Alimentos New York — logo" class="site-header__logo" width="480" height="411" />
     </a>
     <nav aria-label="Navegación principal">
       <ul class="site-header__nav">

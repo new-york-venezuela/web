@@ -20,10 +20,15 @@ const breadcrumbs = [
   { name: 'Empresa', url: '/empresa/' },
   { name: pagina.data.title, url: `/empresa/${pagina.id}/` },
 ];
+const faqs = pagina.data.faqs;
 ---
 
-<BaseLayout title={`${pagina.data.title} | Alimentos New York`} description={pagina.data.title}>
+<BaseLayout
+  title={pagina.data.seoTitle ?? `${pagina.data.title} | Alimentos New York`}
+  description={pagina.data.description ?? pagina.data.title}
+>
   <StructuredData breadcrumbs={breadcrumbs} type="breadcrumb" />
+  {faqs.length > 0 && <StructuredData faqs={faqs} type="faq" />}
 
   <article class="section editorial">
     <div class="container">
@@ -44,6 +49,18 @@ const breadcrumbs = [
 
       <div class="editorial-content">
         <Content />
+
+        {faqs.length > 0 && (
+          <section class="faq">
+            <h2>Preguntas frecuentes</h2>
+            {faqs.map((faq) => (
+              <details>
+                <summary>{faq.pregunta}</summary>
+                <p>{faq.respuesta}</p>
+              </details>
+            ))}
+          </section>
+        )}
       </div>
     </div>
   </article>
@@ -101,6 +118,19 @@ const breadcrumbs = [
     margin-bottom: 1rem;
     padding-left: 1.5rem;
     line-height: 1.7;
+  }
+
+  .faq details {
+    border-bottom: 1px solid var(--color-border);
+    padding-block: var(--space-xs);
+  }
+
+  .faq summary {
+    cursor: pointer;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
   }
 
   @media (max-width: 48rem) {

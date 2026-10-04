@@ -25,7 +25,7 @@ const baseUrl = Astro.url.origin;
 let schema = '';
 
 if (type === 'product' && producto) {
-  schema = generateProductSchema(producto, baseUrl, undefined, imageUrl);
+  schema = generateProductSchema(producto, baseUrl, COMPANY, imageUrl);
 } else if (type === 'breadcrumb' && breadcrumbs) {
   schema = generateBreadcrumbSchema(breadcrumbs, baseUrl);
 } else if (type === 'organization') {

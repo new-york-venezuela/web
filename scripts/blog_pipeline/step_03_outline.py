@@ -1,11 +1,13 @@
 import json
 from openai import OpenAI
 from .context import PipelineContext
+from .seo_guidelines import BRAND_BRIEF, SEO_RULES, existing_posts, filter_internal_links, product_route
 
 _SYSTEM = (
     "Eres un arquitecto de contenido SEO/GEO para Alimentos New York, fábrica de panadería "
     "industrial en Caracas. Produces estructuras de artículos en español natural que posicionan "
-    "a la empresa como proveedor de referencia y que responden directamente a lo que busca el usuario."
+    "a la empresa como proveedor de referencia y que responden directamente a lo que busca el usuario.\n\n"
+    + BRAND_BRIEF + "\n\n" + SEO_RULES
 )
 
 
@@ -21,7 +23,10 @@ def run(ctx: PipelineContext, brief: dict, keywords: dict) -> dict:
 
 
 def _call_llm(ctx: PipelineContext, brief: dict, keywords: dict) -> dict:
-    products_list = "\n".join(f'- {p["id"]}: {p["title"]}' for p in brief.get("matched_products", []))
+    products_list = "\n".join(
+        f'- {p["id"]}: {p["title"]}' + (f' (ficha: {product_route(p["id"])})' if product_route(p["id"]) else " (sin ficha propia: no enlazar)")
+        for p in brief.get("matched_products", [])
+    )
     kb_list = "\n".join(f'- {s["file"]}: {s["title"]}' for s in brief.get("matched_kb_sections", []))
     audiences = ", ".join(keywords.get("audience_segments", ["consumidor"]))
 
@@ -45,8 +50,12 @@ def _call_llm(ctx: PipelineContext, brief: dict, keywords: dict) -> dict:
         "- image_slot: {'type': 'product', 'product_id': '...'} si el producto tiene imagen, "
         "{'type': 'lifestyle', 'brief': 'descripción en español de la foto ideal'} si no, o null.\n"
         "- word_budget: número de palabras objetivo para esa sección H2 (incluyendo sus H3). "
-        "Máximo 180 palabras por sección. Primer H2 (GEO intro): 80 palabras. "
-        "Si solo hay 1 sección de contenido, 250 palabras.\n"
+        "Máximo 220 palabras por sección. Primer H2 (GEO intro): 100 palabras. "
+        "Si solo hay 1 sección de contenido, 300 palabras. Total del artículo: 700-900 palabras.\n"
+        "- Los H2 deben ser frases buscables o preguntas reales de usuarios, no títulos vagos.\n"
+        "- Posts existentes del blog (enlaza al menos uno, el más afín al tema):\n"
+        + "\n".join(f"  {url} — {title}" for url, title in existing_posts()[:15]) + "\n"
+        f"- Enlaces internos válidos para usar: {', '.join(keywords.get('internal_links', [])) or '/catalogo/'}\n"
         "- PROHIBIDO: Incluir secciones de 'testimonios', 'opiniones de clientes', o 'reseñas'. "
         "No cites ni inventes testimonios. No uses frases como 'según nuestros clientes' o similares.\n"
         "- PROHIBIDO: Más de 4 secciones H2 en total (incluyendo intro GEO). "
@@ -91,3 +100,4 @@ def _validate_outline(data: dict) -> None:
     for section in data["sections"]:
         if "word_budget" not in section:
             section["word_budget"] = 180  # default if LLM omits it
+        section["internal_links"] = filter_internal_links(section.get("internal_links", []))

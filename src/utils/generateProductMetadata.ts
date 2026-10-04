@@ -7,7 +7,7 @@
 // Canonical Producto type lives in loadProductos.ts. Re-export it so existing
 // imports from this module keep working without duplicating the definition.
 import type { Producto } from './loadProductos';
-import { COMPANY } from '../data/company';
+import { COMPANY, AUTHOR } from '../data/company';
 export type { Producto };
 
 export function generateProductSchema(
@@ -20,36 +20,32 @@ export function generateProductSchema(
     ? (/^https?:\/\//.test(imageUrl) ? imageUrl : `${baseUrl}${imageUrl}`)
     : `${baseUrl}/productos/${producto.imagen}.png`;
 
+  // Sin `offers`: los precios son de referencia ($ Ref) y se cotizan B2B; publicar un
+  // Offer.price en el schema sería engañoso para Google.
+  const brandName = company?.name ?? COMPANY.name;
   const schema: any = {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: producto.nombre,
     description: producto.descripcion_seo || producto.descripcion,
     image: resolvedImage,
-    offers: {
-      '@type': 'Offer',
-      priceCurrency: 'USD',
-      price: producto.precioRef?.toString() || '0',
-      availability: 'https://schema.org/InStock'
+    url: `${baseUrl}/productos/${producto.id}/`,
+    brand: { '@type': 'Brand', name: brandName },
+    manufacturer: {
+      '@type': 'Organization',
+      name: COMPANY.legalName,
+      alternateName: brandName,
+      logo: `${baseUrl}${COMPANY.logo}`
     }
   };
 
-  // E-E-A-T: Add manufacturer/brand info
-  if (company) {
-    schema.brand = {
-      '@type': 'Brand',
-      name: company.name
-    };
-    schema.manufacturer = {
-      '@type': 'Organization',
-      name: company.name,
-      image: `${baseUrl}${company.logo}`
-    };
-  }
-
-  // E-E-A-T: Add certifications as claims
+  // E-E-A-T: certificaciones como additionalProperty (schema.org no define `certifications` en Product)
   if (producto.certificaciones && producto.certificaciones.length > 0) {
-    schema.certifications = producto.certificaciones;
+    schema.additionalProperty = producto.certificaciones.map((valor) => ({
+      '@type': 'PropertyValue',
+      name: 'Certificación',
+      value: valor
+    }));
   }
 
   return JSON.stringify(schema);
@@ -104,9 +100,15 @@ export function generateArticleSchema(
     headline: article.title,
     description: article.description,
     datePublished: article.pubDate.toISOString(),
+    dateModified: article.pubDate.toISOString(),
+    mainEntityOfPage: article.url.startsWith('http') ? article.url : `${baseUrl}${article.url}`,
+    inLanguage: 'es-VE',
     author: {
       '@type': 'Person',
       name: article.author,
+      jobTitle: AUTHOR.jobTitle,
+      url: `${baseUrl}${AUTHOR.url}`,
+      worksFor: { '@type': 'Organization', name: COMPANY.name, url: baseUrl },
     },
     publisher: {
       '@type': 'Organization',
@@ -117,11 +119,10 @@ export function generateArticleSchema(
       },
     },
     url: article.url.startsWith('http') ? article.url : `${baseUrl}${article.url}`,
-    ...(article.imageUrl && {
-      image: article.imageUrl.startsWith('http')
-        ? article.imageUrl
-        : `${baseUrl}${article.imageUrl}`,
-    }),
+    image: (() => {
+      const img = article.imageUrl ?? COMPANY.ogImage;
+      return img.startsWith('http') ? img : `${baseUrl}${img}`;
+    })(),
   };
   return JSON.stringify(schema);
 }
@@ -142,10 +143,13 @@ export function generateLocalBusinessSchema(
     ],
     url: baseUrl,
     logo: `${baseUrl}/logo.png`,
-    image: `${baseUrl}/og-image.png`,
-    description: 'Panadería y pastelería industrial premium con más de 40 años. Panes artesanales, cheesecake estilo Nueva York, pizzas congeladas y especialidades. Distribución B2B/B2C en Caracas. Certificado Kosher Parve.',
+    image: `${baseUrl}${COMPANY.ogImage}`,
+    legalName: 'New York Cheese Cake C.A.',
+    foundingDate: '1980',
+    description: 'Panadería y pastelería industrial premium desde 1980. Panes artesanales, cheesecake estilo Nueva York, pizzas congeladas y especialidades. Distribución B2B/B2C en Caracas. Certificado Kosher Parve.',
     address: {
       '@type': 'PostalAddress',
+      streetAddress: 'Calle 10, Edif. J. M., Piso 2, La Urbina',
       addressLocality: 'Caracas',
       addressRegion: 'DF',
       addressCountry: 'VE'
@@ -155,6 +159,15 @@ export function generateLocalBusinessSchema(
       name: 'Caracas'
     },
     priceRange: '$$',
+    knowsAbout: [
+      'panadería industrial',
+      'cheesecake estilo Nueva York',
+      'productos Kosher Parve',
+      'pan precocido congelado'
+    ],
+    // TODO(entidad): sameAs solo debe contener URLs REALES y verificadas (Instagram, Facebook,
+    // LinkedIn, Google Business Profile, Wikidata). Ver docs/seo/ENTITY-BUILDING.md.
+    // Los enlaces actuales no están verificados; reemplazarlos o retirarlos.
     sameAs: [
       'https://www.instagram.com/alimentosnewyork',
       'https://www.facebook.com/alimentosnewyork'
