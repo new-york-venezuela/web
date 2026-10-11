@@ -3,7 +3,7 @@ title: "Proveedores de panader\u00eda cr\u00e9dito consignaci\u00f3n Caracas"
 description: "Proveedores de panader\u00eda cr\u00e9dito consignaci\u00f3n Caracas: descubre las ventajas de estas modalidades para tu negocio en la capital."
 pubDate: 2026-10-06
 author: "Eugenio D."
-draft: true
+draft: false
 slug: "venta-credito-vs-consignacion-bodegon-caracas"
 tags: []
 relatedIssue: 26
