@@ -3,12 +3,11 @@ title: "Maridaje cheesecake caf\u00e9 de especialidad Caracas"
 description: "Maridaje cheesecake caf\u00e9 de especialidad Caracas: descubre c\u00f3mo combinar sabores \u00fanicos y potenciar tu negocio con estas delicias."
 pubDate: 2026-10-13
 author: "Eugenio D."
-draft: true
+draft: false
 slug: "maridaje-perfecto-cheesecakes-cafe-especialidad"
 tags: []
 relatedIssue: 27
 postId: "post-011"
-ogImage: "/productos/torta-queso-new-york-fresa"
 ---
 
 ## ¿Cómo maridar cheesecakes con café de especialidad en Caracas?
@@ -36,8 +35,6 @@ El [cheesecake de chocolate](/productos/torta-queso-new-york-chocolate/) de Alim
 Por otro lado, la [torta de queso con fresa](/productos/torta-queso-new-york-fresa/) es perfecta para quienes prefieren un toque más fresco y afrutado. Este cheesecake combina la suavidad del queso crema con una deliciosa mermelada de fresa artesanal, resultando en un balance exquisito de sabores. La dulzura de las fresas y la cremosidad del queso se acentúan al acompañarse con un café suave, creando un momento de pura indulgencia.
 
 Ambas opciones son una muestra del compromiso de Alimentos New York con la calidad y el sabor, ofreciendo productos que son un verdadero placer para el paladar en cualquier momento del día.
-
-![Torta de Queso New York - Chocolate](/productos/torta-queso-new-york-fresa)
 
 ## Beneficios para negocios al ofrecer maridajes de cheesecake y café
 
