@@ -3,7 +3,7 @@ title: "Cadena de frio panaderia congelada Caracas | Alimentos New York"
 description: "Cadena de frio panaderia congelada Caracas: calidad y seguridad en productos congelados con certificaci\u00f3n Kosher Parve."
 pubDate: 2026-10-20
 author: "Eugenio D."
-draft: true
+draft: false
 slug: "inocuidad-alimentaria-cadena-frio-producto-congelado-perfecto"
 tags: []
 relatedIssue: 28
