@@ -3,7 +3,7 @@ title: "Mini croissants catering Caracas | Alimentos New York"
 description: "Mini croissants catering Caracas: la elecci\u00f3n perfecta para eventos. Descubre la calidad de Panader\u00eda Nueva York en tus desayunos corporativos."
 pubDate: 2026-11-10
 author: "Eugenio D."
-draft: true
+draft: false
 slug: "mini-croissants-catering-caracas-desayunos-corporativos"
 tags: []
 relatedIssue: 31
