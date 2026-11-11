@@ -8,7 +8,6 @@ slug: "mini-croissants-catering-caracas-desayunos-corporativos"
 tags: []
 relatedIssue: 31
 postId: "post-015"
-ogImage: "/productos/croissants"
 ---
 
 ## Mini croissants para catering en Caracas: La opción ideal para tus eventos
@@ -20,8 +19,6 @@ Los mini croissants son una elección perfecta para el catering de eventos en Ca
 ### Certificación Kosher Parve
 
 En Alimentos New York, nos enorgullece garantizar que nuestros productos cumplen con los más altos estándares de calidad y normas internacionales. Nuestros mini croissants cuentan con la certificación Kosher Parve, lo que asegura su adecuación a diversas preferencias dietéticas y culturales, ampliando así su potencial en el mercado de catering. Esto es especialmente relevante en una ciudad diversa como Caracas, donde la oferta de alimentos certificados es cada vez más demandada. Para más detalles sobre nuestra producción y estándares, visita nuestro [blog sobre croissants de mantequilla en Caracas](/blog/croissants-100-mantequilla-caracas/).
-
-![Croissants y Petit Croissants](/productos/croissants)
 
 ## ¿Por qué elegir croissants para eventos en Caracas?
 
