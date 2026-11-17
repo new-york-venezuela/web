@@ -3,12 +3,11 @@ title: "Magdalenas tradicionales de lim\u00f3n Caracas | Alimentos New York"
 description: "Magdalenas tradicionales de lim\u00f3n Caracas: descubre d\u00f3nde comprarlas y su elaboraci\u00f3n artesanal en Panader\u00eda Nueva York."
 pubDate: 2026-11-17
 author: "Eugenio D."
-draft: true
+draft: false
 slug: "magdalenas-de-limon-merienda-familiar-caracas"
 tags: []
 relatedIssue: 32
 postId: "post-016"
-ogImage: "/productos/magdalenas"
 ---
 
 ## ¿Dónde comprar magdalenas tradicionales de limón en Caracas?
@@ -22,8 +21,6 @@ En Caracas, nuestras magdalenas tradicionales de limón están disponibles en un
 ### Opciones en bodegones
 
 Si prefieres la exclusividad de los bodegones, también puedes encontrar nuestras magdalenas en diversas tiendas especializadas de la ciudad. Estos lugares son ideales para quienes buscan una experiencia de compra más personalizada y gourmet.
-
-![Magdalenas](/productos/magdalenas)
 
 ## Elaboración artesanal de magdalenas de limón en Caracas
 
